@@ -10,7 +10,7 @@ It includes:
 - Booking system
 - Responsive UI
 
-## 🛠 Tech Stack
+## 🛠 Tech Stackg
 - Frontend: React, TailwindCSS
 - Backend: Node.js, Express.js
 - Database: MongoDB
@@ -19,6 +19,6 @@ It includes:
 ## 📦 Installation
 
 ```bash
-git clone https://github.com/your-username/StayZen.git
+git clone https://github.com/Alok-Chandra108/StayZen.git
 cd StayZen
 npm install
