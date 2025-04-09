@@ -1,5 +1,5 @@
 # StayZen
-StayZen is a full-stack clone of Airbnb, built with the MERN stack. This project includes user authentication, property listings, bookings, and a dynamic user interface. Aimed to replicate the core features of Airbnb with custom enhancements.
+StayZen is a accommodation boking platform designed using the MERN Stack. It enables users to register, explore curated property, listings, make secure bookings, and interact through a seamless and dynamic interface. The project showcases modern web dev practices while offering real-world features and tailored for travel and stay management.
 
 It includes:
 
