@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayZen</title>
+</head>
+<body>
+    <h1>Welcome to StayZen</h1>
+    <hr>
+    <ul>
+        <% for(let listing of allListings){ %>
+            <li>  <a href="/listing/<%= listing._id %>">  <%= listing.title %></a></li>
+        <% } %>
+        </ul>
+</body>
+</html>
