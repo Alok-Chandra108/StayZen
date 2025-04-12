@@ -11,13 +11,15 @@ const listingSchema = new Schema({
     description: String,
     image: {
         type: String,
-        default: "https://www.pexels.com/photo/floor-plan-on-table-834892/",
-        set: (v) => v === "" ? "https://www.pexels.com/photo/floor-plan-on-table-834892/" : v,
+        default: "https://cdn.pixabay.com/photo/2017/08/08/15/31/swedish-2611717_1280.jpg",
+        set: (v) =>
+            v === "" ? "https://cdn.pixabay.com/photo/2017/08/08/15/31/swedish-2611717_1280.jpg" : v,
     },
     price: Number,
     location: String,
     country: String
 });
+
 
 const Listing = mongoose.model("Listing", listingSchema);
 module.exports = Listing;

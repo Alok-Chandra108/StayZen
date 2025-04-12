@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const initData = require("./data.js");
 const Listing = require("../models/listing.js");
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/StayZen"
+const MONGO_URL = "mongodb+srv://alokchandra:alokchandra%4026@bloodwork.nhqcfbs.mongodb.net/StayZen?retryWrites=true&w=majority";
 
 main().then(() => {
     console.log("Connected to the DB")
