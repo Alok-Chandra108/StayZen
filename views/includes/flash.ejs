@@ -1,0 +1,26 @@
+<% if(success && success.length) { %>
+    <div id="success-alert" class="alert alert-success alert-dismissible fade show col-6 offset-3 text-center" role="alert">
+        <%= success %>
+    </div>
+<% } %>
+
+<% if(failure && failure.length) { %>
+    <div id="failure-alert" class="alert alert-danger alert-dismissible fade show col-6 offset-3 text-center" role="alert">
+        <%= failure %>
+    </div>
+<% } %>
+
+<script>
+    setTimeout(() => {
+        const successAlert = document.getElementById("success-alert");
+        const failureAlert = document.getElementById("failure-alert");
+        if (successAlert) {
+            successAlert.classList.remove("show");
+            successAlert.classList.add("fade");
+        }
+        if (failureAlert) {
+            failureAlert.classList.remove("show");
+            failureAlert.classList.add("fade");
+        }
+    }, 2000);
+</script>
