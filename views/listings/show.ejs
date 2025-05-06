@@ -15,7 +15,6 @@
               </p>
             </div>
     </div>
-    <br>
     <% if (currUser && currUser._id.equals(listing.owner._id)) { %>
       <div class="btns">
         <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark add-btn col-1 offset-3">Edit</a>
@@ -28,8 +27,8 @@
     
     
     <div class="col-8 offset-3 mt-3 mb-3">
-      <hr>  
       <% if(currUser)  { %>
+      <hr>  
       <h4>Leave a review</h4>
       <form action="/listings/<%= listing.id%>/reviews" method="post" novalidate class="needs-validation">
         <!-- <div class="mb-3 mt-3">
@@ -61,9 +60,10 @@
         <button class="btn btn-outline-dark">Submit</button>
       </form>
       <%}%>
-      <br>
-      <h4>All Reviews</h4>
+   <% if(listing.reviews.length > 0) { %>
       <div class="row">
+        <br>
+        <h4>All Reviews</h4>
     <% for(review of listing.reviews) {%>
       <div class="card col-5 ms-3 mb-3">
         <div class="card-body mt-3">
@@ -78,7 +78,19 @@
       </div>
     <% } %>
   </div>
-    </div>
+  <% } %>
 </div>
+<div class="col-6 offset-3 mb-3 custom-map-container">
+  <h3>Where you'll be</h3>
+  <div id="map"></div>
+  
+</div>
+</div>
+<script>
+    const map = L.map('map', {
+    center: [26.7606, 83.3732],
+    zoom: 12,
+}).addLayer(L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'));
+</script>
 
 

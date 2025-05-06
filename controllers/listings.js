@@ -1,4 +1,4 @@
-const Listing = require("../models/listing")
+const Listing = require("../models/listing");
 
 module.exports.index = async (req, res) => {
     const allListings = await Listing.find({});
@@ -16,7 +16,8 @@ module.exports.showListing = async (req, res) => {
         req.flash("failure", "Requested listing does not exists");
         res.redirect("/listings")
     }
-    res.render("listings/show.ejs", { listing })
+    res.render('listings/show', { listing, mapToken: process.env.MAP_KEY });
+
 }
 
 module.exports.createListing = async(req, res, next) => {
