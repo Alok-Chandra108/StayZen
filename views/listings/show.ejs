@@ -1,5 +1,11 @@
 <% layout("/layouts/boilerplate") -%>
-
+<script>
+  const listingData = {
+      coordinates: <%= JSON.stringify([listing.geometry.coordinates[1], listing.geometry.coordinates[0]]) %>,
+      title: "<%= listing.title %>",
+      location: "<%= listing.location %>"
+  };
+</script>
     <div class="row ">
     <div class="col-8 offset-3 mt-3">
     <h3><%= listing.title %></h3>
@@ -86,5 +92,6 @@
   
 </div>
 </div>
+<script src="/js/map.js"></script>
 
 

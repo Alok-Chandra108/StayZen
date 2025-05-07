@@ -55,10 +55,6 @@ const sessionOptions = {
     }
 };
 
-app.get("/", (req, res) => {
-    res.send("HI Im GROOT")
-});
-
 app.use(session(sessionOptions));
 app.use(flash());
 

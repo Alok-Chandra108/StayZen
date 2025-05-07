@@ -1,4 +1,5 @@
 const Listing = require("../models/listing");
+const axios = require("axios");
 
 module.exports.index = async (req, res) => {
     const allListings = await Listing.find({});
@@ -16,21 +17,49 @@ module.exports.showListing = async (req, res) => {
         req.flash("failure", "Requested listing does not exists");
         res.redirect("/listings")
     }
-    res.render('listings/show', { listing, mapToken: process.env.MAP_KEY });
+    res.render('listings/show', { listing });
 
 }
 
-module.exports.createListing = async(req, res, next) => {
-    let url = req.file.path;
-    let filename = req.file.filename;
-    const newListing = new Listing(req.body.listing);
-    newListing.owner = req.user._id;
-    newListing.image = { url, filename };
-    await newListing.save();
-    req.flash("success", "New Listing Created");
-    res.redirect("/listings");
 
-}
+module.exports.createListing = async (req, res, next) => {
+    try {
+        let url = req.file.path;
+        let filename = req.file.filename;
+
+        const newListing = new Listing(req.body.listing);
+        newListing.owner = req.user._id;
+        newListing.image = { url, filename };
+
+        // Geocoding: get location from user input
+        const locationInput = `${req.body.listing.location}, ${req.body.listing.country}`;
+        const encodedLocation = encodeURIComponent(locationInput);
+        const geoUrl = `https://nominatim.openstreetmap.org/search?q=${encodedLocation}&format=json&limit=1`;
+
+        const response = await axios.get(geoUrl, {
+            headers: { 'User-Agent': 'Leaflet-Map-App' }
+        });
+
+        const geoData = response.data[0];
+        if (!geoData) {
+            req.flash("failure", "Invalid location provided.");
+            return res.redirect("/listings/new");
+        }
+
+        // Add geometry data to listing
+        newListing.geometry = {
+            type: "Point",
+            coordinates: [parseFloat(geoData.lon), parseFloat(geoData.lat)]
+        };
+
+        await newListing.save();
+        req.flash("success", "New Listing Created");
+        res.redirect("/listings");
+    } catch (err) {
+        next(err);
+    }
+};
+
 
 module.exports.editListing = async(req, res) => {
     let {id} = req.params;

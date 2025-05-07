@@ -1,9 +1,9 @@
 body{
     font-family: "Plus Jakarta Sans", sans-serif !important;
-  font-optical-sizing: auto;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+    font-optical-sizing: auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 
 }
 
