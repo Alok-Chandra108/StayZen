@@ -11,6 +11,7 @@ const ejsMate = require("ejs-mate");
 const port = process.env.PORT || 3000;
 const ExpressError = require("./utils/ExpressError.js");
 const session = require("express-session");
+const MongoStore = require('connect-mongo');
 const flash = require("connect-flash");
 const User = require('./models/user');
 
@@ -44,8 +45,21 @@ app.use(methodOverride("_method"));
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, "/public")))
 
+const store  = MongoStore.create({
+    mongoUrl: MONGO_URI,
+    crypto: {
+        secret: process.env.SECRET_VAL,
+    },
+    touchAfter: 24 * 3600,
+});
+
+store.on("error", () => {
+    console.log("ERRROR in Mongo Sesssion Store", err);
+})
+
 const sessionOptions = {
-    secret: "supermansupreme",
+    store,
+    secret: process.env.SECRET_VAL,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -54,6 +68,7 @@ const sessionOptions = {
         httpOnly: true
     }
 };
+
 
 app.use(session(sessionOptions));
 app.use(flash());
