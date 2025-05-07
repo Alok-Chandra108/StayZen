@@ -87,18 +87,14 @@ app.use((req, res, next) => {
     next();
 });
 
-// app.get("/demouser", async(req, res) => {
-//     let fakeuser = new User({
-//         email: "student101@gmail.com",
-//         username: "alpha-stud"
-//     });
-//     let registeredUser = await User.register(fakeuser, "hellostud");
-//     res.send(registeredUser);
-// });
+
+app.get("/", (req, res) => {
+    res.redirect("/listings");
+});
 
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
-app.use("/listings", userRouter);
+app.use("/", userRouter);
 
 app.all("*", (req, res, next) => {
     next(new ExpressError(404, "Page Not Found!!"));
