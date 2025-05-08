@@ -259,27 +259,27 @@ body{
 
 
     /* Search Button Styling */
-    .btn-search {
-        background-color: #74C0FC;
-        color: white;
+.btn-search {
+        background-color: #74C0FC  !important;
+        color: white  !important;
         border-radius: 25px;
         padding: 0 1rem;
         transition: all 0.3s ease;
       }
     
-      .btn-search:hover {
-        background-color: #74C0FC;
+.btn-search:hover {
+        background-color: #0f7fd4   !important;
         color: white;
       }
     
-      .btn-search i {
+.btn-search i {
         display: inline;
         margin-right: 0.5rem;
         font-size: 1rem;
         transition: font-size 0.3s ease;
       }
     
-      .search-inp {
+.search-inp {
         border-radius: 25px;
         padding: 0.5rem 3rem;
         font-size: 0.9rem;
