@@ -73,20 +73,46 @@ module.exports.editListing = async(req, res) => {
     res.render("listings/edit.ejs", {listing, originalImageUrl});
 }
 
-module.exports.updateListing = async(req, res) => {
-    let {id} = req.params;
-    let listing = await Listing.findByIdAndUpdate(id, {...req.body.listing});
+module.exports.updateListing = async (req, res, next) => {
+    try {
+        let { id } = req.params;
+        let listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing }, { new: true });
 
-    if(typeof req.file !== "undefined"){
-    let url = req.file.path;
-    let filename = req.file.filename;
-    listing.image = { url, filename };
-    await listing.save();
+        // Update image if a new file is uploaded
+        if (typeof req.file !== "undefined") {
+            let url = req.file.path;
+            let filename = req.file.filename;
+            listing.image = { url, filename };
+        }
+
+        // Update geolocation if location/country is changed
+        const locationInput = `${req.body.listing.location}, ${req.body.listing.country}`;
+        const encodedLocation = encodeURIComponent(locationInput);
+        const geoUrl = `https://nominatim.openstreetmap.org/search?q=${encodedLocation}&format=json&limit=1`;
+
+        const response = await axios.get(geoUrl, {
+            headers: { 'User-Agent': 'Leaflet-Map-App' }
+        });
+
+        const geoData = response.data[0];
+        if (!geoData) {
+            req.flash("failure", "Invalid location provided.");
+            return res.redirect(`/listings/${id}/edit`);
+        }
+
+        listing.geometry = {
+            type: "Point",
+            coordinates: [parseFloat(geoData.lon), parseFloat(geoData.lat)]
+        };
+
+        await listing.save();
+
+        req.flash("success", "Listing Updated");
+        res.redirect(`/listings/${id}`);
+    } catch (err) {
+        next(err);
     }
-
-    req.flash("success", "Listing Updated");
-    res.redirect(`/listings/${id}`)
-}
+};
 
 module.exports.destroyListing = async(req, res) => {
     let {id} = req.params;

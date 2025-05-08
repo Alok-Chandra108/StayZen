@@ -108,26 +108,26 @@ body{
     padding-right: 0;
 }
 
-/* Show all reviews styling */
-.review-card .card-title {
-    font-size: 1rem;
-  }
-
-  .review-card .starability-result {
-  font-size: clamp(0.5rem, 1.2vw, 1rem);
-}
-
-  @media (max-width: 768px) {
+    /* Show all reviews styling */
     .review-card .card-title {
-      font-size: 0.9rem;
+        font-size: 1rem;
     }
-  }
 
-  @media (max-width: 576px) {
-    .review-card .card-title {
-      font-size: 0.85rem;
+    .review-card .starability-result {
+    font-size: clamp(0.5rem, 1.2vw, 1rem);
     }
-  }
+
+    @media (max-width: 768px) {
+        .review-card .card-title {
+        font-size: 0.9rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .review-card .card-title {
+        font-size: 0.85rem;
+        }
+    }
   /* Default: show text, hide icon */
 .delete-btn .delete-icon {
   display: none;
@@ -156,7 +156,7 @@ body{
     width: 100%;
     border-radius: 8px;
   }
-
+  
 
   /* FILTERS STYLINGS */
   #filters {
@@ -186,7 +186,7 @@ body{
 .filter p {
     font-size: .8rem;
 }
-
+/* 
 .tax-info {
     display: none;
 }
@@ -205,7 +205,7 @@ body{
     transform: translateX(-50%);
     z-index: 10;
     background-color: white;
-}
+} */
 
 /* Hide the scrollbar for all screen sizes */
 #filters::-webkit-scrollbar {
@@ -243,7 +243,7 @@ body{
     }
 }
 
-/* For mobile screens */
+/* For mobile screens 
 @media (max-width: 480px) {
     .filter {
         min-width: 80px;
@@ -255,3 +255,72 @@ body{
         padding: 0.8rem;
     }
 }
+    */
+
+
+    /* Search Button Styling */
+    .btn-search {
+        background-color: #74C0FC;
+        color: white;
+        border-radius: 25px;
+        padding: 0 1rem;
+        transition: all 0.3s ease;
+      }
+    
+      .btn-search:hover {
+        background-color: #74C0FC;
+        color: white;
+      }
+    
+      .btn-search i {
+        display: inline;
+        margin-right: 0.5rem;
+        font-size: 1rem;
+        transition: font-size 0.3s ease;
+      }
+    
+      .search-inp {
+        border-radius: 25px;
+        padding: 0.5rem 3rem;
+        font-size: 0.9rem;
+        transition: font-size 0.3s ease;
+      }
+    
+      /* Responsive styling for small screens */
+      @media (max-width: 768px) {
+        .navbar-collapse {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          background-color: white;
+          z-index: 1000;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          padding: 1rem 1rem;
+        }
+    
+        .navbar-search {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 0.5rem;
+          margin-top: 1rem;
+        }
+    
+        .search-inp {
+          font-size: 0.80rem;
+          padding: 0.4rem 2rem;
+        }
+    
+        .btn-search i {
+          font-size: 0.85rem;
+        }
+    
+        .navbar-nav.ms-auto {
+          margin-top: 1rem;
+        }
+    
+        .navbar-collapse.collapsing,
+        .navbar-collapse.show {
+          display: block !important;
+        }
+      }

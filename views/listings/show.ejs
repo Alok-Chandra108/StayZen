@@ -79,12 +79,12 @@
   <div class="container mt-4">
   <% if (listing.reviews.length > 0) { %>
     <div class="row justify-content-center g-3">
-      <div class="col-12 text-center mb-4">
+      <div class="col-12 text-center">
         <h4>All Reviews</h4>
       </div>
 
       <% for (let review of listing.reviews) { %>
-        <div class="col-6 col-md-6 col-lg-4 d-flex justify-content-center">
+        <div class="col-6 col-md-4 col-lg-3 d-flex justify-content-start">
           <div class="card w-100 review-card" style="max-width: 18rem;">
             <div class="card-body mt-3">
               <h5 class="card-title">@<%= review.author.username %></h5>
