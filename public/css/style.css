@@ -108,6 +108,43 @@ body{
     padding-right: 0;
 }
 
+/* Show all reviews styling */
+.review-card .card-title {
+    font-size: 1rem;
+  }
+
+  .review-card .starability-result {
+  font-size: clamp(0.5rem, 1.2vw, 1rem);
+}
+
+  @media (max-width: 768px) {
+    .review-card .card-title {
+      font-size: 0.9rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .review-card .card-title {
+      font-size: 0.85rem;
+    }
+  }
+  /* Default: show text, hide icon */
+.delete-btn .delete-icon {
+  display: none;
+}
+
+/* On small screens: show icon, hide text */
+@media (max-width: 576px) {
+  .delete-btn .delete-text {
+    display: none;
+  }
+
+  .delete-btn .delete-icon {
+    display: inline;
+  }
+}
+
+
 .custom-map-container {
     width: 80%;
     margin: auto;
@@ -119,3 +156,102 @@ body{
     width: 100%;
     border-radius: 8px;
   }
+
+
+  /* FILTERS STYLINGS */
+  #filters {
+    display: flex;
+    flex-wrap: nowrap;  /* Keep filters in one row */
+    align-items: center;
+    overflow-x: auto;  /* Make filters horizontally scrollable */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling */
+    padding-bottom: 1rem;
+    position: relative;
+    max-width: 100%;
+}
+
+.filter {
+    text-align: center;
+    margin-right: 2rem;
+    margin-top: 2rem;
+    opacity: .7;
+    min-width: 100px;
+}
+
+.filter:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.filter p {
+    font-size: .8rem;
+}
+
+.tax-info {
+    display: none;
+}
+
+.tax-toggle {
+    border: 1px solid black;
+    border-radius: 1rem;
+    height: 3.2rem;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    margin-left: -.5rem;
+    position: fixed;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    background-color: white;
+}
+
+/* Hide the scrollbar for all screen sizes */
+#filters::-webkit-scrollbar {
+    display: none;
+}
+
+/* For larger screens, show up to 8 filters, but keep scrolling */
+@media (min-width: 1200px) {
+    #filters {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        width: 100%;
+    }
+
+    .filter {
+        flex: 0 0 auto;
+    }
+
+    /* This ensures that at least 8 filters are visible, and the rest are scrollable */
+    #filters .filter:nth-child(n+9) {
+        display: inline-block;
+    }
+}
+
+/* For smaller screens, allow more filters to be visible */
+@media (max-width: 1200px) {
+    #filters {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+    }
+
+    .filter {
+        flex: 0 0 auto;
+    }
+}
+
+/* For mobile screens */
+@media (max-width: 480px) {
+    .filter {
+        min-width: 80px;
+    }
+
+    .tax-toggle {
+        width: 80%;
+        bottom: 0.5rem;
+        padding: 0.8rem;
+    }
+}

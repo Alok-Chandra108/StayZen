@@ -11,16 +11,31 @@
 <% } %>
 
 <script>
+    const removeAlert = (id) => {
+        const alertBox = document.getElementById(id);
+        if (!alertBox) return;
+
+        // Add fade-out
+        alertBox.classList.remove("show");
+        alertBox.classList.add("fade");
+
+        // Wait for CSS transition to finish, then remove from DOM
+        alertBox.addEventListener("transitionend", () => {
+            if (alertBox.parentNode) {
+                alertBox.remove();
+            }
+        });
+
+        // Fallback: Remove after 1s even if transition event doesn't fire
+        setTimeout(() => {
+            if (alertBox && alertBox.parentNode) {
+                alertBox.remove();
+            }
+        }, 1000);
+    };
+
     setTimeout(() => {
-        const successAlert = document.getElementById("success-alert");
-        const failureAlert = document.getElementById("failure-alert");
-        if (successAlert) {
-            successAlert.classList.remove("show");
-            successAlert.classList.add("fade");
-        }
-        if (failureAlert) {
-            failureAlert.classList.remove("show");
-            failureAlert.classList.add("fade");
-        }
+        removeAlert("success-alert");
+        removeAlert("failure-alert");
     }, 2000);
 </script>
