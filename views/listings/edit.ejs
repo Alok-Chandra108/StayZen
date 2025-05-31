@@ -44,9 +44,37 @@
         <input name="listing[location]" value="<%= listing.location %>"  type="text" class="form-control" required>
         <div class="invalid-feedback">Enter your valid location</div>
     </div>
-        <button class="btn add-btn">Edit</button>
+
+    <div class="mb-3">
+  <label class="form-label">Amenities</label>
+  <div class="row">
+    <% 
+    const allAmenities = [
+      "WiFi","Parking","Pool","Air Conditioning","Heating","Kitchen","Washer","Dryer","Books & Reading Material",
+      "Gym","TV","Balcony","Elevator","Hot Tub","BBQ Grill","Fireplace","Outdoor Seating","Sound System",
+      "Workspace","Pet Friendly","Smoking Allowed","Security Cameras","Breakfast Included","Private Entrance",
+      "Wheelchair Accessible","First Aid Kit","Game Console"
+    ];
+    allAmenities.forEach((amenity, i) => { 
+      const isChecked = listing.amenities && listing.amenities.includes(amenity);
+      const colClass = i % 3 === 0 ? 'col-md-4' : ''; // We'll wrap by 3 columns if you want, else just put col-md-4 on all
+    %>
+      <% if(i % 9 === 0) { %><div class="col-md-4"><% } %>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="listing[amenities][]" value="<%= amenity %>" id="amenity-<%= i %>" <%= isChecked ? 'checked' : '' %> >
+          <label class="form-check-label" for="amenity-<%= i %>"><%= amenity %></label>
+        </div>
+      <% if((i+1) % 9 === 0 || i === allAmenities.length - 1) { %></div><% } %>
+    <% }); %>
+  </div>
+</div>
+
+
+        
+
+        <button class="gradient-edit-btn me-2">Update</button>
         <br><br><br>
     </form>
 </div>
-<script? src="/js/script.js"></script>
+<script src="/js/script.js"></script>
 </body>

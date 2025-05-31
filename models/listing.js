@@ -17,6 +17,8 @@ const listingSchema = new Schema({
     price: Number,
     location: String,
     country: String,
+    amenities: [String],  
+    tags: [String], 
     reviews: [
         {
             type: Schema.Types.ObjectId,
@@ -38,11 +40,6 @@ const listingSchema = new Schema({
             required: true
         }
     },
-    // category: {
-    //     type: String,
-    //     enum: ["mountains", "farms", "arctic", ]
-    // }
-    
 });
 
 listingSchema.post("findOneAndDelete", async (listing) => {

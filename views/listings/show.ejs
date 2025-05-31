@@ -5,6 +5,38 @@
       title: "<%= listing.title %>",
       location: "<%= listing.location %>"
   };
+  <%
+  const amenityIcons = {
+    "WiFi": "fa-wifi",
+    "Parking": "fa-square-parking",
+    "Pool": "fa-water-ladder",
+    "Air Conditioning": "fa-snowflake",
+    "Heating": "fa-fire",
+    "Kitchen": "fa-kitchen-set",
+    "Washer": "fa-soap",
+    "Dryer": "fa-tshirt",
+    "Books & Reading Material": "fa-book",
+    "Gym": "fa-dumbbell",
+    "TV": "fa-tv",
+    "Balcony": "fa-building",
+    "Elevator": "fa-elevator",
+    "Hot Tub": "fa-hot-tub-person",
+    "BBQ Grill": "fa-fire-burner",
+    "Fireplace": "fa-fireplace",
+    "Outdoor Seating": "fa-chair",
+    "Sound System": "fa-volume-high",
+    "Workspace": "fa-laptop",
+    "Pet Friendly": "fa-dog",
+    "Smoking Allowed": "fa-smoking",
+    "Security Cameras": "fa-video",
+    "Breakfast Included": "fa-mug-hot",
+    "Private Entrance": "fa-door-closed",
+    "Wheelchair Accessible": "fa-wheelchair",
+    "First Aid Kit": "fa-kit-medical",
+    "Game Console": "fa-gamepad"
+  };
+%>
+
 </script>
 
 <div class="container-fluid">
@@ -46,7 +78,6 @@
       <blockquote class="position-relative my-3" id="quote">
         <!-- Floating Price Tag -->
         <div class="price-tag">
-          <!-- <div class="tag-rope"></div> -->
           <div class="tag-body">
             ₹ <%= listing.price.toLocaleString("en-IN") %><br>
             <small>/ night</small>
@@ -56,19 +87,52 @@
         <!-- Description Text -->
         <p class="mb-0 fs-6"><%= listing.description %></p>
       </blockquote>
+      <!-- Amenities Section -->
+<% if (listing.amenities && listing.amenities.length > 0) { %>
+<div class="mt-4 p-3 border rounded-4 bg-light-subtle">
+  <h5 class="mb-3"><i class="fa-solid fa-circle-check me-2 text-success"></i>Amenities</h5>
+  <div class="row">
+    <% listing.amenities.forEach((amenity) => { 
+         const icon = amenityIcons[amenity] || "fa-check";
+    %>
+      <div class="col-md-4 mb-2 d-flex align-items-center">
+        <i class="fa-solid <%= icon %> text-secondary me-2"></i> <%= amenity %>
+      </div>
+    <% }) %>
+  </div>
+</div>
 
+<% } %>
+
+<!-- Tags Section -->
+<% if (listing.tags && listing.tags.length > 0) { %>
+  <div class="mt-4 p-3 border rounded-4 bg-white shadow-sm">
+    <h5 class="mb-3"><i class="fa-solid fa-tags me-2 text-primary"></i>Tags</h5>
+    <div class="d-flex flex-wrap gap-2">
+      <% listing.tags.forEach(tag => { %>
+        <span class="badge bg-primary-subtle text-dark-emphasis border px-3 py-2 rounded-pill text-capitalize">
+          <i class="fa-solid fa-tag me-1"></i><%= tag %>
+        </span>
+      <% }) %>
+    </div>
+  </div>
+<% } %>
+
+      
     </div>
   </div>
 </div>
 
+<!-- jjjj -->
+ 
 
 
     <!-- Edit/Delete Buttons -->
     <% if (currUser && currUser._id.equals(listing.owner._id)) { %>
       <div class="col-12 d-flex justify-content-center flex-wrap gap-3 mt-3">
-        <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark add-btn">Edit</a>
+        <a href="/listings/<%= listing._id %>/edit" class="gradient-edit-btn">Edit</a>
         <form method="Post" action="/listings/<%= listing._id%>?_method=DELETE">
-          <button class="btn btn-dark">Delete</button>
+          <button class="gradient-delete-btn">Delete</button>
         </form>
       </div>
     <% } %>
@@ -103,48 +167,59 @@
             <div class="invalid-feedback">Please Add Some Comments</div>
           </div>
 
-          <button class="btn add-btn">Submit</button>
+          <button class="gradient-edit-btn">Submit</button>
         </form>
       </div>
     <% } %>
 
-    <!-- All Reviews -->
   </div>
-  <div class="container mt-4">
+<div class="container mt-4">
   <% if (listing.reviews.length > 0) { %>
     <div class="row justify-content-center g-3">
-      <div class="col-12 text-center">
+      <div class="col-12 text-center mb-3">
         <h4>All Reviews</h4>
       </div>
 
       <% for (let review of listing.reviews) { %>
-        <div class="col-6 col-md-4 col-lg-3 d-flex justify-content-start">
-          <div class="card w-100 review-card" style="max-width: 18rem;">
-            <div class="card-body mt-3">
-              <h5 class="card-title">@<%= review.author.username %></h5>
-              <p class="starability-result card-text" data-rating="<%= review.rating %>"></p>
-              <p class="card-text ps-3"><%= review.comment %></p>
-            </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
+          <div class="review-card p-3 w-100 bg-white shadow-sm rounded-3 position-relative">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div class="d-flex align-items-center gap-2">
+                <div class="avatar bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                  <i class="fas fa-user"></i>
+                </div>
+                <span class="fw-medium text-black"><%= review.author.username %></span>
+              </div>
 
-            <div class="position-relative" style="padding-bottom: 5px; padding-right: 10px;">
               <% if (currUser && currUser._id.toString() === review.author._id.toString()) { %>
-                <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" 
-                      method="POST" 
-                      class="mb-1 d-flex justify-content-end">
-                  <button class="btn btn-dark btn-sm delete-btn d-none d-sm-inline">Delete</button>
-                  <button class="btn btn-dark btn-sm delete-icon d-inline d-sm-none">
-                    <i class="fas fa-trash-alt"></i>
+                <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
+                  <button class="btn btn-sm btn-outline-danger p-1" title="Delete">
+                    <i class="fas fa-trash"></i>
                   </button>
                 </form>
               <% } %>
-            </div>            
-            
+            </div>
+
+            <p class="text-muted small mb-2"><%= review.comment %></p>
+
+            <div class="d-flex align-items-center gap-2">
+              <div class="star-display text-warning">
+                <% for (let i = 1; i <= 5; i++) { %>
+                  <% if (i <= review.rating) { %>
+                    <i class="fas fa-star"></i>
+                  <% } else { %>
+                    <i class="far fa-star"></i>
+                  <% } %>
+                <% } %>
+              </div>
+            </div>
           </div>
         </div>
       <% } %>
     </div>
   <% } %>
 </div>
+
 
 <!-- Map Section -->
 <div class="col-xl-6 col-lg-8 col-md-10 col-sm-12 mt-4 mb-3 custom-map-container">

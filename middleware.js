@@ -31,10 +31,30 @@ module.exports.isOwner = async(req, res, next) => {
 }
 
 module.exports.validateListing = (req, res, next) => {
+    if (!req.body.listing.amenities) req.body.listing.amenities = [];
+    if (!req.body.listing.tags) req.body.listing.tags = [];
+
+
     let  {error} = listingSchema.validate(req.body);
+    const safeRedirect = req.get("Referrer") || "/";
+    
     if(error){
+        const amenitiesError = error.details.find(e => e.context.key === "amenities");
+        const tagsError = error.details.find(e => e.context.key === "tags");
+
+        if (amenitiesError) {
+            req.flash("failure", "Please select at least one amenity.");
+            return res.redirect(safeRedirect);
+        }
+
+        if (tagsError) {
+            req.flash("failure", "Please select at least one tag.");
+            return res.redirect(safeRedirect);
+        }
+
         let errMsg = error.details.map((el) => el.message).join(",");
         throw new ExpressError(400, errMsg);
+        req.flash("failure", errMsg);  
     }else{
         next();
     }

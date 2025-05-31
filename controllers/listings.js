@@ -61,17 +61,24 @@ module.exports.createListing = async (req, res, next) => {
 };
 
 
-module.exports.editListing = async(req, res) => {
-    let {id} = req.params;
-    const listing = await Listing.findById(id);
-    if(!listing){
-        req.flash("failure", "Requested listing does not exists");
-        res.redirect("/listings")
+module.exports.editListing = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const listing = await Listing.findById(id);
+        if (!listing) {
+            req.flash("failure", "Requested listing does not exist");
+            return res.redirect("/listings");
+        }
+
+        const originalImageUrl = listing.image.url.replace("/upload", "/upload/h_300,w_250");
+        res.render("listings/edit.ejs", { listing, originalImageUrl });
+
+    } catch (err) {
+        req.flash("failure", "Something went wrong while fetching the listing.");
+        res.redirect("/listings");
     }
-    let originalImageUrl = listing.image.url;
-    originalImageUrl = originalImageUrl.replace("/upload", "/upload/h_300,w_250")
-    res.render("listings/edit.ejs", {listing, originalImageUrl});
-}
+};
+
 
 module.exports.updateListing = async (req, res, next) => {
     try {

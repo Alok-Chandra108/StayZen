@@ -80,10 +80,40 @@ body{
 }
 
 /* New Listing */
-.add-btn{
-    background-color: #74C0FC !important;
-    border: none !important;
+/* Gradient Blue Button (Edit) */
+.gradient-edit-btn {
+  background: linear-gradient(135deg, #38bdf8, #6366f1) !important; 
+  color: white !important;
+  border: none;
+  border-radius: 999px;
+  text-decoration: none;
+  padding: 0.45rem 1.1rem !important;
+  font-size: 0.79rem !important;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: background 0.3s ease, transform 0.2s ease;
 }
+.gradient-edit-btn:hover {
+  transform: scale(1.03);
+}
+
+
+/* Gradient Purple Button (Delete) */
+.gradient-delete-btn {
+  background: linear-gradient(135deg, #f43f5e, #be123c) !important;
+  color: white !important;
+  border: none;
+  border-radius: 999px;
+  padding: 0.45rem 1.1rem !important;
+  font-size: 0.79rem !important;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+.gradient-delete-btn:hover {
+  transform: scale(1.03);
+}
+
 
 
 /* Show Image */
@@ -104,7 +134,6 @@ body{
 /* Owner Badge */
 #owner_badge {
   background: linear-gradient(135deg, #6C63FF 0%, #7E78FF 55%, #918BFF 100%);
-
   color: white;
   border-radius: 50px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -187,13 +216,22 @@ body{
 
 
     /* Show all reviews styling */
-    .review-card .card-title {
-        font-size: 1rem;
-    }
+.review-card {
+  transition: box-shadow 0.2s ease;
+}
 
-    .review-card .starability-result {
-    font-size: clamp(0.5rem, 1.2vw, 1rem);
-    }
+.review-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.avatar i {
+  font-size: .8rem;
+}
+
+.star-display i {
+  font-size: 0.9rem;
+}
+
 
     @media (max-width: 768px) {
         .review-card .card-title {
