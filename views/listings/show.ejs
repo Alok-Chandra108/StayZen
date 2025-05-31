@@ -15,19 +15,53 @@
       <h3><%= listing.title %></h3>
     </div>
 
-    <!-- Listing Card -->
-    <div class="col-xl-8 col-lg-10 col-md-10 col-sm-12">
-      <div class="card show-card listing-card">
-        <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing_IMAGE">
-        <div class="card-body">
-          <p class="card-text"> Owned By : <i><%= listing.owner.username %></i></p>
-          <p class="card-text"><%= listing.description %> </p>
-          <p class="card-text"><i> &#8377; <%= listing.price.toLocaleString("en-IN") %> </i> </p>
-          <p class="card-text">Location: <%= listing.location %></p>
-          <p class="card-text">Country: <%= listing.country %></p>
+    <div class="col-xl-8 col-lg-10 col-md-10 col-sm-12 mx-auto">
+  <div class="card show-card listing-card shadow-sm p-3 rounded-4">
+    
+    <!-- Listing Image -->
+    <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing_IMAGE">
+
+    <!-- Card Body -->
+    <div class="card-body px-3 px-sm-4 px-md-5 py-3">
+
+      <!-- Owner + Location Row -->
+      <div class="row justify-content-between align-items-center gy-1 mb-1">
+
+        <!-- Owner Badge -->
+        <div class="col-12 col-sm-6 text-sm-start text-center">
+          <p class="badge d-inline-block w-auto" id="owner_badge">
+            <i class="fa-regular fa-id-badge"></i> Owner: <%= listing.owner.username %>
+          </p>
+        </div>
+
+        <!-- Location Badge -->
+        <div class="col-12 col-sm-6 text-sm-end text-center">
+          <p class="badge d-inline-block w-auto" id="location-badge">
+            <i class="fa-solid fa-earth-asia me-1"></i>Location: <%= listing.location %>, <%= listing.country %>
+          </p>
         </div>
       </div>
+
+      <!-- Description Quote with Floating Price Tag -->
+      <blockquote class="position-relative my-3" id="quote">
+        <!-- Floating Price Tag -->
+        <div class="price-tag">
+          <!-- <div class="tag-rope"></div> -->
+          <div class="tag-body">
+            ₹ <%= listing.price.toLocaleString("en-IN") %><br>
+            <small>/ night</small>
+          </div>
+        </div>
+
+        <!-- Description Text -->
+        <p class="mb-0 fs-6"><%= listing.description %></p>
+      </blockquote>
+
     </div>
+  </div>
+</div>
+
+
 
     <!-- Edit/Delete Buttons -->
     <% if (currUser && currUser._id.equals(listing.owner._id)) { %>

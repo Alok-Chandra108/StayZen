@@ -11,14 +11,7 @@ body{
     flex: 1;
 }
 
-.navbar{
-    height: 4.8rem;
-    background-color: white;
-}
 
-.nav-link{
-    color: #222222 !important;
-}
 
 /* Footer */
 .f-info-links a{
@@ -107,6 +100,91 @@ body{
     padding-left: 0;
     padding-right: 0;
 }
+
+/* Owner Badge */
+#owner_badge {
+  background: linear-gradient(135deg, #6C63FF 0%, #7E78FF 55%, #918BFF 100%);
+
+  color: white;
+  border-radius: 50px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-weight: 500;
+  padding: 8px 16px;
+  font-size: .8rem;
+  display: inline-block;
+}
+
+/* Location Badge */
+#location-badge {
+  background: linear-gradient(135deg, #0f7fd4, #74C0FC);
+  color: white;
+  border-radius: 50px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-size: .8rem;
+  padding: 8px 16px;
+  display: inline-block;
+  font-weight: 500;
+}
+
+/* Price Badge */
+.price-badge {
+  background: linear-gradient(135deg, #6C63FF, #857FFF);
+  color: white;
+  border-radius: 50px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-weight: 500;
+  padding: 8px 16px;
+  font-size: 1rem;
+  display: inline-block;
+}
+
+
+
+/* Quote (Description Box) */
+#quote {
+  background: rgba(255, 255, 255, 0.6);
+  border-left: 4px solid #0f7fd4;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  font-style: italic;
+  color: #333;
+  position: relative;
+  padding: 1.5rem;
+}
+
+/* Price Tag Wrapper */
+.price-tag {
+  position: absolute;
+  top: -25px;
+  right: -15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+}
+
+/* Tag Body */
+.tag-body {
+  background: linear-gradient(90deg, #6C63FF 0%, #9A94FF 100%);
+
+  color: white;
+  text-align: center;
+  padding: 12px 16px;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.2;
+  clip-path: polygon(
+    0 0,
+    calc(100% - 25px) 0,
+    100% 20px,
+    100% 100%,
+    0 100%
+  );
+}
+
 
     /* Show all reviews styling */
     .review-card .card-title {
@@ -257,70 +335,3 @@ body{
 }
     */
 
-
-    /* Search Button Styling */
-.btn-search {
-        background-color: #74C0FC  !important;
-        color: white  !important;
-        border-radius: 25px;
-        padding: 0 1rem;
-        transition: all 0.3s ease;
-      }
-    
-.btn-search:hover {
-        background-color: #0f7fd4   !important;
-        color: white;
-      }
-    
-.btn-search i {
-        display: inline;
-        margin-right: 0.5rem;
-        font-size: 1rem;
-        transition: font-size 0.3s ease;
-      }
-    
-.search-inp {
-        border-radius: 25px;
-        padding: 0.5rem 3rem;
-        font-size: 0.9rem;
-        transition: font-size 0.3s ease;
-      }
-    
-      /* Responsive styling for small screens */
-      @media (max-width: 768px) {
-        .navbar-collapse {
-          position: absolute;
-          top: 100%;
-          left: 0;
-          width: 100%;
-          background-color: white;
-          z-index: 1000;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-          padding: 1rem 1rem;
-        }
-    
-        .navbar-search {
-          flex-direction: column;
-          align-items: stretch;
-          gap: 0.5rem;
-          margin-top: 1rem;
-        }
-    
-        .search-inp {
-          font-size: 0.80rem;
-          padding: 0.4rem 2rem;
-        }
-    
-        .btn-search i {
-          font-size: 0.85rem;
-        }
-    
-        .navbar-nav.ms-auto {
-          margin-top: 1rem;
-        }
-    
-        .navbar-collapse.collapsing,
-        .navbar-collapse.show {
-          display: block !important;
-        }
-      }

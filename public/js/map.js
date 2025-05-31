@@ -1,11 +1,11 @@
 const map = L.map('map', {
     center: listingData.coordinates,
-    zoom: 13,
+    zoom: 10,
     layers: []
   });
   
   // Define both layers
-  const streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  const streetLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
   });
   
   const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
@@ -48,7 +48,7 @@ const map = L.map('map', {
         } else {
           map.removeLayer(satelliteLayer);
           streetLayer.addTo(map);
-          map.setZoom(13);
+          map.setZoom(11);
           container.innerHTML = '🛰️';
           currentLayer = 'street';
         }

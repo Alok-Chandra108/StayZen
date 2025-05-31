@@ -1,9 +1,8 @@
-
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
   <div class="container-fluid position-relative">
     <!-- Brand -->
     <a class="navbar-brand" href="/listings">
-      <i class="fa-brands fa-fort-awesome-alt fa-xl" style="color: #74C0FC;"></i>
+      <i class="fa-brands fa-fort-awesome-alt fa-xl" style="color: #7a8fff;"></i>
     </a>
 
     <!-- Toggle Button -->
@@ -14,29 +13,41 @@
     <!-- Collapsible Content -->
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <!-- Left Nav -->
-      <div class="navbar-nav">
-        <a class="nav-link" href="/listings">Explore</a>
+      <div class="navbar-nav ms-md-auto d-flex align-items-center">
+        <a class="nav-link btn-nav-pill d-flex align-items-center m-1" href="/listings">
+          <i class="fa-solid fa-compass me-1"></i> <span>Explore</span>
+        </a>
       </div>
 
       <!-- Search Bar -->
-      <div class="navbar-search d-flex ms-md-auto me-md-3 align-items-center">
-        <form class="d-flex w-100" role="search">
+      <div class="navbar-search d-flex ms-md-auto me-md-3 align-items-center justify-content-center w-100 my-2 my-md-0">
+        <form class="d-flex w-100 justify-content-center" role="search" style="max-width: 300px;">
           <input class="form-control me-2 search-inp" type="search" placeholder="Search destinations" />
-          <button class="btn btn-search" type="submit">
-            <i class="fa-solid fa-magnifying-glass"></i>Search
+          <button class="btn btn-search d-flex align-items-center px-3 py-1" type="submit">
+            <i class="fa-solid fa-magnifying-glass me-1 small"></i>
+            <span class="small">Search</span>
           </button>
         </form>
       </div>
 
       <!-- Right Nav -->
-      <div class="navbar-nav ms-md-auto">
-        <a class="nav-link" href="/listings/new">Add New Listings</a>
+      <div class="navbar-nav ms-md-auto d-flex align-items-center">
+        <a class="nav-link btn-nav-pill d-flex align-items-center m-1" href="/listings/new">
+          <i class="fa-solid fa-plus me-1"></i> <span>Create</span>
+        </a>
         <% if (!currUser) { %>
-          <a class="nav-link" href="/signup"><b>Sign up</b></a>
-          <a class="nav-link" href="/login"><b>Log In</b></a>
-        <% } else { %>
-          <a class="nav-link" href="/logout"><b>Logout</b></a>
+            <a class="nav-link btn-auth-primary d-flex align-items-center m-1 ms-4" href="/signup">
+              <i class="fa-solid fa-user-plus me-1"></i> <span>Sign Up</span>
+            </a>
+            <a class="nav-link btn-auth-secondary d-flex align-items-center " href="/login">
+              <i class="fa-solid fa-right-to-bracket me-1"></i> <span>Log In</span>
+            </a>
+          <% } else { %>
+            <a class="nav-link btn-auth-secondary d-flex align-items-center m-1 ms-2" href="/logout">
+              <i class="fa-solid fa-right-from-bracket me-1"></i> <span>Logout</span>
+            </a>
         <% } %>
+
       </div>
     </div>
   </div>
