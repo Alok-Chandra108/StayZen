@@ -39,25 +39,29 @@
         </div>
     </div> -->
 </div>
-    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 row-cols-xs-1 mt-3">
-        <% for(let listing of allListings){ %>
-            <a href="/listings/<%= listing._id %>" class="list-link">
-                <div class="card col listing-card">
-                    <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" style="height: 20rem;">
-                    <div class="card-img-overlay"></div>
-                    <div class="card-body">
-                      <p class="card-text">
-                        <b><%= listing.title %></b> <br>
-                        &#8377; <%= listing.price.toLocaleString("en-IN") %> / night
-                        <!-- <i class="tax-info"> &nbsp; +18% GST</i> -->
-                        <br>
-                        <%= listing.description %>
-                    </p>
-                    </div>
-                  </div>
-            </a>
-           
-              <% } %>
+    <div id="listing-container" class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 row-cols-xs-1 mt-3">
+  <% if (allListings.length === 0) { %>
+    <div class="no-match-container text-center w-100 mt-5">
+      <img src="/images/no-results.svg" alt="No results found" class="no-match-img">
+      <h4 class="mt-3">No matches found</h4>
+      <p>Try exploring other destinations or filters!</p>
     </div>
-
-
+  <% } else { %>
+    <% for(let listing of allListings){ %>
+      <a href="/listings/<%= listing._id %>" class="list-link">
+        <div class="card col listing-card" data-tags='<%= JSON.stringify(listing.tags || []) %>'>
+          <div class="image-wrapper">
+            <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image">
+          </div>
+          <div class="card-body">
+            <p class="card-text">
+              <b><%= listing.title %></b> <br>
+              ₹ <%= listing.price.toLocaleString("en-IN") %> / night <br>
+              <span class="description-clamp"><%= listing.description %></span>
+            </p>
+          </div>
+        </div>
+      </a>
+    <% } %>
+  <% } %>
+</div>

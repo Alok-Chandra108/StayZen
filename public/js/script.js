@@ -32,30 +32,3 @@
   //           }
   //       }
   //   })
-
-
-
-//   document.addEventListener("DOMContentLoaded", () => {
-//   const form = document.querySelector("form");
-//   if (!form) {
-//     console.warn("Form not found on the page.");
-//     return;
-//   }
-
-//   form.addEventListener("submit", function (e) {
-//     const amenities = document.querySelectorAll('input[name="listing[amenities][]"]:checked');
-//     const tags = document.querySelectorAll('select[name="listing[tags][]"] option:checked');
-
-//     if (amenities.length === 0) {
-//       e.preventDefault();
-//       alert("Please select at least one amenity.");
-//       return;
-//     }
-
-//     if (tags.length === 0) {
-//       e.preventDefault();
-//       alert("Please select at least one tag.");
-//       return;
-//     }
-//   });
-// });

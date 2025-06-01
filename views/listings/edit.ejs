@@ -1,80 +1,91 @@
-<% layout("/layouts/boilerplate") %>
+    <% layout("/layouts/boilerplate") %>
 
-<body>
-    <div class="col-8 offset-2">
-    <h3>Edit your Listing</h3>
-    <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" class="needs-validation" enctype="multipart/form-data" novalidate>
-    <div class="mb-3">
-        <label for="title" class="form-label">Title</label>
-        <input name="listing[title]" value="<%= listing.title %>" type="text" class="form-control" required>
-        <div class="valid-feedback">Looks Good</div>
-    </div>
+    <body>
+        <div class="col-8 offset-2">
+        <h3>Edit your Listing</h3>
+        <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" class="needs-validation" enctype="multipart/form-data" novalidate>
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input name="listing[title]" value="<%= listing.title %>" type="text" class="form-control" required>
+            <div class="valid-feedback">Looks Good</div>
+        </div>
 
-    <div class="mb-3">
-        <label for="description" class="form-label">Description</label>
-        <textarea name="listing[description]" class="form-control" required><%= listing.description %></textarea>
-        <div class="invalid-feedback">A short description please</div>
-    </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea name="listing[description]" class="form-control" required><%= listing.description %></textarea>
+            <div class="invalid-feedback">A short description please</div>
+        </div>
 
-    <div class="mb-3">
-        <p>Original Listing Image</p> <br>
-        <img src="<%= originalImageUrl %>" alt="">
-    </div>
-    <div class="mb-3">
-        <label for="image" class="form-label">New Image Upload</label>
-        <input name="listing[image]" type="file"   class="form-control"><br>
-    </div>
+        <div class="mb-3">
+            <p>Original Listing Image</p> <br>
+            <img src="<%= originalImageUrl %>" alt="">
+        </div>
+        <div class="mb-3">
+            <label for="image" class="form-label">New Image Upload</label>
+            <input name="listing[image]" type="file"   class="form-control"><br>
+        </div>
 
+        <div class="row">
+            <div class="mb-3 col-md-4">
+                <label for="price" class="form-label">Price</label>
+                <input name="listing[price]" value="<%= listing.price %>"  type="number" class="form-control" required>
+                <div class="invalid-feedback">Enter the valid Price</div>
+            </div>
+        
+            <div class="mb-3 col-md-8">
+                <label for="Country" class="form-label">Country</label>
+                <input name="listing[country]" value="<%= listing.country %>"  type="text" class="form-control" required>
+                <div class="invalid-feedback">Country name should be valid</div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="location" class="form-label">Location</label>
+            <input name="listing[location]" value="<%= listing.location %>"  type="text" class="form-control" required>
+            <div class="invalid-feedback">Enter your valid location</div>
+        </div>
+
+        <div class="mb-3">
+    <label class="form-label">Amenities</label>
     <div class="row">
-        <div class="mb-3 col-md-4">
-            <label for="price" class="form-label">Price</label>
-            <input name="listing[price]" value="<%= listing.price %>"  type="number" class="form-control" required>
-            <div class="invalid-feedback">Enter the valid Price</div>
-        </div>
-    
-        <div class="mb-3 col-md-8">
-            <label for="Country" class="form-label">Country</label>
-            <input name="listing[country]" value="<%= listing.country %>"  type="text" class="form-control" required>
-            <div class="invalid-feedback">Country name should be valid</div>
-        </div>
+        <% 
+        const allAmenities = [
+        "WiFi","Parking","Pool","Air Conditioning","Heating","Kitchen","Washer","Dryer","Books & Reading Material",
+        "Gym","TV","Balcony","Elevator","Hot Tub","BBQ Grill","Fireplace","Outdoor Seating","Sound System",
+        "Workspace","Pet Friendly","Smoking Allowed","Security Cameras","Breakfast Included","Private Entrance",
+        "Wheelchair Accessible","First Aid Kit","Game Console"
+        ];
+        allAmenities.forEach((amenity, i) => { 
+        const isChecked = listing.amenities && listing.amenities.includes(amenity);
+        const colClass = i % 3 === 0 ? 'col-md-4' : ''; // We'll wrap by 3 columns if you want, else just put col-md-4 on all
+        %>
+        <% if(i % 9 === 0) { %><div class="col-md-4"><% } %>
+            <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="listing[amenities][]" value="<%= amenity %>" id="amenity-<%= i %>" <%= isChecked ? 'checked' : '' %> >
+            <label class="form-check-label" for="amenity-<%= i %>"><%= amenity %></label>
+            </div>
+        <% if((i+1) % 9 === 0 || i === allAmenities.length - 1) { %></div><% } %>
+        <% }); %>
     </div>
 
-    <div class="mb-3">
-        <label for="location" class="form-label">Location</label>
-        <input name="listing[location]" value="<%= listing.location %>"  type="text" class="form-control" required>
-        <div class="invalid-feedback">Enter your valid location</div>
     </div>
-
     <div class="mb-3">
-  <label class="form-label">Amenities</label>
-  <div class="row">
+  <label class="form-label">Tags</label>
+  <div class="d-flex flex-wrap gap-2">
     <% 
-    const allAmenities = [
-      "WiFi","Parking","Pool","Air Conditioning","Heating","Kitchen","Washer","Dryer","Books & Reading Material",
-      "Gym","TV","Balcony","Elevator","Hot Tub","BBQ Grill","Fireplace","Outdoor Seating","Sound System",
-      "Workspace","Pet Friendly","Smoking Allowed","Security Cameras","Breakfast Included","Private Entrance",
-      "Wheelchair Accessible","First Aid Kit","Game Console"
-    ];
-    allAmenities.forEach((amenity, i) => { 
-      const isChecked = listing.amenities && listing.amenities.includes(amenity);
-      const colClass = i % 3 === 0 ? 'col-md-4' : ''; // We'll wrap by 3 columns if you want, else just put col-md-4 on all
+    const allTags = ["Trending","Rooms","Iconic Cities","Mountains","Castles","Amazing Pools","Campings","Farms","Arctic","Domes"];
+    allTags.forEach((tag, i) => {
+      const isSelected = listing.tags && listing.tags.includes(tag);
     %>
-      <% if(i % 9 === 0) { %><div class="col-md-4"><% } %>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="listing[amenities][]" value="<%= amenity %>" id="amenity-<%= i %>" <%= isChecked ? 'checked' : '' %> >
-          <label class="form-check-label" for="amenity-<%= i %>"><%= amenity %></label>
-        </div>
-      <% if((i+1) % 9 === 0 || i === allAmenities.length - 1) { %></div><% } %>
+      <input type="checkbox" class="btn-check" name="listing[tags][]" value="<%= tag %>" id="tag-<%= i %>" autocomplete="off" <%= isSelected ? 'checked' : '' %> >
+      <label class="btn btn-outline-dark" for="tag-<%= i %>"><%= tag %></label>
     <% }); %>
   </div>
 </div>
 
-
-        
-
-        <button class="gradient-edit-btn me-2">Update</button>
-        <br><br><br>
-    </form>
-</div>
-<script src="/js/script.js"></script>
-</body>
+            <button class="gradient-edit-btn me-2">Update</button>
+            <br><br><br>
+        </form>
+    </div>
+    <script src="/js/script.js"></script>
+    </body>
