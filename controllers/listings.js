@@ -26,7 +26,6 @@ module.exports.createListing = async (req, res, next) => {
     try {
         let url = req.file.path;
         let filename = req.file.filename;
-        console.log("Received file:", req.file);
 
         const newListing = new Listing(req.body.listing);
         newListing.owner = req.user._id;
