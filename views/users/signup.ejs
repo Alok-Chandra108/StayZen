@@ -10,11 +10,14 @@
             </div>
             <div class="mb-3">
                 <label for="title" class="form-label">E-mail</label>
-                <input name="email" id="email" placeholder="E-mail" type="email" class="form-control" required>
+                <input name="email" id="email" placeholder="E-mail" type="text" class="form-control" required pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$">
+                <div class="invalid-feedback">Please enter a valid email (e.g., user@example.com)</div>
             </div>
             <div class="mb-3">
                 <label for="title" class="form-label">Password</label>
-                <input name="password" id="password" placeholder="Password" type="password" class="form-control" required>
+                <input name="password" id="password" placeholder="Password" type="password" class="form-control" minlength="7" required>
+                <div class="valid-feedback">Strong password</div>
+                <div class="invalid-feedback">Password must be at least 7 characters</div>
             </div>
             <button class="btn-auth-primary">Sign Up</button>
         </form>

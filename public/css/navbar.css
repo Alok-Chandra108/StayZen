@@ -46,9 +46,8 @@ background: linear-gradient(135deg, #0f7fd4, #a770ef) !important; /* blue to vio
   box-shadow: 0 0 5px rgba(15,127,212,0.5);
 }
 
-
 .navbar-brand span {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   color: #222;
 }
 

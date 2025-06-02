@@ -11,8 +11,6 @@ body{
     flex: 1;
 }
 
-
-
 /* Footer */
 .f-info-links a{
     text-decoration: none;
@@ -142,8 +140,6 @@ body{
   transform: scale(1.03);
 }
 
-
-
 /* Show Image */
 .show-img{
     height: 30vh;
@@ -160,18 +156,47 @@ body{
 }
 /* No match css */
 
+/* FILTERS STYLING */
+#filters {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 1rem;
+  padding-inline-start: 1.2rem;
+  scroll-behavior: smooth;
+  scrollbar-width: none; /* Hide scrollbar in Firefox */
+}
+
+#filters::-webkit-scrollbar {
+  display: none; /* Hide scrollbar in Chrome/Safari */
+}
+
 .filter {
+  text-align: center;
+  margin-right: 2rem;
+  margin-top: 2rem;
+  min-width: 100px;
   padding: 0.5rem 1rem;
   border-radius: 1.25rem;
   transition: all 0.3s ease;
   cursor: pointer;
+  opacity: 0.6;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .filter:hover,
 .filter.active {
-  background: linear-gradient(90deg, #4f46e5, #9333ea); /* Same as Explore */
+  background: linear-gradient(90deg, #4f46e5, #9333ea);
   color: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  opacity: 1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.filter p {
+  font-size: 0.8rem;
+  margin: 0;
 }
 
 .filter:hover i,
@@ -180,6 +205,33 @@ body{
 .filter.active p {
   color: white;
 }
+
+/* Arrows */
+#filter-left,
+#filter-right {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  cursor: pointer;
+}
+
+#filter-left {
+  left: 0;
+}
+
+#filter-right {
+  right: 0;
+}
+
 
 /* Owner Badge */
 #owner_badge {
@@ -281,7 +333,6 @@ body{
   font-size: 0.9rem;
 }
 
-
     @media (max-width: 768px) {
         .review-card .card-title {
         font-size: 0.9rem;
@@ -322,35 +373,6 @@ body{
     border-radius: 8px;
   }
   
-
-  /* FILTERS STYLINGS */
-  #filters {
-    display: flex;
-    flex-wrap: nowrap;  /* Keep filters in one row */
-    align-items: center;
-    overflow-x: auto;  /* Make filters horizontally scrollable */
-    -webkit-overflow-scrolling: touch; /* Smooth scrolling */
-    padding-bottom: 1rem;
-    position: relative;
-    max-width: 100%;
-}
-
-.filter {
-    text-align: center;
-    margin-right: 2rem;
-    margin-top: 2rem;
-    opacity: .7;
-    min-width: 100px;
-}
-
-.filter:hover {
-    opacity: 1;
-    cursor: pointer;
-}
-
-.filter p {
-    font-size: .8rem;
-}
 /* 
 .tax-info {
     display: none;
