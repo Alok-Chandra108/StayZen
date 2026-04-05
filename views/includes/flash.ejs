@@ -1,41 +1,51 @@
-<% if(success && success.length) { %>
-    <div id="success-alert" class="alert alert-success alert-dismissible fade show col-6 offset-3 text-center" role="alert">
-        <%= success %>
-    </div>
-<% } %>
+<div class="flash-container">
+    <% if(success && success.length) { %>
+        <div id="success-alert" class="brutal-alert brutal-alert-success" role="alert">
+            <div class="d-flex align-items-center">
+                <i class="fa-solid fa-circle-check"></i>
+                <span><%= success %></span>
+            </div>
+            <button class="btn-close-brutal" onclick="dismissBrutalAlert('success-alert')">&times;</button>
+        </div>
+    <% } %>
 
-<% if(failure && failure.length) { %>
-    <div id="failure-alert" class="alert alert-danger alert-dismissible fade show col-6 offset-3 text-center" role="alert">
-        <%= failure %>
-    </div>
-<% } %>
+    <% if(failure && failure.length) { %>
+        <div id="failure-alert" class="brutal-alert brutal-alert-danger" role="alert">
+            <div class="d-flex align-items-center">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span><%= failure %></span>
+            </div>
+            <button class="btn-close-brutal" onclick="dismissBrutalAlert('failure-alert')">&times;</button>
+        </div>
+    <% } %>
+</div>
 
 <script>
-    const removeAlert = (id) => {
-        const alertBox = document.getElementById(id);
-        if (!alertBox) return;
-
-        // Add fade-out
-        alertBox.classList.remove("show");
-        alertBox.classList.add("fade");
-
-        // Wait for CSS transition to finish, then remove from DOM
-        alertBox.addEventListener("transitionend", () => {
-            if (alertBox.parentNode) {
-                alertBox.remove();
-            }
+    // Entry Animation
+    document.addEventListener("DOMContentLoaded", () => {
+        gsap.from(".brutal-alert", {
+            x: 100,
+            opacity: 0,
+            duration: 0.5,
+            stagger: 0.2,
+            ease: "back.out(1.7)"
         });
+    });
 
-        // Fallback: Remove after 1s even if transition event doesn't fire
-        setTimeout(() => {
-            if (alertBox && alertBox.parentNode) {
-                alertBox.remove();
-            }
-        }, 1000);
+    const dismissBrutalAlert = (id) => {
+        const el = document.getElementById(id);
+        if(!el) return;
+        gsap.to(el, {
+            x: 100,
+            opacity: 0,
+            duration: 0.3,
+            onComplete: () => el.remove()
+        });
     };
 
+    // Auto-dismiss after 4s
     setTimeout(() => {
-        removeAlert("success-alert");
-        removeAlert("failure-alert");
-    }, 2000);
+        dismissBrutalAlert("success-alert");
+        dismissBrutalAlert("failure-alert");
+    }, 4000);
 </script>
