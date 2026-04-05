@@ -1,61 +1,49 @@
 const map = L.map('map', {
     center: listingData.coordinates,
-    zoom: 10,
-    layers: []
-  });
-  
-  // Define both layers
-  const streetLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  });
-  
-  const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-  });
-  
-  // Set default to street
-  streetLayer.addTo(map);
-  let currentLayer = 'street';
-  
-  // Add marker
-  L.marker(listingData.coordinates).addTo(map)
-    .bindPopup(`${listingData.title}<br><p>Exact location will be provided after booking</p>`)
-    .openPopup();
-  
-  // Custom control for layer toggle
-  const toggleControl = L.Control.extend({
-    options: { position: 'topright' },
-  
-    onAdd: function () {
-      const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
-      container.innerHTML = '🛰️'; // initial icon is for switching to satellite
-      container.style.backgroundColor = 'transparent';
-      container.style.width = '30px';
-      container.style.height = '30px';
-      container.style.lineHeight = '30px';
-      container.style.textAlign = 'center';
-      container.style.cursor = 'pointer';
-      container.style.fontSize = '18px';
-      container.style.color = 'white';
-      container.style.background = 'rgb(255, 255, 255)';
-      container.style.borderRadius = '5px';
-  
-      container.onclick = function () {
-        if (currentLayer === 'street') {
-          map.removeLayer(streetLayer);
-          satelliteLayer.addTo(map);
-          map.setZoom(14);
-          container.innerHTML = '🗺️';
-          currentLayer = 'satellite';
-        } else {
-          map.removeLayer(satelliteLayer);
-          streetLayer.addTo(map);
-          map.setZoom(11);
-          container.innerHTML = '🛰️';
-          currentLayer = 'street';
-        }
-      };
-  
-      return container;
-    }
-  });
-  
-  map.addControl(new toggleControl());  
+    zoom: 13,
+    scrollWheelZoom: false,
+    attributionControl: false
+});
+
+// Using Standard OSM with NO FILTERS for stability
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19
+}).addTo(map);
+
+// Simplified Custom Marker (Removed "Extra Text")
+const brutalIcon = L.divIcon({
+    className: 'brutal-marker',
+    html: `
+        <div class="brutal-marker-tag">
+            ₹ ${listingData.price.toLocaleString("en-IN")}
+        </div>
+    `,
+    iconSize: [0, 0],
+    iconAnchor: [0, 0]
+});
+
+// Add Marker
+const marker = L.marker(listingData.coordinates, { icon: brutalIcon }).addTo(map);
+
+// Pop-up for the rest of the info
+marker.bindPopup(`
+    <div style="text-align: center; font-family: 'Space Grotesk', sans-serif;">
+        <h5 style="font-weight: 900; margin-bottom: 5px; text-transform: uppercase;">${listingData.title}</h5>
+        <p style="margin: 0; font-weight: 600;">${listingData.location}</p>
+        <hr style="margin: 10px 0; border-top: 3px solid black;">
+        <small style="font-weight: 800; color: #FF5722;">EXACT LOCATION PROVIDED AT BOOKING</small>
+    </div>
+`, {
+    offset: [0, -40]
+});
+
+// Auto-open
+marker.openPopup();
+
+// Critical Fix for Alignment/Blank space
+map.whenReady(() => {
+    setTimeout(() => {
+        map.invalidateSize();
+        map.setView(listingData.coordinates, 13, { animate: true });
+    }, 800);
+});

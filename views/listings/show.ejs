@@ -1,11 +1,5 @@
   <% layout("/layouts/boilerplate") -%>
-  <script>
-    const listingData = {
-        coordinates: <%= JSON.stringify([listing.geometry.coordinates[1], listing.geometry.coordinates[0]]) %>,
-        title: "<%= listing.title %>",
-        location: "<%= listing.location %>"
-    };
-    <%
+  <%
     const amenityIcons = {
       "WiFi": "fa-wifi",
       "Parking": "fa-square-parking",
@@ -35,8 +29,21 @@
       "First Aid Kit": "fa-kit-medical",
       "Game Console": "fa-gamepad"
     };
+
+    const listingDataJson = JSON.stringify({
+        coordinates: (listing.geometry && listing.geometry.coordinates) ? [listing.geometry.coordinates[1], listing.geometry.coordinates[0]] : [0,0],
+        title: listing.title,
+        location: listing.location,
+        price: listing.price
+    });
   %>
 
+  <script id="listing-data" type="application/json">
+    <%- listingDataJson %>
+  </script>
+
+  <script>
+    const listingData = JSON.parse(document.getElementById('listing-data').textContent);
   </script>
 
   <div class="container-fluid bg-brutal-dots py-4 border-top border-5 border-dark">
@@ -220,9 +227,13 @@
 
 
   <!-- Map Section -->
-  <div class="col-xl-6 col-lg-8 col-md-10 col-sm-12 mt-4 mb-3 custom-map-container">
-    <h3>Where you'll be</h3>
-    <div id="map"></div>
+  <div class="row justify-content-center mt-5">
+    <div class="col-12 col-lg-10">
+      <h3 class="fw-bolder text-uppercase mb-4">Where you'll be</h3>
+      <div class="custom-map-container p-0 overflow-hidden" style="border: 6px solid #000; box-shadow: 12px 12px 0px #000;">
+        <div id="map" style="height: 450px; width: 100%; background: #e5e3df;"></div>
+      </div>
+    </div>
   </div>
 
   </div>

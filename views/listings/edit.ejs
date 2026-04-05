@@ -49,25 +49,29 @@
 
         <div class="mb-3">
     <label class="form-label">Amenities</label>
-    <div class="row">
+    <div class="brutal-amenity-grid mb-4">
         <% 
-        const allAmenities = [
-        "WiFi","Parking","Pool","Air Conditioning","Heating","Kitchen","Washer","Dryer","Books & Reading Material",
-        "Gym","TV","Balcony","Elevator","Hot Tub","BBQ Grill","Fireplace","Outdoor Seating","Sound System",
-        "Workspace","Pet Friendly","Smoking Allowed","Security Cameras","Breakfast Included","Private Entrance",
-        "Wheelchair Accessible","First Aid Kit","Game Console"
-        ];
-        allAmenities.forEach((amenity, i) => { 
-        const isChecked = listing.amenities && listing.amenities.includes(amenity);
-        const colClass = i % 3 === 0 ? 'col-md-4' : ''; // We'll wrap by 3 columns if you want, else just put col-md-4 on all
+        const amenityIcons = {
+            "WiFi": "fa-wifi", "Parking": "fa-car", "Pool": "fa-person-swimming",
+            "Air Conditioning": "fa-snowflake", "Heating": "fa-fire", "Kitchen": "fa-utensils",
+            "Washer": "fa-soap", "Dryer": "fa-wind", "Books & Reading Material": "fa-book",
+            "Gym": "fa-dumbbell", "TV": "fa-tv", "Balcony": "fa-building",
+            "Elevator": "fa-elevator", "Hot Tub": "fa-hot-tub-person", "BBQ Grill": "fa-stroopwafel",
+            "Fireplace": "fa-fire-burner", "Outdoor Seating": "fa-chair", "Sound System": "fa-volume-high",
+            "Workspace": "fa-briefcase", "Pet Friendly": "fa-paw", "Smoking Allowed": "fa-icicles",
+            "Security Cameras": "fa-video", "Breakfast Included": "fa-bread-slice", "Private Entrance": "fa-door-open",
+            "Wheelchair Accessible": "fa-wheelchair", "First Aid Kit": "fa-kit-medical", "Game Console": "fa-gamepad"
+        };
+        Object.entries(amenityIcons).forEach(([name, icon], i) => { 
+            const isChecked = listing.amenities && listing.amenities.includes(name);
         %>
-        <% if(i % 9 === 0) { %><div class="col-md-4"><% } %>
-            <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="listing[amenities][]" value="<%= amenity %>" id="amenity-<%= i %>" <%= isChecked ? 'checked' : '' %> >
-            <label class="form-check-label" for="amenity-<%= i %>"><%= amenity %></label>
+            <div class="amenity-item">
+                <input type="checkbox" name="listing[amenities][]" value="<%= name %>" id="amenity-<%= i %>" <%= isChecked ? 'checked' : '' %>>
+                <label class="amenity-label" for="amenity-<%= i %>">
+                    <i class="fa-solid <%= icon %>"></i> <%= name %>
+                </label>
             </div>
-        <% if((i+1) % 9 === 0 || i === allAmenities.length - 1) { %></div><% } %>
-        <% }); %>
+        <% }) %>
     </div>
 
     </div>

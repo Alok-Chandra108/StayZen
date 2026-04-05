@@ -340,19 +340,65 @@ footer {
 .delete-btn .delete-icon { display: none; }
 
 .custom-map-container {
-    width: 80%;
-    margin: auto;
-    margin-bottom: 20px;
-    border: 3px solid #000;
-    box-shadow: 8px 8px 0px #000;
-    padding: 1rem;
+    width: 100%;
+    margin-bottom: 2rem;
+    border: 6px solid #000;
+    box-shadow: 12px 12px 0px #000;
+    padding: 0;
     background: #fff;
+    overflow: hidden;
 }
 
 #map {
-    height: 400px;
+    height: 500px;
     width: 100%;
+    filter: none; /* Base state */
+}
+
+/* --- Stark Architectural Map Filter --- */
+/* --- Brutalist Custom Marker --- */
+.brutal-marker {
+    background: transparent;
+    border: none;
+    z-index: 1000 !important;
+}
+
+.brutal-marker-tag {
+    background: #FF5722;
+    color: #000;
     border: 3px solid #000;
+    padding: 8px 12px;
+    font-weight: 900;
+    font-size: 1.1rem;
+    white-space: nowrap;
+    box-shadow: 6px 6px 0px #000;
+    transform: translate(-50%, -100%);
+    position: relative;
+    display: inline-block;
+}
+
+.brutal-marker-tag::after {
+    content: "";
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 15px solid #000;
+}
+
+/* Leaflet Popup customization */
+.leaflet-popup-content-wrapper {
+    background: #FFFDF0 !important;
+    color: #000 !important;
+    border: 3px solid #000 !important;
+    border-radius: 0 !important;
+    box-shadow: 6px 6px 0px #000 !important;
+}
+
+.leaflet-popup-tip {
+    background: #000 !important;
 }
 
 @media (min-width: 1200px) {
@@ -420,7 +466,7 @@ body, a, button, input, label {
     text-transform: uppercase;
 }
 
-.brutal-form-container input,
+.brutal-form-container input:not([type="checkbox"]),
 .brutal-form-container textarea {
     border: 3px solid #000 !important;
     border-radius: 0 !important;
@@ -431,6 +477,68 @@ body, a, button, input, label {
     box-shadow: inset 4px 4px 0 rgba(0,0,0,0.05) !important;
     transition: all 0.1s ease !important;
 }
+
+/* --- Amenities & Tag Grids --- */
+.brutal-amenity-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+    background: #fff;
+    padding: 20px;
+    border: 3px solid #000;
+}
+
+.amenity-item {
+    position: relative;
+    user-select: none;
+}
+
+.amenity-item input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.amenity-label {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    background: #FFFDF0;
+    border: 3px solid #000;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    box-shadow: 4px 4px 0px #000;
+}
+
+.amenity-label i {
+    margin-right: 12px;
+    font-size: 1.2rem;
+    width: 25px;
+    text-align: center;
+}
+
+.amenity-item input[type="checkbox"]:checked + .amenity-label {
+    background: #8073E8; /* Purple Selection */
+    color: #fff;
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px #000;
+}
+
+.amenity-item input[type="checkbox"]:checked + .amenity-label i {
+    color: #fff;
+}
+
+.amenity-label:hover {
+    background: #FFDF00;
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px #000;
+}
+
 
 .brutal-form-container input:focus,
 .brutal-form-container textarea:focus {
@@ -458,4 +566,70 @@ body, a, button, input, label {
     color: #000 !important;
     transform: translate(2px, 2px);
     box-shadow: 2px 2px 0 #000;
+}
+
+/* --- Ticker Marquee --- */
+.ticker-wrap {
+    width: 100%;
+    overflow: hidden;
+    background-color: #000;
+    padding: 2rem 0;
+    border-top: 4px solid #000;
+    border-bottom: 4px solid #000;
+    position: relative;
+    z-index: 10;
+}
+
+.ticker {
+    display: flex;
+    white-space: nowrap;
+}
+
+.ticker__item {
+    display: inline-block;
+    padding: 0 3rem;
+    font-size: 5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: #FFFDF0;
+    letter-spacing: -2px;
+}
+
+/* --- Floating Stickers --- */
+.sticker-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.sticker {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFDF00;
+    border: 3px solid #000;
+    box-shadow: 4px 4px 0px #000;
+    transition: box-shadow 0.1s ease;
+    pointer-events: none;
+}
+
+.sticker--pink { background: #FFB6C1; }
+.sticker--blue { background: #7E78FF; }
+.sticker--green { background: #C0FF00; }
+.sticker--orange { background: #FF5722; }
+
+.sticker svg {
+    width: 60%;
+    height: 60%;
+    stroke: #000;
+    stroke-width: 4;
 }
