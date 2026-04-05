@@ -1,11 +1,12 @@
 {
   "engines": {
-    "node": "v22.13.0"
+    "node": ">=22.13.0"
   },
   "name": "project-1",
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
+    "start": "node --no-deprecation app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
