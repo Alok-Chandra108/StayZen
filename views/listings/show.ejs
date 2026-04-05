@@ -39,25 +39,27 @@
 
   </script>
 
-  <div class="container-fluid">
+  <div class="container-fluid bg-brutal-dots py-4 border-top border-5 border-dark">
     <div class="row justify-content-center mt-3">
 
-      <!-- Title Section -->
-      <div class="col-12 text-center mb-3">
-        <h3><%= listing.title %></h3>
+      <!-- Title Section GSAP hook -->
+      <div class="col-12 text-center mb-4 hero-gsap-text">
+        <h3 class="fw-bolder fs-1 text-uppercase border border-dark border-4 d-inline-block px-4 py-2 bg-white" style="box-shadow: 6px 6px 0px #FF5722;"><%= listing.title %></h3>
       </div>
 
       <div class="col-xl-8 col-lg-10 col-md-10 col-sm-12 mx-auto">
-    <div class="card show-card listing-card shadow-sm p-3 rounded-4">
+    <div class="card show-card listing-card p-0 rounded-0 border-dark border-4" style="box-shadow: 12px 12px 0px #000 !important;">
       
       <!-- Listing Image -->
-      <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing_IMAGE">
+      <div class="border-bottom border-dark border-4 position-relative overflow-hidden">
+         <img src="<%= listing.image.url %>" class="card-img-top" style="height: 45vh; object-fit: cover;" alt="listing_IMAGE">
+      </div>
 
       <!-- Card Body -->
-      <div class="card-body px-3 px-sm-4 px-md-5 py-3">
+      <div class="card-body px-3 px-sm-4 px-md-5 py-4 bg-white">
 
         <!-- Owner + Location Row -->
-        <div class="row justify-content-between align-items-center gy-1 mb-1">
+        <div class="row justify-content-between align-items-center gy-1 mb-3">
 
           <!-- Owner Badge -->
           <div class="col-12 col-sm-6 text-sm-start text-center">

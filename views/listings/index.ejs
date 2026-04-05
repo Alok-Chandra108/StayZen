@@ -1,5 +1,68 @@
 <% layout("/layouts/boilerplate") -%> 
 
+<!-- Neo-Brutalism Hero Landing Banner -->
+<div class="container-fluid px-0 position-relative overflow-hidden">
+  <div class="neobrutal-hero mb-4 d-flex flex-column align-items-center justify-content-center text-center position-relative" style="
+      background: #7E78FF; /* Brutalist Purple */
+      border-bottom: 4px solid #000; 
+      padding: 8rem 2rem; 
+      min-height: 60vh;">
+      
+      <!-- Masterpiece Brutalist Architecture SVG Composition -->
+      <svg class="position-absolute d-none d-md-block" style="bottom: -5%; right: 5%; width: 450px; height: 450px; opacity: 0.95; z-index: 1; pointer-events: none; transform: rotate(-2deg);" viewBox="0 0 500 500">
+          <defs>
+              <pattern id="brutalist-halftone" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                  <circle cx="10" cy="10" r="4" fill="#000"/>
+              </pattern>
+          </defs>
+          <!-- Halftone Offset Shadow Box -->
+          <rect x="40" y="70" width="200" height="200" fill="#000" />
+          <rect x="20" y="50" width="200" height="200" fill="url(#brutalist-halftone)" stroke="#000" stroke-width="8"/>
+          
+          <!-- Abstract Brutal Sun -->
+          <circle cx="120" cy="150" r="90" fill="#FF5722" stroke="#000" stroke-width="8" />
+          
+          <!-- Drop Shadow for Hotel -->
+          <rect x="280" y="210" width="160" height="260" fill="#000" />
+          
+          <!-- Brutalist Hotel Main Building -->
+          <rect x="250" y="180" width="160" height="260" fill="#FFFDF0" stroke="#000" stroke-width="8" />
+          
+          <!-- Hotel Entrance/Signage -->
+          <rect x="280" y="130" width="100" height="50" fill="#C0FF00" stroke="#000" stroke-width="8" />
+          <text x="330" y="165" font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="28" fill="#000" text-anchor="middle">STAY.</text>
+
+          <!-- Hotel Windows (Geometric Grid) -->
+          <rect x="270" y="210" width="40" height="40" fill="#7E78FF" stroke="#000" stroke-width="6"/>
+          <rect x="340" y="210" width="40" height="40" fill="#FFB6C1" stroke="#000" stroke-width="6"/>
+          
+          <rect x="270" y="280" width="40" height="40" fill="#FFDF00" stroke="#000" stroke-width="6"/>
+          <rect x="340" y="280" width="40" height="40" fill="#FFF" stroke="#000" stroke-width="6"/>
+          
+          <rect x="270" y="350" width="40" height="40" fill="#000" stroke="#000" stroke-width="6"/>
+          <rect x="340" y="350" width="40" height="40" fill="#FFF" stroke="#000" stroke-width="6"/>
+          
+          <!-- Geometric ZigZag Element -->
+          <path d="M 0 450 L 50 380 L 100 450 L 150 380 L 200 450" fill="none" stroke="#FFDF00" stroke-width="14" stroke-linejoin="miter" stroke-linecap="square"/>
+          <path d="M -10 440 L 40 370 L 90 440 L 140 370 L 190 440" fill="none" stroke="#000" stroke-width="14" stroke-linejoin="miter" stroke-linecap="square" style="mix-blend-mode: multiply; opacity: 0.3;"/>
+          
+          <!-- Floating Triangle -->
+          <polygon points="400,40 460,140 340,140" fill="#FFB6C1" stroke="#000" stroke-width="8" />
+      </svg>
+      
+      <!-- Supplementary Floating SVGs on left -->
+      <svg class="position-absolute d-none d-lg-block spin-svg" style="top: 10%; left: 5%; width: 120px; height: 120px; z-index: 1; pointer-events: none;" viewBox="0 0 100 100">
+         <polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#7E78FF" stroke="#000" stroke-width="4" />
+      </svg>
+
+      <div style="z-index: 2; position: relative;">
+          <h1 class="hero-gsap-text" style="font-weight: 900; font-size: 5rem; letter-spacing: -3px; text-transform: uppercase; color: #FFFDF0; text-shadow: 6px 6px 0px #000; line-height: 1.1;">Find Your Raw Escape</h1>
+          <p style="font-weight: 600; font-size: 1.4rem; max-width: 600px; margin: 2rem auto; color: #fff; background: #000; padding: 1rem; border: 3px solid #000; box-shadow: 6px 6px 0px #FFDF00;">Experience untamed stays, brutal comfort, and unapologetic spaces. Book your next journey with StayZen.</p>
+          <a href="#listing-container" class="gradient-edit-btn mt-2" style="font-size: 1.2rem !important; padding: 1rem 3rem !important; background: #C0FF00 !important; color: #000 !important; border-radius: 0;">Explore Listings</a>
+      </div>
+  </div>
+</div>
+
 <div id="filters">
     <div class="filter">
         <div><i class="fa-solid fa-fire"></i></div> <p>Trending</p>

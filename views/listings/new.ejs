@@ -1,14 +1,16 @@
 <% layout("/layouts/boilerplate") %>
 
 <body>
-    <div class="col-8 offset-2">
-    <h3>Create a new listings</h3>
-    <form method="POST" action="/listings" class="needs-validation" enctype="multipart/form-data" novalidate>
-        <div class="mb-3">
-            <label for="title" class="form-label">Title</label>
-            <input name="listing[title]" placeholder="Enter title" type="text" class="form-control" required>
-            <div class="valid-feedback">Looks Good</div>
-        </div>
+    <div class="row justify-content-center bg-brutal-stripes py-5">
+        <div class="col-10 col-md-8">
+            <div class="brutal-form-container">
+                <h3 class="mb-4" style="font-weight: 900; font-size: 2.5rem; text-transform: uppercase;">Create a new listing</h3>
+                <form method="POST" action="/listings" class="needs-validation" enctype="multipart/form-data" novalidate>
+                    <div class="mb-4 mt-2">
+                        <label for="title" class="form-label">Title</label>
+                        <input name="listing[title]" placeholder="Enter title" type="text" class="form-control border border-3 border-dark" style="box-shadow: inset 4px 4px 0px rgba(0,0,0,0.05);" required>
+                        <div class="valid-feedback">Looks Good</div>
+                    </div>
 
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
@@ -183,8 +185,10 @@
 </div>
 
 
-        <button class="gradient-edit-btn" type="submit">Add</button>
-        <br><br>
-    </form>
-    </div>
+            <button class="gradient-edit-btn ms-2 mt-3" type="submit">Publish Raw Listing</button>
+            <br><br>
+        </form>
+        </div> <!-- brutal-form-container -->
+        </div> <!-- col -->
+    </div> <!-- row -->
 </body>

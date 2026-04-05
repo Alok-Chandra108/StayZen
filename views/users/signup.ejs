@@ -1,25 +1,28 @@
 <% layout("/layouts/boilerplate") %>
-<div class="row mt-3">
-    <h1 class="col-6 offset-3">SignUp for StayZen</h1>
-    <div class="col-6 offset-3">
-        <form action="/signup" method="post" class="needs-validation" novalidate>
-            <div class="mb-3">
-                <label for="title" class="form-label">Username</label>
-                <input name="username" id="username" placeholder="Username" type="text" class="form-control" required>
-                <div class="valid-feedback">Looks Good</div>
-            </div>
-            <div class="mb-3">
-                <label for="title" class="form-label">E-mail</label>
-                <input name="email" id="email" placeholder="E-mail" type="text" class="form-control" required pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$">
-                <div class="invalid-feedback">Please enter a valid email (e.g., user@example.com)</div>
-            </div>
-            <div class="mb-3">
-                <label for="title" class="form-label">Password</label>
-                <input name="password" id="password" placeholder="Password" type="password" class="form-control" minlength="7" required>
-                <div class="valid-feedback">Strong password</div>
-                <div class="invalid-feedback">Password must be at least 7 characters</div>
-            </div>
-            <button class="btn-auth-primary">Sign Up</button>
-        </form>
+<div class="row min-vh-100 align-items-center justify-content-center bg-brutal-dots">
+    <div class="col-11 col-sm-8 col-md-6 col-lg-4">
+        <div class="brutal-form-container" style="background: #FFB6C1 !important; box-shadow: 16px 16px 0px #000; padding: 4rem 3rem;">
+            <h1 class="mb-5 text-center text-uppercase" style="font-weight: 900; font-size: 3rem; letter-spacing: -2px;">Sign Up</h1>
+            <form action="/signup" method="post" class="needs-validation" novalidate>
+                <div class="mb-4">
+                    <label for="username" class="form-label" style="font-weight: 800; font-size: 1.1rem;">Username</label>
+                    <input name="username" id="username" placeholder="Username" type="text" class="form-control" style="border: 4px solid #000 !important; border-radius: 0; padding: 1rem !important; background: #FFFDF0 !important;" required>
+                </div>
+
+                <div class="mb-4">
+                    <label for="email" class="form-label" style="font-weight: 800; font-size: 1.1rem;">Email</label>
+                    <input name="email" id="email" placeholder="Email" type="email" class="form-control" style="border: 4px solid #000 !important; border-radius: 0; padding: 1rem !important; background: #FFFDF0 !important;" required>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="password" class="form-label" style="font-weight: 800; font-size: 1.1rem;">Password</label>
+                    <input name="password" id="password" placeholder="Password" type="password" class="form-control" style="border: 4px solid #000 !important; border-radius: 0; padding: 1rem !important; background: #FFFDF0 !important;" required>
+                </div>
+                
+                <div class="d-grid mt-5">
+                    <button class="btn btn-dark text-white rounded-0 border border-4 border-dark fs-5 text-uppercase fw-bold" style="padding: 1rem; box-shadow: 6px 6px 0px #fff; transition: all 0.1s;" onmouseover="this.style.transform='translate(2px, 2px)'; this.style.boxShadow='4px 4px 0px #fff';" onmouseout="this.style.transform='translate(0, 0)'; this.style.boxShadow='6px 6px 0px #fff';">Create Account</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
