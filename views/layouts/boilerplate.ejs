@@ -22,7 +22,23 @@
     <!-- Custom Brutalist Cursor -->
     <div class="cursor-dot"></div>
 
-    <%- include("../includes/navbar.ejs") %>
+    <% 
+        let pathOnly = typeof currentPath !== 'undefined' ? currentPath.split('?')[0] : '';
+        let isBackOnly = false;
+        if (pathOnly === '/listings/new') {
+            isBackOnly = true;
+        } else {
+            let showOrEditRegex = /^\/listings\/[0-9a-fA-F]{24}(\/edit)?$/;
+            if (showOrEditRegex.test(pathOnly)) {
+                isBackOnly = true;
+            }
+        }
+    %>
+    <% if (isBackOnly) { %>
+        <%- include("../includes/back-button.ejs") %>
+    <% } else { %>
+        <%- include("../includes/navbar.ejs") %>
+    <% } %>
         <div class="container-fluid px-0">
             <%- include("../includes/flash.ejs") %>
                 <%- body %>
