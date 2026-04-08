@@ -1,0 +1,1220 @@
+/* ============================================================
+   STAYZEN — NEU-BRUTALISM PAGES CSS
+   Show · New · Edit — Maximum Wow Factor
+   ============================================================ */
+
+/* ---- CUSTOM PROPERTIES ---- */
+:root {
+  --ink: #0A0A0A;
+  --cream: #FFFDF0;
+  --acid: #C8FF00;    /* electric lime */
+  --coral: #FF5722;   /* brutal orange-red */
+  --lavender: #7E78FF; /* brutal purple */
+  --cyan: #00E5FF;    /* brutal cyan */
+  --pink: #FF3CAC;    /* hot pink */
+  --yellow: #FFE500;  /* brutal yellow */
+  --white: #FFFFFF;
+  --shadow-sm: 4px 4px 0px var(--ink);
+  --shadow-md: 6px 6px 0px var(--ink);
+  --shadow-lg: 10px 10px 0px var(--ink);
+  --shadow-xl: 14px 14px 0px var(--ink);
+  --border: 3px solid var(--ink);
+  --border-thick: 5px solid var(--ink);
+  --border-xl: 8px solid var(--ink);
+  --font-display: 'Space Grotesk', sans-serif;
+  --transition: all 0.12s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+}
+
+/* ============================================================
+   SHARED PAGE WRAPPERS
+   ============================================================ */
+
+.nb-page-wrapper {
+  min-height: 100vh;
+  background-color: var(--cream);
+  position: relative;
+  padding-bottom: 4rem;
+}
+
+/* SVG Dot-matrix background */
+.nb-bg-dots {
+  background-color: var(--cream);
+  background-image: radial-gradient(circle, var(--ink) 1.5px, transparent 1.5px);
+  background-size: 28px 28px;
+}
+
+/* Diagonal stripe background (for forms) */
+.nb-bg-stripes {
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--yellow),
+    var(--yellow) 12px,
+    var(--cream) 12px,
+    var(--cream) 30px
+  );
+}
+
+/* Cross-hatch background */
+.nb-bg-crosshatch {
+  background-color: var(--cream);
+  background-image:
+    linear-gradient(var(--ink) 1px, transparent 1px),
+    linear-gradient(90deg, var(--ink) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: center center;
+  opacity: 1;
+}
+
+/* ============================================================
+   SHOW PAGE — HERO SECTION
+   ============================================================ */
+
+.nb-show-hero {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-bottom: var(--border-xl);
+}
+
+.nb-show-hero__img {
+  width: 100%;
+  height: 65vh;
+  object-fit: cover;
+  display: block;
+  filter: contrast(1.05) saturate(1.1);
+  transition: transform 0.6s ease, filter 0.4s ease;
+}
+
+.nb-show-hero__img:hover {
+  transform: scale(1.02);
+  filter: contrast(1.1) saturate(1.2);
+}
+
+/* Brutalist image overlay: corner stamp */
+.nb-show-hero__stamp {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 10;
+  background: var(--acid);
+  border: var(--border-thick);
+  box-shadow: var(--shadow-lg);
+  padding: 12px 20px;
+  transform: rotate(2deg);
+}
+
+.nb-show-hero__stamp-price {
+  font-weight: 900;
+  font-size: 1.6rem;
+  text-transform: uppercase;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.nb-show-hero__stamp-label {
+  font-weight: 800;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-top: 2px;
+}
+
+/* Brutalist page ticker strip */
+.nb-ticker-strip {
+  background: var(--ink);
+  padding: 0.9rem 0;
+  overflow: hidden;
+  border-top: var(--border);
+  border-bottom: var(--border);
+  position: relative;
+  z-index: 5;
+}
+
+.nb-ticker-track {
+  display: flex;
+  white-space: nowrap;
+  animation: nb-ticker-scroll 20s linear infinite;
+}
+
+.nb-ticker-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0 30px;
+  font-size: 0.9rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--cream);
+  letter-spacing: 2px;
+}
+
+.nb-ticker-item .nb-ticker-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: var(--coral);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+@keyframes nb-ticker-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ============================================================
+   SHOW PAGE — MAIN LAYOUT
+   ============================================================ */
+
+.nb-show-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 30px;
+  padding: 32px 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1100px) {
+  .nb-show-layout { grid-template-columns: 1fr; padding: 24px 20px; }
+}
+
+/* ---- SHOW: Main Column ---- */
+.nb-show-main { min-width: 0; }
+
+.nb-show-title {
+  font-weight: 900;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  text-transform: uppercase;
+  letter-spacing: -2px;
+  line-height: 1;
+  border-bottom: var(--border-xl);
+  padding-bottom: 20px;
+  margin-bottom: 28px;
+  position: relative;
+}
+
+/* Decorative accent bar */
+.nb-show-title::before {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 8px;
+  background: var(--coral);
+  border: var(--border);
+  margin-bottom: 10px;
+}
+
+/* Meta info row */
+.nb-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 28px;
+  align-items: center;
+}
+
+.nb-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border: var(--border);
+  font-weight: 800;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  cursor: default;
+}
+
+.nb-badge:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px var(--ink);
+}
+
+.nb-badge--owner { background: var(--lavender); color: var(--cream); }
+.nb-badge--location { background: var(--cyan); color: var(--ink); }
+.nb-badge--category { background: var(--yellow); color: var(--ink); }
+.nb-badge--acid { background: var(--acid); color: var(--ink); }
+
+/* Description block */
+.nb-description-block {
+  background: var(--white);
+  border: var(--border-thick);
+  box-shadow: var(--shadow-lg);
+  padding: 28px 32px;
+  margin-bottom: 28px;
+  position: relative;
+}
+
+.nb-description-block__label {
+  font-weight: 900;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--coral);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nb-description-block__label::before {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 3px;
+  background: var(--coral);
+}
+
+.nb-description-block__text {
+  font-size: 1.05rem;
+  font-weight: 500;
+  line-height: 1.7;
+  color: var(--ink);
+}
+
+/* Section headings */
+.nb-section-head {
+  font-weight: 900;
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+  border-left: 8px solid var(--coral);
+  padding-left: 16px;
+  margin-bottom: 20px;
+  line-height: 1.1;
+}
+
+/* ---- Amenities Grid ---- */
+.nb-amenities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.nb-amenity-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--cream);
+  border: var(--border);
+  padding: 12px 16px;
+  font-weight: 700;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  box-shadow: 3px 3px 0px var(--ink);
+  transition: var(--transition);
+}
+
+.nb-amenity-chip:hover {
+  background: var(--acid);
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px var(--ink);
+}
+
+.nb-amenity-chip i {
+  font-size: 1rem;
+  width: 20px;
+  text-align: center;
+  color: var(--coral);
+  transition: color 0.12s;
+}
+
+.nb-amenity-chip:hover i { color: var(--ink); }
+
+/* ---- Tags ---- */
+.nb-tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.nb-tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--lavender);
+  color: var(--cream);
+  border: var(--border);
+  padding: 8px 16px;
+  font-weight: 800;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 3px 3px 0px var(--ink);
+  transition: var(--transition);
+}
+
+.nb-tag-chip:hover {
+  background: var(--pink);
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px var(--ink);
+}
+
+/* ---- Map Section ---- */
+.nb-map-block {
+  background: var(--white);
+  border: var(--border-xl);
+  box-shadow: var(--shadow-xl);
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+.nb-map-block__header {
+  background: var(--ink);
+  color: var(--acid);
+  padding: 14px 24px;
+  font-weight: 900;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nb-map-block__header i { color: var(--coral); }
+
+/* ---- SHOW: Sidebar ---- */
+.nb-book-card {
+  background: var(--white);
+  border: var(--border-xl);
+  box-shadow: var(--shadow-xl);
+  position: sticky;
+  top: 90px;
+  overflow: hidden;
+}
+
+.nb-book-card__header {
+  background: var(--coral);
+  border-bottom: var(--border-thick);
+  padding: 22px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nb-book-card__price {
+  font-weight: 900;
+  font-size: 2.4rem;
+  letter-spacing: -2px;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.nb-book-card__per {
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--ink);
+  opacity: 0.7;
+}
+
+.nb-book-card__body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.nb-book-card__info-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px;
+  background: var(--cream);
+  border: var(--border);
+}
+
+.nb-book-card__info-icon {
+  font-size: 1.2rem;
+  color: var(--coral);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.nb-book-card__info-label {
+  font-weight: 800;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: rgba(0,0,0,0.5);
+  margin-bottom: 2px;
+}
+
+.nb-book-card__info-value {
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--ink);
+  text-transform: uppercase;
+}
+
+/* ---- Owner Action Buttons ---- */
+.nb-owner-actions {
+  display: flex;
+  gap: 12px;
+  padding: 20px 24px;
+  border-top: var(--border-thick);
+  background: var(--cream);
+}
+
+.nb-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  font-weight: 900;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: var(--border);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  cursor: pointer;
+  text-decoration: none;
+  font-family: var(--font-display);
+}
+
+.nb-btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px var(--ink);
+}
+
+.nb-btn:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0px 0px 0px var(--ink);
+}
+
+.nb-btn--edit {
+  background: var(--acid);
+  color: var(--ink);
+  flex: 1;
+}
+
+.nb-btn--delete {
+  background: var(--pink);
+  color: var(--cream);
+  flex: 1;
+}
+
+.nb-btn--submit {
+  background: var(--coral);
+  color: var(--cream);
+  width: 100%;
+  padding: 16px;
+  font-size: 1rem;
+}
+
+.nb-btn--submit:hover { color: var(--cream); }
+
+/* ============================================================
+   SHOW PAGE — REVIEWS
+   ============================================================ */
+
+.nb-reviews-section {
+  padding: 32px 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .nb-reviews-section { padding: 20px; }
+}
+
+.nb-review-form-block {
+  background: var(--white);
+  border: var(--border-xl);
+  box-shadow: var(--shadow-xl);
+  margin-bottom: 40px;
+  overflow: hidden;
+}
+
+.nb-review-form-block__header {
+  background: var(--lavender);
+  border-bottom: var(--border-thick);
+  padding: 18px 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 900;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+  color: var(--cream);
+}
+
+.nb-review-form-block__body {
+  padding: 28px;
+}
+
+/* Star rating override */
+.nb-review-form-block .starability-slot {
+  padding: 12px 0;
+}
+
+.nb-review-form-block textarea.form-control {
+  border: var(--border-thick) !important;
+  border-radius: 0 !important;
+  padding: 14px !important;
+  font-family: var(--font-display);
+  font-size: 1rem !important;
+  background: var(--cream) !important;
+  resize: vertical;
+  box-shadow: inset 4px 4px 0 rgba(0,0,0,0.05) !important;
+}
+
+.nb-review-form-block textarea:focus {
+  outline: none !important;
+  box-shadow: 4px 4px 0 var(--ink) !important;
+  transform: translate(-2px, -2px) !important;
+}
+
+/* Review Cards Grid */
+.nb-reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.nb-review-card {
+  background: var(--white);
+  border: var(--border-thick);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.nb-review-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, var(--coral), var(--lavender));
+}
+
+.nb-review-card:hover {
+  transform: translate(3px, 3px);
+  box-shadow: var(--shadow-sm);
+}
+
+.nb-review-card__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.nb-review-card__author-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nb-review-card__avatar {
+  width: 40px;
+  height: 40px;
+  background: var(--lavender);
+  border: var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 0.85rem;
+  color: var(--cream);
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.nb-review-card__name {
+  font-weight: 800;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.nb-review-card__comment {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: #444;
+  margin-bottom: 14px;
+}
+
+.nb-review-card__stars {
+  display: flex;
+  gap: 3px;
+}
+
+.nb-review-card__stars i {
+  color: var(--yellow);
+  font-size: 0.9rem;
+}
+
+.nb-review-card__stars i.far { color: #ccc; }
+
+.nb-review-card__delete-btn {
+  background: none;
+  border: var(--border);
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  color: var(--coral);
+  box-shadow: 2px 2px 0 var(--ink);
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.nb-review-card__delete-btn:hover {
+  background: var(--coral);
+  color: var(--white);
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--ink);
+}
+
+/* ============================================================
+   FORM PAGES (NEW & EDIT) — MASTER LAYOUT
+   ============================================================ */
+
+.nb-form-page {
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Decorative corner SVG elements */
+.nb-form-page__corner-tl,
+.nb-form-page__corner-br {
+  position: fixed;
+  width: 200px;
+  height: 200px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.15;
+}
+
+.nb-form-page__corner-tl { top: 0; left: 0; }
+.nb-form-page__corner-br { bottom: 0; right: 0; transform: rotate(180deg); }
+
+.nb-form-wrapper {
+  position: relative;
+  z-index: 2;
+  max-width: 820px;
+  margin: 48px auto;
+  padding: 0 20px;
+}
+
+/* ---- Form Container ---- */
+.nb-form-card {
+  background: var(--white);
+  border: var(--border-xl);
+  box-shadow: var(--shadow-xl);
+  overflow: hidden;
+}
+
+/* Form Header Banner */
+.nb-form-card__banner {
+  background: var(--ink);
+  padding: 30px 40px;
+  position: relative;
+  overflow: hidden;
+  border-bottom: var(--border-xl);
+}
+
+.nb-form-card__banner::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 200px;
+  height: 100%;
+  background: var(--coral);
+  clip-path: polygon(30% 0%, 100% 0%, 100% 100%, 0% 100%);
+  opacity: 0.5;
+}
+
+.nb-form-card__banner::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 120px;
+  height: 100%;
+  background: var(--acid);
+  clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 20% 100%);
+  opacity: 0.4;
+}
+
+.nb-form-card__banner-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: var(--coral);
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.nb-form-card__banner-title {
+  font-weight: 900;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  text-transform: uppercase;
+  letter-spacing: -2px;
+  line-height: 1;
+  color: var(--cream);
+  position: relative;
+  z-index: 1;
+}
+
+.nb-form-card__banner-sub {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: rgba(255,253,240,0.6);
+  margin-top: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Form Body */
+.nb-form-card__body {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+@media (max-width: 600px) {
+  .nb-form-card__body { padding: 24px 20px; }
+  .nb-form-card__banner { padding: 22px 24px; }
+}
+
+/* Section Dividers inside forms */
+.nb-form-section-divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-weight: 900;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: rgba(0,0,0,0.4);
+  margin-bottom: -10px;
+}
+
+.nb-form-section-divider::before,
+.nb-form-section-divider::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: var(--ink);
+  opacity: 0.15;
+}
+
+.nb-form-section-divider--accent::before { background: var(--coral); opacity: 0.6; flex: 0 0 40px; }
+.nb-form-section-divider--accent::after { opacity: 0.1; }
+
+/* Individual form groups */
+.nb-form-group { display: flex; flex-direction: column; gap: 8px; }
+.nb-form-group--row { flex-direction: row; gap: 16px; }
+
+@media (max-width: 600px) {
+  .nb-form-group--row { flex-direction: column; }
+}
+
+.nb-form-group--row > * { flex: 1; }
+
+/* Labels */
+.nb-label {
+  font-weight: 900;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nb-label__required {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--coral);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Inputs & Textareas */
+.nb-input,
+.nb-textarea {
+  width: 100%;
+  border: var(--border-thick) !important;
+  border-radius: 0 !important;
+  padding: 14px 16px !important;
+  font-size: 1rem !important;
+  font-family: var(--font-display) !important;
+  font-weight: 500 !important;
+  background: var(--cream) !important;
+  color: var(--ink) !important;
+  box-shadow: inset 3px 3px 0 rgba(0,0,0,0.04) !important;
+  transition: var(--transition) !important;
+  resize: vertical;
+}
+
+.nb-input:focus,
+.nb-textarea:focus {
+  outline: none !important;
+  background: var(--white) !important;
+  box-shadow: 4px 4px 0 var(--ink) !important;
+  transform: translate(-2px, -2px) !important;
+  border-color: var(--ink) !important;
+}
+
+.nb-input::placeholder,
+.nb-textarea::placeholder {
+  color: rgba(0,0,0,0.35);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* File Upload */
+.nb-file-upload {
+  border: 3px dashed var(--ink) !important;
+  border-radius: 0 !important;
+  padding: 20px !important;
+  background: var(--cream) !important;
+  font-family: var(--font-display) !important;
+  font-weight: 600 !important;
+  cursor: pointer;
+  transition: var(--transition) !important;
+}
+
+.nb-file-upload:hover {
+  background: var(--acid) !important;
+  border-style: solid !important;
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+/* Bootstrap validation feedback override */
+.nb-form-group .valid-feedback {
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #00C853;
+}
+
+.nb-form-group .invalid-feedback {
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--coral);
+}
+
+/* ---- Image Preview Block (Edit) ---- */
+.nb-current-image-block {
+  border: var(--border-thick);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.nb-current-image-block__label {
+  background: var(--ink);
+  color: var(--acid);
+  padding: 10px 18px;
+  font-weight: 900;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  border-bottom: var(--border);
+}
+
+.nb-current-image-block img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+/* ============================================================
+   AMENITIES GRID (FORMS)
+   ============================================================ */
+
+.nb-amenity-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 10px;
+  padding: 20px;
+  background: var(--cream);
+  border: var(--border-thick);
+  box-shadow: var(--shadow-md);
+}
+
+.nb-amenity-form-item {
+  position: relative;
+  user-select: none;
+}
+
+.nb-amenity-form-item input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  height: 0;
+  width: 0;
+  pointer-events: none;
+}
+
+.nb-amenity-form-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--white);
+  border: var(--border);
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 var(--ink);
+  transition: var(--transition);
+  min-height: 48px;
+}
+
+.nb-amenity-form-label:hover {
+  background: var(--cream);
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+.nb-amenity-form-label i {
+  font-size: 1rem;
+  width: 20px;
+  text-align: center;
+  color: var(--lavender);
+  flex-shrink: 0;
+  transition: color 0.12s;
+}
+
+.nb-amenity-form-item input[type="checkbox"]:checked + .nb-amenity-form-label {
+  background: var(--lavender);
+  color: var(--cream);
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--ink);
+}
+
+.nb-amenity-form-item input[type="checkbox"]:checked + .nb-amenity-form-label i {
+  color: var(--acid);
+}
+
+/* ============================================================
+   TAGS SELECTOR (FORMS)
+   ============================================================ */
+
+.nb-tags-form-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 20px;
+  background: var(--cream);
+  border: var(--border-thick);
+  box-shadow: var(--shadow-md);
+}
+
+.nb-tag-form-item {
+  position: relative;
+}
+
+.nb-tag-form-item input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  height: 0;
+  width: 0;
+  pointer-events: none;
+}
+
+.nb-tag-form-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  background: var(--white);
+  border: var(--border);
+  font-weight: 800;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 var(--ink);
+  transition: var(--transition);
+}
+
+.nb-tag-form-label:hover {
+  background: var(--yellow);
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+.nb-tag-form-label::before {
+  content: '#';
+  font-weight: 900;
+  color: var(--coral);
+}
+
+.nb-tag-form-item input[type="checkbox"]:checked + .nb-tag-form-label {
+  background: var(--coral);
+  color: var(--cream);
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--ink);
+}
+
+.nb-tag-form-item input[type="checkbox"]:checked + .nb-tag-form-label::before {
+  color: var(--acid);
+}
+
+/* ============================================================
+   FORM FOOTER / SUBMIT AREA
+   ============================================================ */
+
+.nb-form-footer {
+  background: var(--cream);
+  border-top: var(--border-xl);
+  padding: 28px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.nb-form-footer__note {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(0,0,0,0.45);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.nb-form-footer__note strong {
+  color: var(--coral);
+}
+
+/* ============================================================
+   DECORATIVE SVG ELEMENTS
+   ============================================================ */
+
+/* Corner bracket SVG decoration */
+.nb-corner-bracket {
+  display: block;
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  pointer-events: none;
+}
+
+.nb-corner-bracket--tl { top: 12px; left: 12px; }
+.nb-corner-bracket--tr { top: 12px; right: 12px; transform: scaleX(-1); }
+.nb-corner-bracket--bl { bottom: 12px; left: 12px; transform: scaleY(-1); }
+.nb-corner-bracket--br { bottom: 12px; right: 12px; transform: scale(-1); }
+
+/* Floating sticker-style decorations on form pages */
+.nb-form-sticker {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  user-select: none;
+  animation: nb-sticker-float 4s ease-in-out infinite;
+}
+
+@keyframes nb-sticker-float {
+  0%, 100% { transform: translateY(0px) rotate(var(--rot, -5deg)); }
+  50% { transform: translateY(-6px) rotate(calc(var(--rot, -5deg) + 3deg)); }
+}
+
+/* ============================================================
+   ZEBRA NUMBER LABELS (form field count)
+   ============================================================ */
+
+.nb-step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  background: var(--coral);
+  color: var(--cream);
+  border: var(--border);
+  font-weight: 900;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   PAGE-LEVEL: Show container
+   ============================================================ */
+
+.nb-show-page-outer {
+  background-color: var(--cream);
+  background-image: radial-gradient(circle, rgba(0,0,0,0.08) 1.5px, transparent 1.5px);
+  background-size: 28px 28px;
+}
+
+/* ============================================================
+   RESPONSIVE TWEAKS
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .nb-show-hero__img { height: 45vh; }
+  .nb-show-hero__stamp { top: 12px; right: 12px; }
+  .nb-show-hero__stamp-price { font-size: 1.2rem; }
+  .nb-show-layout { padding: 16px; gap: 20px; }
+  .nb-reviews-section { padding: 16px; }
+  .nb-owner-actions { flex-direction: column; }
+  .nb-book-card { position: static; }
+  .nb-amenities-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+
+@media (max-width: 480px) {
+  .nb-form-wrapper { margin: 24px auto; }
+  .nb-amenity-form-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ============================================================
+   SHOW PAGE: No Reviews Notice
+   ============================================================ */
+
+.nb-no-reviews {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 40px;
+  background: var(--cream);
+  border: var(--border-thick);
+  box-shadow: var(--shadow-md);
+  text-align: center;
+}
+
+.nb-no-reviews__icon {
+  font-size: 3rem;
+  filter: grayscale(0.3);
+}
+
+.nb-no-reviews__title {
+  font-weight: 900;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+}
+
+.nb-no-reviews__sub {
+  font-size: 0.85rem;
+  color: rgba(0,0,0,0.5);
+  font-weight: 500;
+}

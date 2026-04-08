@@ -1,94 +1,225 @@
 <% layout("/layouts/boilerplate") %>
 
-<body>
-    <div class="row justify-content-center bg-brutal-stripes py-5">
-        <div class="col-10 col-md-8">
-            <div class="brutal-form-container">
-                <h3 class="mb-4" style="font-weight: 900; font-size: 2.5rem; text-transform: uppercase;">Create a new listing</h3>
-                <form method="POST" action="/listings" class="needs-validation" enctype="multipart/form-data" novalidate>
-                    <div class="mb-4 mt-2">
-                        <label for="title" class="form-label">Title</label>
-                        <input name="listing[title]" placeholder="Enter title" type="text" class="form-control border border-3 border-dark" style="box-shadow: inset 4px 4px 0px rgba(0,0,0,0.05);" required>
-                        <div class="valid-feedback">Looks Good</div>
-                    </div>
+<!-- =================== NEW LISTING PAGE =================== -->
+<div class="nb-form-page nb-bg-stripes">
 
-        <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <textarea name="listing[description]" placeholder="Enter description" class="form-control" required></textarea>
-            <div class="invalid-feedback">A short description please</div>
+  <!-- Decorative floating SVG stickers -->
+  <div class="nb-form-sticker" style="top: 80px; right: 30px; --rot: 8deg;">
+    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="2" y="2" width="60" height="60" fill="#C8FF00" stroke="#0A0A0A" stroke-width="4"/>
+      <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-size="28" font-family="Space Grotesk" font-weight="900" fill="#0A0A0A">✦</text>
+    </svg>
+  </div>
 
-        </div>
+  <div class="nb-form-sticker" style="top: 160px; left: 20px; --rot: -12deg;">
+    <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="28" cy="28" r="26" fill="#FF5722" stroke="#0A0A0A" stroke-width="4"/>
+      <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-size="22" font-family="Space Grotesk" font-weight="900" fill="#FFFDF0">★</text>
+    </svg>
+  </div>
 
-        <div class="mb-3">
-            <label for="image" class="form-label">Upload Image</label>
-            <input name="listing[image]" type="file" class="form-control" required>
-        </div>
-        
-        <div class="row">
-            <div class="mb-3 col-md-4">
-                <label for="price" class="form-label">Price</label>
-            <input name="listing[price]" placeholder="Enter price" class="form-control" required>
-            <div class="invalid-feedback">Enter the valid Price</div>
+  <div class="nb-form-wrapper">
+    <div class="nb-form-card">
 
+      <!-- Banner Header -->
+      <div class="nb-form-card__banner">
+        <div class="nb-form-card__banner-eyebrow">StayZen · New Listing</div>
+        <h1 class="nb-form-card__banner-title">Create a<br>New Listing</h1>
+        <div class="nb-form-card__banner-sub">Fill in the details below to publish your property.</div>
+
+        <!-- Decorative SVG in banner -->
+        <svg style="position:absolute; bottom:0; left:40px; opacity:0.08; z-index:0;" width="140" height="80" viewBox="0 0 140 80" fill="none">
+          <rect x="0" y="40" width="140" height="5" fill="#fff"/>
+          <rect x="40" y="0" width="5" height="80" fill="#fff"/>
+          <rect x="80" y="20" width="5" height="60" fill="#fff"/>
+          <rect x="110" y="10" width="5" height="70" fill="#fff"/>
+        </svg>
+      </div>
+
+      <!-- Form Body -->
+      <form method="POST" action="/listings" class="needs-validation" enctype="multipart/form-data" novalidate>
+        <div class="nb-form-card__body">
+
+          <!-- SECTION: Basic Info -->
+          <div class="nb-form-section-divider nb-form-section-divider--accent">Basic info</div>
+
+          <!-- Title -->
+          <div class="nb-form-group">
+            <label class="nb-label" for="nb-title">
+              <span class="nb-step-number">1</span>
+              Title
+              <span class="nb-label__required"></span>
+            </label>
+            <input
+              id="nb-title"
+              name="listing[title]"
+              type="text"
+              class="nb-input form-control"
+              placeholder="e.g. Cozy mountain retreat with panoramic views"
+              required>
+            <div class="valid-feedback">Looks great!</div>
+            <div class="invalid-feedback">Please enter a title for your listing.</div>
+          </div>
+
+          <!-- Description -->
+          <div class="nb-form-group">
+            <label class="nb-label" for="nb-desc">
+              <span class="nb-step-number">2</span>
+              Description
+              <span class="nb-label__required"></span>
+            </label>
+            <textarea
+              id="nb-desc"
+              name="listing[description]"
+              class="nb-textarea form-control"
+              rows="5"
+              placeholder="Describe your space — what makes it special?"
+              required></textarea>
+            <div class="invalid-feedback">A short description is required.</div>
+          </div>
+
+          <!-- SECTION: Media -->
+          <div class="nb-form-section-divider">Media</div>
+
+          <!-- Image Upload -->
+          <div class="nb-form-group">
+            <label class="nb-label" for="nb-image">
+              <span class="nb-step-number">3</span>
+              Upload image
+              <span class="nb-label__required"></span>
+            </label>
+            <input
+              id="nb-image"
+              name="listing[image]"
+              type="file"
+              class="nb-file-upload form-control"
+              accept="image/*"
+              required>
+          </div>
+
+          <!-- SECTION: Pricing & Location -->
+          <div class="nb-form-section-divider">Pricing &amp; Location</div>
+
+          <div class="nb-form-group nb-form-group--row">
+            <!-- Price -->
+            <div class="nb-form-group">
+              <label class="nb-label" for="nb-price">
+                <span class="nb-step-number">4</span>
+                Price / Night (₹)
+                <span class="nb-label__required"></span>
+              </label>
+              <input
+                id="nb-price"
+                name="listing[price]"
+                type="number"
+                class="nb-input form-control"
+                placeholder="e.g. 4500"
+                min="0"
+                required>
+              <div class="invalid-feedback">Please enter a valid price.</div>
             </div>
-    
-            <div class="mb-3 col-md-8">
-                <label for="Country" class="form-label">Country</label>
-                <input name="listing[country]" placeholder="India" type="text" class="form-control" required>
-            <div class="invalid-feedback">Country name should be valid</div>
 
+            <!-- Country -->
+            <div class="nb-form-group">
+              <label class="nb-label" for="nb-country">
+                <span class="nb-step-number">5</span>
+                Country
+                <span class="nb-label__required"></span>
+              </label>
+              <input
+                id="nb-country"
+                name="listing[country]"
+                type="text"
+                class="nb-input form-control"
+                placeholder="e.g. India"
+                required>
+              <div class="invalid-feedback">Please enter a valid country.</div>
             </div>
-        </div>
+          </div>
 
-        <div class="mb-3">
-            <label for="location" class="form-label">Location</label>
-            <input name="listing[location]" placeholder="Mangalore, Karnataka" type="text" class="form-control" required>
-            <div class="invalid-feedback">Enter your valid location</div>
+          <!-- Location -->
+          <div class="nb-form-group">
+            <label class="nb-label" for="nb-location">
+              <span class="nb-step-number">6</span>
+              Location / City
+              <span class="nb-label__required"></span>
+            </label>
+            <input
+              id="nb-location"
+              name="listing[location]"
+              type="text"
+              class="nb-input form-control"
+              placeholder="e.g. Mangalore, Karnataka"
+              required>
+            <div class="invalid-feedback">Please enter a valid location.</div>
+          </div>
 
-        </div>
+          <!-- SECTION: Amenities -->
+          <div class="nb-form-section-divider">Amenities</div>
 
-    <label class="form-label">Amenities</label>
-
-    <label class="form-label">Amenities</label>
-    <div class="brutal-amenity-grid mb-4">
-        <% 
-        const amenityIcons = {
-            "WiFi": "fa-wifi", "Parking": "fa-car", "Pool": "fa-person-swimming",
-            "Air Conditioning": "fa-snowflake", "Heating": "fa-fire", "Kitchen": "fa-utensils",
-            "Washer": "fa-soap", "Dryer": "fa-wind", "Books & Reading Material": "fa-book",
-            "Gym": "fa-dumbbell", "TV": "fa-tv", "Balcony": "fa-building",
-            "Elevator": "fa-elevator", "Hot Tub": "fa-hot-tub-person", "BBQ Grill": "fa-stroopwafel",
-            "Fireplace": "fa-fire-burner", "Outdoor Seating": "fa-chair", "Sound System": "fa-volume-high",
-            "Workspace": "fa-briefcase", "Pet Friendly": "fa-paw", "Smoking Allowed": "fa-icicles",
-            "Security Cameras": "fa-video", "Breakfast Included": "fa-bread-slice", "Private Entrance": "fa-door-open",
-            "Wheelchair Accessible": "fa-wheelchair", "First Aid Kit": "fa-kit-medical", "Game Console": "fa-gamepad"
-        };
-        Object.entries(amenityIcons).forEach(([name, icon], i) => { %>
-            <div class="amenity-item">
-                <input type="checkbox" name="listing[amenities][]" value="<%= name %>" id="amenity-<%= i %>">
-                <label class="amenity-label" for="amenity-<%= i %>">
+          <div class="nb-form-group">
+            <label class="nb-label">
+              <span class="nb-step-number">7</span>
+              What does your place offer?
+            </label>
+            <div class="nb-amenity-form-grid">
+              <%
+              const amenityIcons = {
+                "WiFi": "fa-wifi", "Parking": "fa-car", "Pool": "fa-person-swimming",
+                "Air Conditioning": "fa-snowflake", "Heating": "fa-fire", "Kitchen": "fa-utensils",
+                "Washer": "fa-soap", "Dryer": "fa-wind", "Books & Reading Material": "fa-book",
+                "Gym": "fa-dumbbell", "TV": "fa-tv", "Balcony": "fa-building",
+                "Elevator": "fa-elevator", "Hot Tub": "fa-hot-tub-person", "BBQ Grill": "fa-stroopwafel",
+                "Fireplace": "fa-fire-burner", "Outdoor Seating": "fa-chair", "Sound System": "fa-volume-high",
+                "Workspace": "fa-briefcase", "Pet Friendly": "fa-paw", "Smoking Allowed": "fa-icicles",
+                "Security Cameras": "fa-video", "Breakfast Included": "fa-bread-slice", "Private Entrance": "fa-door-open",
+                "Wheelchair Accessible": "fa-wheelchair", "First Aid Kit": "fa-kit-medical", "Game Console": "fa-gamepad"
+              };
+              Object.entries(amenityIcons).forEach(([name, icon], i) => { %>
+                <div class="nb-amenity-form-item">
+                  <input type="checkbox" name="listing[amenities][]" value="<%= name %>" id="amenity-<%= i %>">
+                  <label class="nb-amenity-form-label" for="amenity-<%= i %>">
                     <i class="fa-solid <%= icon %>"></i> <%= name %>
-                </label>
+                  </label>
+                </div>
+              <% }) %>
             </div>
-        <% }) %>
-    </div>
+          </div>
 
-        <div class="mb-4">
-    <label class="form-label">Select Tags</label>
-    <div class="d-flex flex-wrap gap-2">
-        <% const tags = ["Trending", "Rooms", "Iconic Cities", "Mountains", "Castles", "Amazing Pools", "Campings", "Farms", "Arctic", "Domes"]; %>
-        <% tags.forEach(tag => { %>
-            <input type="checkbox" class="btn-check" name="listing[tags][]" value="<%= tag %>" id="<%= tag.replace(/\s+/g, '-') %>" autocomplete="off">
-            <label class="btn " for="<%= tag.replace(/\s+/g, '-') %>"><%= tag %></label>
-        <% }) %>
-    </div>
-</div>
+          <!-- SECTION: Tags -->
+          <div class="nb-form-section-divider">Tags</div>
 
+          <div class="nb-form-group">
+            <label class="nb-label">
+              <span class="nb-step-number">8</span>
+              Select tags that fit your place
+            </label>
+            <div class="nb-tags-form-group">
+              <% const tags = ["Trending", "Rooms", "Iconic Cities", "Mountains", "Castles", "Amazing Pools", "Campings", "Farms", "Arctic", "Domes"]; %>
+              <% tags.forEach(tag => { %>
+                <div class="nb-tag-form-item">
+                  <input type="checkbox" name="listing[tags][]" value="<%= tag %>" id="<%= tag.replace(/\s+/g, '-') %>" autocomplete="off">
+                  <label class="nb-tag-form-label" for="<%= tag.replace(/\s+/g, '-') %>"><%= tag %></label>
+                </div>
+              <% }) %>
+            </div>
+          </div>
 
-            <button class="gradient-edit-btn ms-2 mt-3" type="submit">Publish Raw Listing</button>
-            <br><br>
-        </form>
-        </div> <!-- brutal-form-container -->
-        </div> <!-- col -->
-    </div> <!-- row -->
-</body>
+        </div><!-- /nb-form-card__body -->
+
+        <!-- Form Footer -->
+        <div class="nb-form-footer">
+          <span class="nb-form-footer__note">
+            <strong>*</strong> Required fields
+          </span>
+          <button class="nb-btn nb-btn--submit" type="submit" style="width:auto; padding: 14px 40px;">
+            <i class="fa-solid fa-rocket me-2"></i>
+            Publish Listing
+          </button>
+        </div>
+
+      </form>
+    </div><!-- /nb-form-card -->
+  </div><!-- /nb-form-wrapper -->
+
+</div><!-- /nb-form-page -->

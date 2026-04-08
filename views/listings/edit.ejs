@@ -1,99 +1,238 @@
-    <% layout("/layouts/boilerplate") %>
+<% layout("/layouts/boilerplate") %>
 
-    <body>
-        <div class="row justify-content-center bg-brutal-dots py-5">
-        <div class="col-10 col-md-8">
-        <div class="brutal-form-container">
-        <h3 class="mb-4" style="font-weight: 900; font-size: 2.5rem; text-transform: uppercase;">Edit your Listing</h3>
-        <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" class="needs-validation" enctype="multipart/form-data" novalidate>
-        <div class="mb-4">
-            <label for="title" class="form-label">Title</label>
-            <input name="listing[title]" value="<%= listing.title %>" type="text" class="form-control border border-3 border-dark" style="box-shadow: inset 4px 4px 0px rgba(0,0,0,0.05);" required>
-            <div class="valid-feedback">Looks Good</div>
-        </div>
+<!-- =================== EDIT LISTING PAGE =================== -->
+<div class="nb-form-page nb-bg-dots">
 
-        <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <textarea name="listing[description]" class="form-control" required><%= listing.description %></textarea>
-            <div class="invalid-feedback">A short description please</div>
-        </div>
-
-        <div class="mb-3">
-            <p>Original Listing Image</p> <br>
-            <img src="<%= originalImageUrl %>" alt="">
-        </div>
-        <div class="mb-3">
-            <label for="image" class="form-label">New Image Upload</label>
-            <input name="listing[image]" type="file"   class="form-control"><br>
-        </div>
-
-        <div class="row">
-            <div class="mb-3 col-md-4">
-                <label for="price" class="form-label">Price</label>
-                <input name="listing[price]" value="<%= listing.price %>"  type="number" class="form-control" required>
-                <div class="invalid-feedback">Enter the valid Price</div>
-            </div>
-        
-            <div class="mb-3 col-md-8">
-                <label for="Country" class="form-label">Country</label>
-                <input name="listing[country]" value="<%= listing.country %>"  type="text" class="form-control" required>
-                <div class="invalid-feedback">Country name should be valid</div>
-            </div>
-        </div>
-
-        <div class="mb-3">
-            <label for="location" class="form-label">Location</label>
-            <input name="listing[location]" value="<%= listing.location %>"  type="text" class="form-control" required>
-            <div class="invalid-feedback">Enter your valid location</div>
-        </div>
-
-        <div class="mb-3">
-    <label class="form-label">Amenities</label>
-    <div class="brutal-amenity-grid mb-4">
-        <% 
-        const amenityIcons = {
-            "WiFi": "fa-wifi", "Parking": "fa-car", "Pool": "fa-person-swimming",
-            "Air Conditioning": "fa-snowflake", "Heating": "fa-fire", "Kitchen": "fa-utensils",
-            "Washer": "fa-soap", "Dryer": "fa-wind", "Books & Reading Material": "fa-book",
-            "Gym": "fa-dumbbell", "TV": "fa-tv", "Balcony": "fa-building",
-            "Elevator": "fa-elevator", "Hot Tub": "fa-hot-tub-person", "BBQ Grill": "fa-stroopwafel",
-            "Fireplace": "fa-fire-burner", "Outdoor Seating": "fa-chair", "Sound System": "fa-volume-high",
-            "Workspace": "fa-briefcase", "Pet Friendly": "fa-paw", "Smoking Allowed": "fa-icicles",
-            "Security Cameras": "fa-video", "Breakfast Included": "fa-bread-slice", "Private Entrance": "fa-door-open",
-            "Wheelchair Accessible": "fa-wheelchair", "First Aid Kit": "fa-kit-medical", "Game Console": "fa-gamepad"
-        };
-        Object.entries(amenityIcons).forEach(([name, icon], i) => { 
-            const isChecked = listing.amenities && listing.amenities.includes(name);
-        %>
-            <div class="amenity-item">
-                <input type="checkbox" name="listing[amenities][]" value="<%= name %>" id="amenity-<%= i %>" <%= isChecked ? 'checked' : '' %>>
-                <label class="amenity-label" for="amenity-<%= i %>">
-                    <i class="fa-solid <%= icon %>"></i> <%= name %>
-                </label>
-            </div>
-        <% }) %>
-    </div>
-
-    </div>
-    <div class="mb-3">
-  <label class="form-label">Tags</label>
-  <div class="d-flex flex-wrap gap-2">
-    <% 
-    const allTags = ["Trending","Rooms","Iconic Cities","Mountains","Castles","Amazing Pools","Campings","Farms","Arctic","Domes"];
-    allTags.forEach((tag, i) => {
-      const isSelected = listing.tags && listing.tags.includes(tag);
-    %>
-      <input type="checkbox" class="btn-check" name="listing[tags][]" value="<%= tag %>" id="tag-<%= i %>" autocomplete="off" <%= isSelected ? 'checked' : '' %> >
-      <label class="btn btn-outline-dark" for="tag-<%= i %>"><%= tag %></label>
-    <% }); %>
+  <!-- Decorative stickers -->
+  <div class="nb-form-sticker" style="top: 100px; right: 25px; --rot: 6deg;">
+    <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="2" y="2" width="56" height="56" fill="#7E78FF" stroke="#0A0A0A" stroke-width="4"/>
+      <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-size="26" font-family="Space Grotesk" font-weight="900" fill="#FFFDF0">✎</text>
+    </svg>
   </div>
-</div>
 
-            <button class="gradient-edit-btn me-2 mt-3">Update Raw Listing</button>
-            <br><br><br>
-        </form>
-        </div><!-- container -->
-        </div><!-- col -->
-        </div><!-- row -->
-    <script src="/js/script.js"></script>
-    </body>
+  <div class="nb-form-sticker" style="top: 200px; left: 18px; --rot: -10deg;">
+    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="26,2 50,50 2,50" fill="#FFE500" stroke="#0A0A0A" stroke-width="4"/>
+    </svg>
+  </div>
+
+  <div class="nb-form-wrapper">
+    <div class="nb-form-card">
+
+      <!-- Banner Header -->
+      <div class="nb-form-card__banner" style="background: #1a0a3e;">
+        <div class="nb-form-card__banner-eyebrow" style="color: #C8FF00;">StayZen · Edit Mode</div>
+        <h1 class="nb-form-card__banner-title">Edit Your<br>Listing</h1>
+        <div class="nb-form-card__banner-sub">Update details for — <%= listing.title %></div>
+
+        <!-- Decorative crosshatch SVG in banner -->
+        <svg style="position:absolute; top:0; right:60px; opacity:0.07; z-index:0; pointer-events:none;" width="120" height="120" viewBox="0 0 120 120" fill="none">
+          <line x1="0" y1="0" x2="120" y2="120" stroke="white" stroke-width="3"/>
+          <line x1="30" y1="0" x2="120" y2="90" stroke="white" stroke-width="3"/>
+          <line x1="60" y1="0" x2="120" y2="60" stroke="white" stroke-width="3"/>
+          <line x1="90" y1="0" x2="120" y2="30" stroke="white" stroke-width="3"/>
+          <line x1="0" y1="30" x2="90" y2="120" stroke="white" stroke-width="3"/>
+          <line x1="0" y1="60" x2="60" y2="120" stroke="white" stroke-width="3"/>
+          <line x1="0" y1="90" x2="30" y2="120" stroke="white" stroke-width="3"/>
+        </svg>
+      </div>
+
+      <!-- Form -->
+      <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" class="needs-validation" enctype="multipart/form-data" novalidate>
+        <div class="nb-form-card__body">
+
+          <!-- SECTION: Basic Info -->
+          <div class="nb-form-section-divider nb-form-section-divider--accent">Basic Info</div>
+
+          <!-- Title -->
+          <div class="nb-form-group">
+            <label class="nb-label" for="nb-edit-title">
+              <span class="nb-step-number" style="background: #7E78FF;">1</span>
+              Title
+              <span class="nb-label__required"></span>
+            </label>
+            <input
+              id="nb-edit-title"
+              name="listing[title]"
+              value="<%= listing.title %>"
+              type="text"
+              class="nb-input form-control"
+              placeholder="Enter listing title"
+              required>
+            <div class="valid-feedback">Looks great!</div>
+          </div>
+
+          <!-- Description -->
+          <div class="nb-form-group">
+            <label class="nb-label" for="nb-edit-desc">
+              <span class="nb-step-number" style="background: #7E78FF;">2</span>
+              Description
+              <span class="nb-label__required"></span>
+            </label>
+            <textarea
+              id="nb-edit-desc"
+              name="listing[description]"
+              class="nb-textarea form-control"
+              rows="5"
+              required><%= listing.description %></textarea>
+            <div class="invalid-feedback">A short description is required.</div>
+          </div>
+
+          <!-- SECTION: Media -->
+          <div class="nb-form-section-divider">Media</div>
+
+          <!-- Current Image Preview -->
+          <div class="nb-current-image-block">
+            <div class="nb-current-image-block__label">Current Listing Image</div>
+            <img src="<%= originalImageUrl %>" alt="current listing image">
+          </div>
+
+          <!-- New Image Upload -->
+          <div class="nb-form-group">
+            <label class="nb-label" for="nb-edit-image">
+              <span class="nb-step-number" style="background: #7E78FF;">3</span>
+              Replace Image (optional)
+            </label>
+            <input
+              id="nb-edit-image"
+              name="listing[image]"
+              type="file"
+              class="nb-file-upload form-control"
+              accept="image/*">
+          </div>
+
+          <!-- SECTION: Pricing & Location -->
+          <div class="nb-form-section-divider">Pricing &amp; Location</div>
+
+          <div class="nb-form-group nb-form-group--row">
+            <!-- Price -->
+            <div class="nb-form-group">
+              <label class="nb-label" for="nb-edit-price">
+                <span class="nb-step-number" style="background: #7E78FF;">4</span>
+                Price / Night (₹)
+                <span class="nb-label__required"></span>
+              </label>
+              <input
+                id="nb-edit-price"
+                name="listing[price]"
+                value="<%= listing.price %>"
+                type="number"
+                class="nb-input form-control"
+                min="0"
+                required>
+              <div class="invalid-feedback">Enter a valid price.</div>
+            </div>
+
+            <!-- Country -->
+            <div class="nb-form-group">
+              <label class="nb-label" for="nb-edit-country">
+                <span class="nb-step-number" style="background: #7E78FF;">5</span>
+                Country
+                <span class="nb-label__required"></span>
+              </label>
+              <input
+                id="nb-edit-country"
+                name="listing[country]"
+                value="<%= listing.country %>"
+                type="text"
+                class="nb-input form-control"
+                required>
+              <div class="invalid-feedback">Country name should be valid.</div>
+            </div>
+          </div>
+
+          <!-- Location -->
+          <div class="nb-form-group">
+            <label class="nb-label" for="nb-edit-location">
+              <span class="nb-step-number" style="background: #7E78FF;">6</span>
+              Location / City
+              <span class="nb-label__required"></span>
+            </label>
+            <input
+              id="nb-edit-location"
+              name="listing[location]"
+              value="<%= listing.location %>"
+              type="text"
+              class="nb-input form-control"
+              required>
+            <div class="invalid-feedback">Enter your valid location.</div>
+          </div>
+
+          <!-- SECTION: Amenities -->
+          <div class="nb-form-section-divider">Amenities</div>
+
+          <div class="nb-form-group">
+            <label class="nb-label">
+              <span class="nb-step-number" style="background: #7E78FF;">7</span>
+              Update amenities
+            </label>
+            <div class="nb-amenity-form-grid">
+              <%
+              const amenityIcons = {
+                "WiFi": "fa-wifi", "Parking": "fa-car", "Pool": "fa-person-swimming",
+                "Air Conditioning": "fa-snowflake", "Heating": "fa-fire", "Kitchen": "fa-utensils",
+                "Washer": "fa-soap", "Dryer": "fa-wind", "Books & Reading Material": "fa-book",
+                "Gym": "fa-dumbbell", "TV": "fa-tv", "Balcony": "fa-building",
+                "Elevator": "fa-elevator", "Hot Tub": "fa-hot-tub-person", "BBQ Grill": "fa-stroopwafel",
+                "Fireplace": "fa-fire-burner", "Outdoor Seating": "fa-chair", "Sound System": "fa-volume-high",
+                "Workspace": "fa-briefcase", "Pet Friendly": "fa-paw", "Smoking Allowed": "fa-icicles",
+                "Security Cameras": "fa-video", "Breakfast Included": "fa-bread-slice", "Private Entrance": "fa-door-open",
+                "Wheelchair Accessible": "fa-wheelchair", "First Aid Kit": "fa-kit-medical", "Game Console": "fa-gamepad"
+              };
+              Object.entries(amenityIcons).forEach(([name, icon], i) => {
+                const isChecked = listing.amenities && listing.amenities.includes(name);
+              %>
+                <div class="nb-amenity-form-item">
+                  <input type="checkbox" name="listing[amenities][]" value="<%= name %>" id="amenity-<%= i %>" <%= isChecked ? 'checked' : '' %>>
+                  <label class="nb-amenity-form-label" for="amenity-<%= i %>">
+                    <i class="fa-solid <%= icon %>"></i> <%= name %>
+                  </label>
+                </div>
+              <% }) %>
+            </div>
+          </div>
+
+          <!-- SECTION: Tags -->
+          <div class="nb-form-section-divider">Tags</div>
+
+          <div class="nb-form-group">
+            <label class="nb-label">
+              <span class="nb-step-number" style="background: #7E78FF;">8</span>
+              Update tags
+            </label>
+            <div class="nb-tags-form-group">
+              <%
+              const allTags = ["Trending","Rooms","Iconic Cities","Mountains","Castles","Amazing Pools","Campings","Farms","Arctic","Domes"];
+              allTags.forEach((tag, i) => {
+                const isSelected = listing.tags && listing.tags.includes(tag);
+              %>
+                <div class="nb-tag-form-item">
+                  <input type="checkbox" name="listing[tags][]" value="<%= tag %>" id="tag-<%= i %>" autocomplete="off" <%= isSelected ? 'checked' : '' %>>
+                  <label class="nb-tag-form-label" for="tag-<%= i %>"><%= tag %></label>
+                </div>
+              <% }); %>
+            </div>
+          </div>
+
+        </div><!-- /nb-form-card__body -->
+
+        <!-- Form Footer -->
+        <div class="nb-form-footer">
+          <a href="/listings/<%= listing._id %>" class="nb-btn" style="background:#fff; color:var(--ink);">
+            <i class="fa-solid fa-arrow-left me-2"></i>
+            Cancel
+          </a>
+          <button class="nb-btn nb-btn--submit" type="submit" style="width:auto; padding: 14px 40px; background: #7E78FF;">
+            <i class="fa-solid fa-floppy-disk me-2"></i>
+            Save Changes
+          </button>
+        </div>
+
+      </form>
+    </div><!-- /nb-form-card -->
+  </div><!-- /nb-form-wrapper -->
+
+</div><!-- /nb-form-page -->
+
+<script src="/js/script.js"></script>
