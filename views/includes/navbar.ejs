@@ -1,54 +1,54 @@
-<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
-  <div class="container-fluid position-relative">
-    <!-- Brand -->
-    <a class="navbar-brand" href="/listings">
-      <i class="fa-brands fa-fort-awesome-alt fa-xl" style="color: #8073E8;"></i>
+<!-- Ticker Top Bar -->
+<div class="nb-nav-ticker">
+  <div class="ticker-content">
+    <span class="ticker-item">Explore Raw Escapes</span>
+    <span class="ticker-item">Premium Brutalist Comfort</span>
+    <span class="ticker-item">Unapologetic Spaces</span>
+    <span class="ticker-item">StayZen: Book Your Next Adventure</span>
+    <span class="ticker-item">✦ Limited Openings for 2026</span>
+    <span class="ticker-item">✦ Explore Raw Escapes</span>
+    <span class="ticker-item">✦ Premium Brutalist Comfort</span>
+    <span class="ticker-item">✦ Unapologetic Spaces</span>
+    <span class="ticker-item">✦ StayZen: Book Your Next Adventure</span>
+    <span class="ticker-item">✦ Limited Openings for 2026</span>
+  </div>
+</div>
+
+<!-- Main Navbar -->
+<nav class="nb-navbar d-flex align-items-center justify-content-between flex-wrap">
+  <!-- Brand -->
+  <a class="navbar-brand text-decoration-none" href="/listings">
+    <i class="fa-brands fa-fort-awesome-alt fa-2xl" style="color:var(--nb-pink);"></i>
+    <span>STAYZEN</span>
+  </a>
+
+  <!-- Power Search -->
+  <div class="nb-search-container">
+    <form class="nb-search-bar" action="/listings" method="GET">
+      <input class="nb-search-input" name="search" type="search" placeholder="Where do you want to be?" aria-label="Search" />
+      <button class="nb-search-btn" type="submit">
+        <i class="fa-solid fa-magnifying-glass me-2"></i> Search
+      </button>
+    </form>
+  </div>
+
+  <!-- Actions -->
+  <div class="d-flex align-items-center gap-2">
+    <a href="/listings/new" class="nb-nav-link nb-nav-link--purple">
+      <i class="fa-solid fa-plus"></i> New
     </a>
-
-    <!-- Toggle Button -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <!-- Collapsible Content -->
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <!-- Left Nav -->
-      <div class="navbar-nav ms-md-auto d-flex align-items-center">
-        <a class="nav-link btn-nav-pill d-flex align-items-center m-1" href="/listings">
-          <i class="fa-solid fa-compass me-1"></i> <span>Explore</span>
-        </a>
-      </div>
-
-      <!-- Search Bar -->
-      <div class="navbar-search d-flex ms-md-auto me-md-3 align-items-center justify-content-center w-100 my-2 my-md-0">
-        <form class="d-flex w-100 justify-content-center" role="search" style="max-width: 300px;">
-          <input class="form-control me-2" id="search-input" type="search" placeholder="Search destinations" />
-          <button class="btn btn-search d-flex align-items-center px-3 py-1" type="submit">
-            <i class="fa-solid fa-magnifying-glass me-1 small"></i>
-            <span class="small">Search</span>
-          </button>
-        </form>
-      </div>
-
-      <!-- Right Nav -->
-      <div class="navbar-nav ms-md-auto d-flex align-items-center">
-        <a class="nav-link btn-nav-pill d-flex align-items-center m-1" href="/listings/new">
-          <i class="fa-solid fa-plus me-1"></i> <span>Create</span>
-        </a>
-        <% if (!currUser) { %>
-            <a class="nav-link btn-auth-primary d-flex align-items-center m-1 ms-4" href="/signup">
-              <i class="fa-solid fa-user-plus me-1"></i> <span>Sign Up</span>
-            </a>
-            <a class="nav-link btn-auth-secondary d-flex align-items-center " href="/login">
-              <i class="fa-solid fa-right-to-bracket me-1"></i> <span>Log In</span>
-            </a>
-          <% } else { %>
-            <a class="nav-link btn-auth-secondary d-flex align-items-center m-1 ms-2" href="/logout">
-              <i class="fa-solid fa-right-from-bracket me-1"></i> <span>Logout</span>
-            </a>
-        <% } %>
-
-      </div>
-    </div>
+    
+    <% if (!currUser) { %>
+      <a href="/signup" class="nb-nav-link nb-nav-link--pink">
+        <i class="fa-solid fa-user-plus"></i> Sign Up
+      </a>
+      <a href="/login" class="nb-nav-link nb-nav-link--coral">
+        <i class="fa-solid fa-right-to-bracket"></i> Login
+      </a>
+    <% } else { %>
+      <a href="/logout" class="nb-nav-link nb-nav-link--coral">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+      </a>
+    <% } %>
   </div>
 </nav>
