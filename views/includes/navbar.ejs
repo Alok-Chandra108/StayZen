@@ -1,54 +1,91 @@
-<!-- Ticker Top Bar -->
-<div class="nb-nav-ticker">
+<!-- ============================================================
+     STAYZEN NAVBAR — NEU-BRUTALISM × AWWWARDS
+     ============================================================ -->
+
+<!-- Top Ticker Announcement Bar -->
+<div class="nb-nav-ticker" aria-hidden="true">
   <div class="ticker-content">
     <span class="ticker-item">Explore Raw Escapes</span>
     <span class="ticker-item">Premium Brutalist Comfort</span>
     <span class="ticker-item">Unapologetic Spaces</span>
     <span class="ticker-item">StayZen: Book Your Next Adventure</span>
     <span class="ticker-item">✦ Limited Openings for 2026</span>
-    <span class="ticker-item">✦ Explore Raw Escapes</span>
-    <span class="ticker-item">✦ Premium Brutalist Comfort</span>
-    <span class="ticker-item">✦ Unapologetic Spaces</span>
-    <span class="ticker-item">✦ StayZen: Book Your Next Adventure</span>
+    <span class="ticker-item">Explore Raw Escapes</span>
+    <span class="ticker-item">Premium Brutalist Comfort</span>
+    <span class="ticker-item">Unapologetic Spaces</span>
+    <span class="ticker-item">StayZen: Book Your Next Adventure</span>
     <span class="ticker-item">✦ Limited Openings for 2026</span>
   </div>
 </div>
 
 <!-- Main Navbar -->
-<nav class="nb-navbar d-flex align-items-center justify-content-between flex-wrap">
+<nav class="nb-navbar" role="navigation" aria-label="Main navigation">
+
   <!-- Brand -->
-  <a class="navbar-brand text-decoration-none" href="/listings">
-    <i class="fa-brands fa-fort-awesome-alt fa-2xl" style="color:var(--nb-pink);"></i>
+  <a class="navbar-brand" href="/listings" aria-label="StayZen home">
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="1" y="1" width="30" height="30" fill="#C8FF00" stroke="#0A0A0A" stroke-width="2.5"/>
+      <path d="M6 26 L16 8 L26 26" stroke="#0A0A0A" stroke-width="3" fill="none" stroke-linejoin="miter"/>
+      <line x1="10" y1="20" x2="22" y2="20" stroke="#0A0A0A" stroke-width="3"/>
+    </svg>
     <span>STAYZEN</span>
   </a>
 
-  <!-- Power Search -->
+  <!-- Search -->
   <div class="nb-search-container">
-    <form class="nb-search-bar" action="/listings" method="GET">
-      <input class="nb-search-input" name="search" type="search" placeholder="Where do you want to be?" aria-label="Search" />
-      <button class="nb-search-btn" type="submit">
-        <i class="fa-solid fa-magnifying-glass me-2"></i> Search
+    <form class="nb-search-bar" action="/listings" method="GET" role="search">
+      <input
+        class="nb-search-input"
+        name="search"
+        type="search"
+        placeholder="Where do you want to be?"
+        aria-label="Search listings"
+        autocomplete="off"
+      />
+      <button class="nb-search-btn" type="submit" aria-label="Submit search">
+        <i class="fa-solid fa-magnifying-glass me-1" aria-hidden="true"></i> Search
       </button>
     </form>
   </div>
 
   <!-- Actions -->
-  <div class="d-flex align-items-center gap-2">
-    <a href="/listings/new" class="nb-nav-link nb-nav-link--purple">
-      <i class="fa-solid fa-plus"></i> New
+  <div class="d-flex align-items-center gap-2 flex-shrink-0">
+    <a href="/listings/new" class="nb-nav-link nb-nav-link--purple" id="nav-new-listing">
+      <i class="fa-solid fa-plus" aria-hidden="true"></i> New
     </a>
-    
+
     <% if (!currUser) { %>
-      <a href="/signup" class="nb-nav-link nb-nav-link--pink">
-        <i class="fa-solid fa-user-plus"></i> Sign Up
+      <a href="/signup" class="nb-nav-link nb-nav-link--pink" id="nav-signup">
+        <i class="fa-solid fa-user-plus" aria-hidden="true"></i> Sign Up
       </a>
-      <a href="/login" class="nb-nav-link nb-nav-link--coral">
-        <i class="fa-solid fa-right-to-bracket"></i> Login
+      <a href="/login" class="nb-nav-link nb-nav-link--coral" id="nav-login">
+        <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i> Login
       </a>
     <% } else { %>
-      <a href="/logout" class="nb-nav-link nb-nav-link--coral">
-        <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+      <span class="nb-nav-user">
+        <i class="fa-solid fa-circle-user" aria-hidden="true"></i>
+        <%= currUser.username %>
+      </span>
+      <a href="/logout" class="nb-nav-link nb-nav-link--coral" id="nav-logout">
+        <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i> Logout
       </a>
     <% } %>
   </div>
+
 </nav>
+
+<style>
+.nb-nav-user {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.5rem 1rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--cream);
+  border: 2px solid rgba(245,240,232,0.3);
+  background: rgba(245,240,232,0.08);
+}
+</style>

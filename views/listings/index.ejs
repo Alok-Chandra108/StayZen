@@ -1,145 +1,753 @@
-<% layout("/layouts/boilerplate") -%> 
+<% layout("/layouts/boilerplate") -%>
 
-<!-- Neo-Brutalism Hero Landing Banner -->
-<div class="container-fluid px-0 position-relative overflow-hidden">
-  <div class="neobrutal-hero mb-4 d-flex flex-column align-items-center justify-content-center text-center position-relative" style="
-      background: #7E78FF; /* Brutalist Purple */
-      border-bottom: 4px solid #000; 
-      padding: 8rem 2rem; 
-      min-height: 60vh;">
-      
-      <!-- Masterpiece Brutalist Architecture SVG Composition -->
-      <svg class="position-absolute d-none d-md-block" style="bottom: -5%; right: 5%; width: 450px; height: 450px; opacity: 0.95; z-index: 1; pointer-events: none; transform: rotate(-2deg);" viewBox="0 0 500 500">
-          <defs>
-              <pattern id="brutalist-halftone" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-                  <circle cx="10" cy="10" r="4" fill="#000"/>
-              </pattern>
-          </defs>
-          <!-- Halftone Offset Shadow Box -->
-          <rect x="40" y="70" width="200" height="200" fill="#000" />
-          <rect x="20" y="50" width="200" height="200" fill="url(#brutalist-halftone)" stroke="#000" stroke-width="8"/>
-          
-          <!-- Abstract Brutal Sun -->
-          <circle cx="120" cy="150" r="90" fill="#FF5722" stroke="#000" stroke-width="8" />
-          
-          <!-- Drop Shadow for Hotel -->
-          <rect x="280" y="210" width="160" height="260" fill="#000" />
-          
-          <!-- Brutalist Hotel Main Building -->
-          <rect x="250" y="180" width="160" height="260" fill="#FFFDF0" stroke="#000" stroke-width="8" />
-          
-          <!-- Hotel Entrance/Signage -->
-          <rect x="280" y="130" width="100" height="50" fill="#C0FF00" stroke="#000" stroke-width="8" />
-          <text x="330" y="165" font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="28" fill="#000" text-anchor="middle">STAY.</text>
+<!-- ================================================================
+     STAYZEN — INDEX PAGE / NEU-BRUTALISM × AWWWARDS
+     ================================================================ -->
 
-          <!-- Hotel Windows (Geometric Grid) -->
-          <rect x="270" y="210" width="40" height="40" fill="#7E78FF" stroke="#000" stroke-width="6"/>
-          <rect x="340" y="210" width="40" height="40" fill="#FFB6C1" stroke="#000" stroke-width="6"/>
-          
-          <rect x="270" y="280" width="40" height="40" fill="#FFDF00" stroke="#000" stroke-width="6"/>
-          <rect x="340" y="280" width="40" height="40" fill="#FFF" stroke="#000" stroke-width="6"/>
-          
-          <rect x="270" y="350" width="40" height="40" fill="#000" stroke="#000" stroke-width="6"/>
-          <rect x="340" y="350" width="40" height="40" fill="#FFF" stroke="#000" stroke-width="6"/>
-          
-          <!-- Geometric ZigZag Element -->
-          <path d="M 0 450 L 50 380 L 100 450 L 150 380 L 200 450" fill="none" stroke="#FFDF00" stroke-width="14" stroke-linejoin="miter" stroke-linecap="square"/>
-          <path d="M -10 440 L 40 370 L 90 440 L 140 370 L 190 440" fill="none" stroke="#000" stroke-width="14" stroke-linejoin="miter" stroke-linecap="square" style="mix-blend-mode: multiply; opacity: 0.3;"/>
-          
-          <!-- Floating Triangle -->
-          <polygon points="400,40 460,140 340,140" fill="#FFB6C1" stroke="#000" stroke-width="8" />
-      </svg>
-      
-      <!-- Supplementary Floating SVGs on left -->
-      <svg class="position-absolute d-none d-lg-block spin-svg" style="top: 10%; left: 5%; width: 120px; height: 120px; z-index: 1; pointer-events: none;" viewBox="0 0 100 100">
-         <polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#7E78FF" stroke="#000" stroke-width="4" />
-      </svg>
+<!-- ── HERO SECTION ── -->
+<section class="sz-hero" aria-label="Hero banner">
 
-      <!-- Local Hero Stickers -->
-      <div class="sticker-canvas" data-count="6"></div>
+  <!-- SVG Grid Background -->
+  <svg class="sz-hero__grid" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <pattern id="hz-grid" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+        <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(10,10,10,0.07)" stroke-width="1.5"/>
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#hz-grid)"/>
+  </svg>
 
-      <div style="z-index: 2; position: relative;">
-          <h1 class="hero-gsap-text" style="font-weight: 900; font-size: 5rem; letter-spacing: -3px; text-transform: uppercase; color: #FFFDF0; text-shadow: 6px 6px 0px #000; line-height: 1.1;">Find Your Raw Escape</h1>
-          <p style="font-weight: 600; font-size: 1.4rem; max-width: 600px; margin: 2rem auto; color: #fff; background: #000; padding: 1rem; border: 3px solid #000; box-shadow: 6px 6px 0px #FFDF00;">Experience untamed stays, brutal comfort, and unapologetic spaces. Book your next journey with StayZen.</p>
-          <a href="#listing-container" class="gradient-edit-btn mt-2" style="font-size: 1.2rem !important; padding: 1rem 3rem !important; background: #C0FF00 !important; color: #000 !important; border-radius: 0;">Explore Listings</a>
+  <!-- Sticker canvas -->
+  <div class="sticker-canvas" data-count="5" aria-hidden="true"></div>
+
+  <!-- Left — text block -->
+  <div class="sz-hero__left">
+
+    <!-- Eyebrow label -->
+    <div class="sz-hero__eyebrow">
+      <span class="sz-hero__eyebrow-dot"></span>
+      STAYZEN — Your Unapologetic Escape
+    </div>
+
+    <!-- Main headline -->
+    <h1 class="sz-hero__heading hero-gsap-text">
+      Find<br>Raw<br>Escapes.
+    </h1>
+
+    <!-- Sub copy -->
+    <p class="sz-hero__sub">
+      Untamed stays. Brutal comfort. Unapologetic spaces. &mdash; Curated for the bold traveller.
+    </p>
+
+    <!-- CTA row -->
+    <div class="sz-hero__ctas">
+      <a href="#listing-container" class="sz-cta-primary">
+        Explore Listings
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="/listings/new" class="sz-cta-secondary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        List Your Space
+      </a>
+    </div>
+
+    <!-- Stats row -->
+    <div class="sz-hero__stats">
+      <div class="sz-stat">
+        <span class="sz-stat__num">500+</span>
+        <span class="sz-stat__label">Raw Stays</span>
       </div>
+      <div class="sz-stat-divider"></div>
+      <div class="sz-stat">
+        <span class="sz-stat__num">50+</span>
+        <span class="sz-stat__label">Brutal Cities</span>
+      </div>
+      <div class="sz-stat-divider"></div>
+      <div class="sz-stat">
+        <span class="sz-stat__num">10k+</span>
+        <span class="sz-stat__label">Happy Guests</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right — Brutalist Illustration -->
+  <div class="sz-hero__right" aria-hidden="true">
+
+    <!-- Main SVG composition -->
+    <svg class="sz-hero__illustration" viewBox="0 0 540 560" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="hero-halftone" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
+          <circle cx="8" cy="8" r="3" fill="#0A0A0A" opacity="0.55"/>
+        </pattern>
+        <pattern id="hero-lines" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
+          <line x1="0" y1="0" x2="12" y2="12" stroke="#0A0A0A" stroke-width="1.5" opacity="0.2"/>
+        </pattern>
+      </defs>
+
+      <!-- Offset shadow block -->
+      <rect x="55" y="75" width="260" height="310" fill="#0A0A0A"/>
+      <!-- Main building -->
+      <rect x="35" y="55" width="260" height="310" fill="#F5F0E8" stroke="#0A0A0A" stroke-width="5"/>
+      <!-- Halftone overlay -->
+      <rect x="35" y="55" width="260" height="100" fill="url(#hero-halftone)" opacity="0.5"/>
+      <!-- Signage bar -->
+      <rect x="35" y="55" width="260" height="60" fill="#C8FF00" stroke="#0A0A0A" stroke-width="5"/>
+      <text x="165" y="97" font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="30" fill="#0A0A0A" text-anchor="middle" letter-spacing="-1">STAY.</text>
+
+      <!-- Windows grid -->
+      <rect x="60" y="140" width="50" height="50" fill="#7C6AF7" stroke="#0A0A0A" stroke-width="4"/>
+      <rect x="135" y="140" width="50" height="50" fill="#FFB8C6" stroke="#0A0A0A" stroke-width="4"/>
+      <rect x="210" y="140" width="50" height="50" fill="#FFE500" stroke="#0A0A0A" stroke-width="4"/>
+
+      <rect x="60" y="215" width="50" height="50" fill="#00E5C8" stroke="#0A0A0A" stroke-width="4"/>
+      <rect x="135" y="215" width="50" height="50" fill="#F5F0E8" stroke="#0A0A0A" stroke-width="4"/>
+      <rect x="210" y="215" width="50" height="50" fill="#FF4D2E" stroke="#0A0A0A" stroke-width="4"/>
+
+      <rect x="60" y="290" width="50" height="50" fill="#0A0A0A" stroke="#0A0A0A" stroke-width="4"/>
+      <rect x="135" y="290" width="50" height="50" fill="#C8FF00" stroke="#0A0A0A" stroke-width="4"/>
+      <rect x="210" y="290" width="50" height="50" fill="#7C6AF7" stroke="#0A0A0A" stroke-width="4"/>
+
+      <!-- Door -->
+      <rect x="130" y="330" width="70" height="35" fill="#0A0A0A" stroke="#0A0A0A" stroke-width="4"/>
+
+      <!-- Right structure -->
+      <rect x="340" y="195" width="10" height="195" fill="#0A0A0A"/>
+      <rect x="330" y="180" width="160" height="210" fill="#FFE500" stroke="#0A0A0A" stroke-width="5"/>
+      <rect x="375" y="220" width="40" height="55" fill="#0A0A0A" stroke="#0A0A0A" stroke-width="3"/>
+      <rect x="430" y="220" width="40" height="55" fill="#FF4D2E" stroke="#0A0A0A" stroke-width="3"/>
+      <rect x="375" y="295" width="40" height="55" fill="#7C6AF7" stroke="#0A0A0A" stroke-width="3"/>
+      <rect x="430" y="295" width="40" height="55" fill="#C8FF00" stroke="#0A0A0A" stroke-width="3"/>
+
+      <!-- Ground line -->
+      <line x1="0" y1="390" x2="540" y2="390" stroke="#0A0A0A" stroke-width="6"/>
+
+      <!-- Roads / pavement hatching -->
+      <rect x="0" y="390" width="540" height="60" fill="url(#hero-lines)"/>
+      <rect x="0" y="390" width="540" height="60" fill="#E0DACC" opacity="0.7"/>
+
+      <!-- Floating geometric shapes -->
+      <!-- Big circle -->
+      <circle cx="455" cy="110" r="75" fill="#FF4D2E" stroke="#0A0A0A" stroke-width="5"/>
+      <circle cx="455" cy="110" r="55" fill="none" stroke="#0A0A0A" stroke-width="2" stroke-dasharray="8 6"/>
+
+      <!-- Small triangle -->
+      <polygon points="40,460 100,380 160,460" fill="#FFB8C6" stroke="#0A0A0A" stroke-width="5"/>
+
+      <!-- Plus symbol -->
+      <line x1="480" y1="380" x2="480" y2="440" stroke="#C8FF00" stroke-width="12" stroke-linecap="square"/>
+      <line x1="450" y1="410" x2="510" y2="410" stroke="#C8FF00" stroke-width="12" stroke-linecap="square"/>
+      <line x1="481" y1="381" x2="481" y2="441" stroke="#0A0A0A" stroke-width="5" stroke-linecap="square"/>
+      <line x1="451" y1="411" x2="511" y2="411" stroke="#0A0A0A" stroke-width="5" stroke-linecap="square"/>
+
+      <!-- Zigzag decorative line -->
+      <polyline points="0,500 60,445 120,500 180,445 240,500 300,445 360,500 420,445 480,500 540,445" fill="none" stroke="#0A0A0A" stroke-width="5" stroke-linejoin="miter" stroke-linecap="square"/>
+      <polyline points="0,500 60,445 120,500 180,445 240,500 300,445 360,500 420,445 480,500 540,445" fill="none" stroke="#FFE500" stroke-width="3" stroke-linejoin="miter" stroke-linecap="square"/>
+
+      <!-- Star -->
+      <polygon points="335,65 345,95 375,95 352,113 360,143 335,125 310,143 318,113 295,95 325,95" fill="#C8FF00" stroke="#0A0A0A" stroke-width="4"/>
+    </svg>
+
+    <!-- Floating label chips -->
+    <div class="sz-hero__label-chip sz-hero__label-chip--1">🔥 Trending Now</div>
+    <div class="sz-hero__label-chip sz-hero__label-chip--2">★ Top Rated</div>
+    <div class="sz-hero__label-chip sz-hero__label-chip--3 spin-svg">
+      <svg viewBox="0 0 100 100" width="70" height="70">
+        <circle cx="50" cy="50" r="46" fill="#FFE500" stroke="#0A0A0A" stroke-width="5"/>
+        <text x="50" y="35" text-anchor="middle" font-family="Space Grotesk" font-weight="900" font-size="11" fill="#0A0A0A">BOOK</text>
+        <text x="50" y="52" text-anchor="middle" font-family="Space Grotesk" font-weight="900" font-size="11" fill="#0A0A0A">YOUR</text>
+        <text x="50" y="69" text-anchor="middle" font-family="Space Grotesk" font-weight="900" font-size="11" fill="#0A0A0A">ESCAPE</text>
+      </svg>
+    </div>
+  </div>
+
+</section>
+
+<!-- ── MARQUEE STRIP ── -->
+<div class="sz-marquee-strip" aria-hidden="true">
+  <div class="sz-marquee-track">
+    <span class="sz-marquee-item">New Listings <span class="sz-marquee-bullet">●</span></span>
+    <span class="sz-marquee-item">Book Now <span class="sz-marquee-bullet">●</span></span>
+    <span class="sz-marquee-item">Raw Zen <span class="sz-marquee-bullet">●</span></span>
+    <span class="sz-marquee-item">Untamed Stays <span class="sz-marquee-bullet">●</span></span>
+    <span class="sz-marquee-item">Brutal Comfort <span class="sz-marquee-bullet">●</span></span>
+    <span class="sz-marquee-item">Find Your Escape <span class="sz-marquee-bullet">●</span></span>
+    <span class="sz-marquee-item">StayZen 2026 <span class="sz-marquee-bullet">●</span></span>
+    <!-- Duplicate for seamless loop -->
+    <span class="sz-marquee-item">New Listings <span class="sz-marquee-bullet">●</span></span>
+    <span class="sz-marquee-item">Book Now <span class="sz-marquee-bullet">●</span></span>
+    <span class="sz-marquee-item">Raw Zen <span class="sz-marquee-bullet">●</span></span>
+    <span class="sz-marquee-item">Untamed Stays <span class="sz-marquee-bullet">●</span></span>
+    <span class="sz-marquee-item">Brutal Comfort <span class="sz-marquee-bullet">●</span></span>
+    <span class="sz-marquee-item">Find Your Escape <span class="sz-marquee-bullet">●</span></span>
+    <span class="sz-marquee-item">StayZen 2026 <span class="sz-marquee-bullet">●</span></span>
   </div>
 </div>
 
-<div id="filters">
-    <div class="filter">
-        <div><i class="fa-solid fa-fire"></i></div> <p>Trending</p>
+<!-- ── FILTER ROW ── -->
+<div class="sz-filter-section">
+  <div class="sz-filter-label">Browse by</div>
+  <div id="filters">
+    <div class="filter" data-tag="Trending">
+      <i class="fa-solid fa-fire"></i><p>Trending</p>
     </div>
-    <div class="filter">
-        <div><i class="fa-solid fa-bed"></i></div> <p>Rooms</p>
+    <div class="filter" data-tag="Rooms">
+      <i class="fa-solid fa-bed"></i><p>Rooms</p>
     </div>
-    <div class="filter">
-        <div><i class="fa-solid fa-gopuram"></i></div> <p>Iconic Cities</p>
+    <div class="filter" data-tag="Iconic Cities">
+      <i class="fa-solid fa-gopuram"></i><p>Iconic Cities</p>
     </div>
-    <div class="filter">
-        <div><i class="fa-solid fa-mountain"></i></div> <p>Mountains</p>
+    <div class="filter" data-tag="Mountains">
+      <i class="fa-solid fa-mountain"></i><p>Mountains</p>
     </div>
-    <div class="filter">
-        <div><i class="fa-brands fa-fort-awesome"></i></div> <p>Castles</p>
+    <div class="filter" data-tag="Castles">
+      <i class="fa-brands fa-fort-awesome"></i><p>Castles</p>
     </div>
-    <div class="filter">
-        <div><i class="fa-solid fa-water-ladder"></i></div> <p>Amazing Pools</p>
+    <div class="filter" data-tag="Amazing Pools">
+      <i class="fa-solid fa-water-ladder"></i><p>Pools</p>
     </div>
-    <div class="filter">
-        <div><i class="fa-solid fa-campground"></i></div> <p>Campings</p>
+    <div class="filter" data-tag="Campings">
+      <i class="fa-solid fa-campground"></i><p>Campings</p>
     </div>
-    <div class="filter">
-        <div><i class="fa-solid fa-cow"></i></div> <p>Farms</p>
+    <div class="filter" data-tag="Farms">
+      <i class="fa-solid fa-cow"></i><p>Farms</p>
     </div>
-    <div class="filter">
-        <div><i class="fa-solid fa-snowflake"></i></div> <p>Arctic</p>
+    <div class="filter" data-tag="Arctic">
+      <i class="fa-solid fa-snowflake"></i><p>Arctic</p>
     </div>
-    <div class="filter">
-        <div><i class="fa-solid fa-igloo"></i></div> <p>Domes</p>
+    <div class="filter" data-tag="Domes">
+      <i class="fa-solid fa-igloo"></i><p>Domes</p>
     </div>
-
-    <!-- <div class="tax-toggle">
-        <div class="form-check-reverse form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
-            <label class="form-check-label" for="switchCheckDefault">Display total after taxes</label>
-        </div>
-    </div> -->
+  </div>
 </div>
-<!-- This should be rendered regardless of listing count -->
+
+<!-- ── NO MATCH ── -->
 <div class="no-match-container text-center mt-5 pt-5 position-relative" style="display: none; min-height: 200px;">
   <div class="sticker-canvas"></div>
-  <h4 style="position: relative; z-index: 2;">No matches found</h4>
-  <p style="position: relative; z-index: 2;">Try a different keyword or filter.</p>
-</div>
-
-<div class="ticker-wrap mb-5">
-  <div class="ticker">
-    <div class="ticker__item">New Listings •</div>
-    <div class="ticker__item">Book Now •</div>
-    <div class="ticker__item">Raw Zen •</div>
-    <div class="ticker__item">Untamed Stays •</div>
-    <div class="ticker__item">New Listings •</div>
-    <div class="ticker__item">Book Now •</div>
-    <div class="ticker__item">Raw Zen •</div>
-    <div class="ticker__item">Untamed Stays •</div>
+  <div style="position: relative; z-index: 2;">
+    <div style="font-size: 3rem; margin-bottom: 1rem;">🔍</div>
+    <h4 style="font-weight: 900; text-transform: uppercase; letter-spacing: -1px;">No matches found</h4>
+    <p style="opacity: 0.6; font-weight: 600;">Try a different keyword or filter.</p>
   </div>
 </div>
 
-    <div id="listing-container" class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 row-cols-xs-1 mt-3">
-    <% for(let listing of allListings){ %>
-      <a href="/listings/<%= listing._id %>" class="list-link">
-        <div class="card col listing-card" data-tags='<%= JSON.stringify(listing.tags || []) %>'>
-          <div class="image-wrapper">
-            <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image">
+<!-- ── SECTION HEADER ── -->
+<div class="sz-listings-header">
+  <div class="sz-listings-header__left">
+    <div class="sz-listings-header__eyebrow">All Properties</div>
+    <h2 class="sz-listings-header__title">Discover Raw Spaces</h2>
+  </div>
+  <div class="sz-listings-header__right">
+    <!-- Decorative SVG doodle -->
+    <svg width="80" height="40" viewBox="0 0 80 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M4 36 C 20 4, 40 4, 40 20 C 40 36, 60 36, 76 4" stroke="#0A0A0A" stroke-width="3" fill="none" stroke-linecap="square"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ── LISTING GRID ── -->
+<div id="listing-container" class="sz-listing-grid">
+  <% for(let listing of allListings){ %>
+    <a href="/listings/<%= listing._id %>" class="list-link sz-card-link">
+      <article class="listing-card sz-listing-card" data-tags='<%= JSON.stringify(listing.tags || []) %>'>
+
+        <!-- Image section -->
+        <div class="image-wrapper sz-card__img-wrap">
+          <img src="<%= listing.image.url %>" class="card-img-top" alt="<%= listing.title %>">
+          <!-- Hover overlay -->
+          <div class="sz-card__overlay">
+            <span class="sz-card__overlay-text">View Details →</span>
           </div>
-          <div class="card-body">
-            <p class="card-text">
-              <b><%= listing.title %></b> <br>
-              ₹ <%= listing.price.toLocaleString("en-IN") %> / night <br>
-              <span class="description-clamp"><%= listing.description %></span>
-            </p>
+          <!-- Corner badge -->
+          <% if (listing.tags && listing.tags.length > 0) { %>
+            <div class="sz-card__tag-badge"><%= listing.tags[0] %></div>
+          <% } %>
+        </div>
+
+        <!-- Body -->
+        <div class="card-body sz-card__body">
+          <p class="card-text">
+            <b><%= listing.title %></b>
+            <span class="card-price-tag">₹ <%= listing.price.toLocaleString("en-IN") %> / night</span>
+            <span class="description-clamp"><%= listing.description %></span>
+          </p>
+          <!-- Location -->
+          <div class="sz-card__location">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            <%= listing.location %>, <%= listing.country %>
           </div>
         </div>
-      </a>
-    <% } %>
+
+      </article>
+    </a>
+  <% } %>
 </div>
+
+<!-- inline page styles -->
+<style>
+/* ====================================================
+   HERO
+   ==================================================== */
+.sz-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 94vh;
+  border-bottom: 4px solid var(--ink);
+  position: relative;
+  overflow: hidden;
+  background: var(--cream);
+}
+
+.sz-hero__grid {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.sz-hero__left {
+  padding: 6rem 3rem 4rem 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  border-right: 4px solid var(--ink);
+}
+
+.sz-hero__right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  position: relative;
+  background: var(--lavender);
+  z-index: 2;
+  overflow: hidden;
+}
+
+/* Eyebrow */
+.sz-hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background: var(--ink);
+  color: var(--lime);
+  padding: 0.45rem 1rem;
+  margin-bottom: 2rem;
+  border: 2px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--lime);
+  width: fit-content;
+}
+
+.sz-hero__eyebrow-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  background: var(--lime);
+  border-radius: 50%;
+  animation: pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.7); }
+}
+
+/* Heading */
+.sz-hero__heading {
+  font-size: clamp(5rem, 10vw, 8.5rem);
+  font-weight: 900;
+  letter-spacing: -5px;
+  line-height: 0.9;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0 0 2rem;
+}
+
+/* Subtext */
+.sz-hero__sub {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.65;
+  max-width: 460px;
+  margin-bottom: 2.5rem;
+  color: rgba(10,10,10,0.72);
+  border-left: 4px solid var(--coral);
+  padding-left: 1rem;
+}
+
+/* CTAs */
+.sz-hero__ctas {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.sz-cta-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--ink);
+  color: var(--lime) !important;
+  border: 3px solid var(--ink);
+  padding: 1rem 2.2rem;
+  font-weight: 900;
+  font-size: 0.88rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-decoration: none !important;
+  box-shadow: 6px 6px 0 var(--coral);
+  transition: all 0.12s ease;
+}
+
+.sz-cta-primary:hover {
+  transform: translate(4px, 4px);
+  box-shadow: 2px 2px 0 var(--coral);
+}
+
+.sz-cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--lime);
+  color: var(--ink) !important;
+  border: 3px solid var(--ink);
+  padding: 1rem 1.8rem;
+  font-weight: 900;
+  font-size: 0.88rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-decoration: none !important;
+  box-shadow: 6px 6px 0 var(--ink);
+  transition: all 0.12s ease;
+}
+
+.sz-cta-secondary:hover {
+  transform: translate(4px, 4px);
+  box-shadow: 2px 2px 0 var(--ink);
+  background: var(--yellow);
+}
+
+/* Stats */
+.sz-hero__stats {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.sz-stat { display: flex; flex-direction: column; }
+
+.sz-stat__num {
+  font-size: 1.6rem;
+  font-weight: 900;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
+.sz-stat__label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  opacity: 0.5;
+}
+
+.sz-stat-divider {
+  width: 1px;
+  height: 36px;
+  background: var(--ink);
+  opacity: 0.2;
+}
+
+/* Right illustration */
+.sz-hero__illustration {
+  width: 100%;
+  max-width: 540px;
+  height: auto;
+  filter: drop-shadow(8px 8px 0 rgba(10,10,10,0.35));
+}
+
+/* Floating chips */
+.sz-hero__label-chip {
+  position: absolute;
+  background: var(--yellow);
+  border: 3px solid var(--ink);
+  padding: 0.45rem 1.1rem;
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 4px 4px 0 var(--ink);
+  z-index: 3;
+  color: var(--ink);
+}
+
+.sz-hero__label-chip--1 { top: 15%; left: 5%; transform: rotate(-4deg); background: var(--blush); }
+.sz-hero__label-chip--2 { bottom: 20%; right: 6%; transform: rotate(3deg); background: var(--lime); }
+.sz-hero__label-chip--3 {
+  top: 8%; right: 5%;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0;
+}
+
+/* ====================================================
+   MARQUEE STRIP
+   ==================================================== */
+.sz-marquee-strip {
+  background: var(--ink);
+  border-top: 4px solid var(--ink);
+  border-bottom: 4px solid var(--ink);
+  overflow: hidden;
+  padding: 1.2rem 0;
+}
+
+.sz-marquee-track {
+  display: flex;
+  white-space: nowrap;
+  animation: marqueeScroll 22s linear infinite;
+}
+
+.sz-marquee-item {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 2rem;
+  font-size: 1.15rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--cream);
+  letter-spacing: 1px;
+  gap: 1.5rem;
+}
+
+.sz-marquee-bullet { color: var(--lime); font-size: 0.6rem; }
+
+@keyframes marqueeScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ====================================================
+   FILTER SECTION
+   ==================================================== */
+.sz-filter-section {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem 2rem 1rem;
+  border-bottom: 4px solid var(--ink);
+  flex-wrap: wrap;
+}
+
+.sz-filter-label {
+  font-size: 0.7rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background: var(--ink);
+  color: var(--cream);
+  padding: 0.45rem 1rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+  border: 2px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--coral);
+}
+
+#filters {
+  flex: 1;
+  padding: 0;
+  border: none;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+#filters::-webkit-scrollbar { display: none; }
+
+/* ====================================================
+   LISTINGS HEADER
+   ==================================================== */
+.sz-listings-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 3rem 2rem 1.5rem;
+  border-bottom: 3px solid rgba(10,10,10,0.1);
+}
+
+.sz-listings-header__eyebrow {
+  font-size: 0.7rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--coral);
+  margin-bottom: 0.5rem;
+}
+
+.sz-listings-header__title {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 900;
+  letter-spacing: -2px;
+  text-transform: uppercase;
+  margin: 0;
+  line-height: 1;
+}
+
+.sz-listings-header__right { flex-shrink: 0; opacity: 0.5; }
+
+/* ====================================================
+   LISTING GRID
+   ==================================================== */
+.sz-listing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 0;
+}
+
+/* Add borders between grid items */
+.sz-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  border-right: 3px solid var(--ink);
+  border-bottom: 3px solid var(--ink);
+}
+
+.sz-card-link:nth-child(3n) { border-right: none; }
+
+.sz-listing-card {
+  box-shadow: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  margin: 0;
+  height: 100%;
+  transition: background 0.12s ease;
+}
+
+.sz-listing-card:hover {
+  transform: none !important;
+  background: var(--yellow);
+  box-shadow: none !important;
+}
+
+/* Image wrapper */
+.sz-card__img-wrap {
+  position: relative;
+  border-bottom: 3px solid var(--ink);
+  overflow: hidden;
+  height: 240px;
+}
+
+.sz-card__img-wrap .card-img-top {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+  border-radius: 0 !important;
+}
+
+.sz-listing-card:hover .card-img-top { transform: scale(1.06); }
+
+/* Hover overlay */
+.sz-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 2;
+}
+
+.sz-listing-card:hover .sz-card__overlay { opacity: 0.72; }
+
+.sz-card__overlay-text {
+  color: var(--lime);
+  font-weight: 900;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Tag badge on image */
+.sz-card__tag-badge {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: var(--lime);
+  border-top: 2px solid var(--ink);
+  border-right: 2px solid var(--ink);
+  padding: 4px 12px;
+  font-size: 0.65rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--ink);
+  z-index: 3;
+}
+
+/* Body */
+.sz-card__body {
+  padding: 1.2rem 1.4rem !important;
+}
+
+.sz-card__location {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: rgba(10,10,10,0.45);
+  margin-top: 0.6rem;
+}
+
+/* ====================================================
+   RESPONSIVE GRID
+   ==================================================== */
+@media (max-width: 1100px) {
+  .sz-listing-grid { grid-template-columns: repeat(2, 1fr); }
+  .sz-card-link:nth-child(2n) { border-right: none; }
+  .sz-card-link:nth-child(3n) { border-right: 3px solid var(--ink); }
+  .sz-card-link:nth-child(2n) { border-right: none !important; }
+}
+
+@media (max-width: 768px) {
+  .sz-hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .sz-hero__right {
+    display: none;
+  }
+  .sz-hero__left {
+    padding: 4rem 1.5rem 3rem;
+    border-right: none;
+    border-bottom: 4px solid var(--ink);
+  }
+  .sz-hero__heading { font-size: clamp(4rem, 14vw, 6rem); letter-spacing: -3px; }
+  .sz-listings-header { padding: 2rem 1.5rem 1rem; }
+}
+
+@media (max-width: 640px) {
+  .sz-listing-grid { grid-template-columns: 1fr; }
+  .sz-card-link { border-right: none !important; }
+  .sz-hero__ctas { flex-direction: column; align-items: flex-start; }
+  .sz-cta-primary, .sz-cta-secondary { width: 100%; justify-content: center; }
+  .sz-filter-section { padding: 1rem; gap: 0.8rem; }
+  .sz-filter-label { font-size: 0.65rem; padding: 0.4rem 0.8rem; }
+}
+</style>

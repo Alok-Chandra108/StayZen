@@ -1,12 +1,39 @@
-<footer class="nb-footer">
-  <div class="nb-footer-logo">
-    STAYZEN
+<!-- ============================================================
+     STAYZEN FOOTER — NEU-BRUTALISM × AWWWARDS
+     ============================================================ -->
+<footer class="sz-footer" role="contentinfo">
+
+  <!-- Footer Top — Logo + Tagline + Social -->
+  <div class="sz-footer__top">
+    <div class="sz-footer__brand">
+      <!-- SVG Wordmark -->
+      <div class="sz-footer__wordmark">STAYZEN</div>
+      <p class="sz-footer__tagline">Unapologetic spaces for bold travellers.</p>
+    </div>
+
+    <!-- Social Icons -->
+    <div class="sz-footer__social" aria-label="Social media links">
+      <a href="#" class="sz-social-btn" title="Instagram" aria-label="Instagram">
+        <i class="fa-brands fa-instagram" aria-hidden="true"></i>
+      </a>
+      <a href="#" class="sz-social-btn" style="background:var(--lavender);" title="Twitter" aria-label="Twitter">
+        <i class="fa-brands fa-twitter" aria-hidden="true"></i>
+      </a>
+      <a href="#" class="sz-social-btn" style="background:var(--blush);" title="Facebook" aria-label="Facebook">
+        <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
+      </a>
+      <a href="#" class="sz-social-btn" style="background:var(--cyan);" title="LinkedIn" aria-label="LinkedIn">
+        <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
+      </a>
+    </div>
   </div>
 
-  <div class="nb-footer-content px-4">
-    <div class="nb-footer-section">
-      <h4>Company</h4>
-      <ul class="nb-footer-links">
+  <!-- Footer Grid — Links -->
+  <div class="sz-footer__grid">
+
+    <div class="sz-footer__col">
+      <h4 class="sz-footer__col-head">Company</h4>
+      <ul class="sz-footer__links">
         <li><a href="/about">About Us</a></li>
         <li><a href="/careers">Careers</a></li>
         <li><a href="/blog">Blog</a></li>
@@ -14,43 +41,234 @@
       </ul>
     </div>
 
-    <div class="nb-footer-section">
-      <h4>Support</h4>
-      <ul class="nb-footer-links">
+    <div class="sz-footer__col">
+      <h4 class="sz-footer__col-head">Support</h4>
+      <ul class="sz-footer__links">
         <li><a href="/help">Help Center</a></li>
-        <li><a href="/safety">Safety Information</a></li>
-        <li><a href="/cancellation">Cancellation Policy</a></li>
+        <li><a href="/safety">Safety Info</a></li>
+        <li><a href="/cancellation">Cancellation</a></li>
         <li><a href="/contact">Contact Us</a></li>
       </ul>
     </div>
 
-    <div class="nb-footer-section">
-      <h4>Social Connect</h4>
-      <div class="nb-footer-social">
-        <a href="#" class="nb-social-btn" title="Facebook">
-          <i class="fa-brands fa-facebook-f"></i>
-        </a>
-        <a href="#" class="nb-social-btn" style="box-shadow: 6px 6px 0 var(--nb-pink);" title="Instagram">
-          <i class="fa-brands fa-instagram"></i>
-        </a>
-        <a href="#" class="nb-social-btn" style="box-shadow: 6px 6px 0 var(--nb-cyan);" title="LinkedIn">
-          <i class="fa-brands fa-linkedin"></i>
-        </a>
-        <a href="#" class="nb-social-btn" style="box-shadow: 6px 6px 0 var(--nb-yellow);" title="Twitter">
-          <i class="fa-brands fa-twitter"></i>
-        </a>
+    <div class="sz-footer__col">
+      <h4 class="sz-footer__col-head">Explore</h4>
+      <ul class="sz-footer__links">
+        <li><a href="/listings">All Listings</a></li>
+        <li><a href="/listings/new">List Your Space</a></li>
+        <li><a href="/login">Sign In</a></li>
+        <li><a href="/signup">Join StayZen</a></li>
+      </ul>
+    </div>
+
+    <!-- Brutalist Manifesto block -->
+    <div class="sz-footer__manifesto" aria-hidden="true">
+      <div class="sz-footer__manifesto-inner">
+        <div class="sz-footer__manifesto-big">STAY<br>RAW.</div>
+        <!-- SVG decoration -->
+        <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="25,2 48,48 2,48" fill="#C8FF00" stroke="#0A0A0A" stroke-width="3"/>
+        </svg>
       </div>
+    </div>
+
+  </div>
+
+  <!-- Footer Bottom -->
+  <div class="sz-footer__bottom">
+    <div class="sz-footer__copyright">&copy; 2026 StayZen Private Limited. All rights reserved.</div>
+    <div class="sz-footer__legal">
+      <a href="/privacy">Privacy</a>
+      <span>·</span>
+      <a href="/terms">Terms</a>
+      <span>·</span>
+      <a href="/cookies">Cookies</a>
     </div>
   </div>
 
-  <div class="nb-footer-bottom px-4">
-    <div class="nb-footer-copyright">
-      &copy; 2026 StayZen Private Limited
-    </div>
-    <div class="nb-footer-links d-flex gap-3">
-      <a href="/privacy">Privacy</a>
-      <a href="/terms">Terms</a>
-      <a href="/cookies">Cookie Settings</a>
-    </div>
-  </div>
 </footer>
+
+<style>
+/* ── Footer Styles ── */
+.sz-footer {
+  background: var(--ink);
+  color: var(--cream);
+  border-top: 4px solid var(--ink);
+  font-family: var(--font-main);
+}
+
+.sz-footer__top {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 3rem 2.5rem 2rem;
+  border-bottom: 3px solid rgba(245,240,232,0.12);
+}
+
+.sz-footer__wordmark {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 900;
+  letter-spacing: -3px;
+  text-transform: uppercase;
+  color: var(--cream);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.sz-footer__tagline {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: rgba(245,240,232,0.5);
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+
+.sz-footer__social {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.sz-social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: var(--coral);
+  border: 2.5px solid var(--cream);
+  color: var(--ink) !important;
+  font-size: 1rem;
+  text-decoration: none;
+  box-shadow: 4px 4px 0 var(--cream);
+  transition: all 0.1s ease;
+}
+
+.sz-social-btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--cream);
+}
+
+.sz-footer__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr) 1.5fr;
+  gap: 0;
+  border-bottom: 3px solid rgba(245,240,232,0.12);
+}
+
+.sz-footer__col {
+  padding: 2.5rem 2rem;
+  border-right: 2px solid rgba(245,240,232,0.1);
+}
+
+.sz-footer__col:last-of-type { border-right: none; }
+
+.sz-footer__col-head {
+  font-size: 0.7rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--lime);
+  margin-bottom: 1.2rem;
+}
+
+.sz-footer__links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.sz-footer__links a {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(245,240,232,0.65);
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.1s;
+}
+
+.sz-footer__links a:hover {
+  color: var(--lime);
+  transform: translateX(4px);
+}
+
+/* Manifesto block */
+.sz-footer__manifesto {
+  padding: 2rem;
+  border-left: 2px solid rgba(245,240,232,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sz-footer__manifesto-inner {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+}
+
+.sz-footer__manifesto-big {
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  font-weight: 900;
+  letter-spacing: -2px;
+  text-transform: uppercase;
+  color: var(--cream);
+  line-height: 1;
+}
+
+/* Bottom bar */
+.sz-footer__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  padding: 1.2rem 2.5rem;
+  background: rgba(0,0,0,0.35);
+}
+
+.sz-footer__copyright {
+  font-size: 0.72rem;
+  color: rgba(245,240,232,0.4);
+  font-weight: 500;
+}
+
+.sz-footer__legal {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.72rem;
+  color: rgba(245,240,232,0.4);
+}
+
+.sz-footer__legal a {
+  color: rgba(245,240,232,0.55);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.1s;
+}
+
+.sz-footer__legal a:hover { color: var(--lime); }
+
+.sz-footer__legal span { opacity: 0.4; }
+
+/* ── Responsive Footer ── */
+@media (max-width: 900px) {
+  .sz-footer__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .sz-footer__manifesto { border-left: none; border-top: 2px solid rgba(245,240,232,0.1); }
+}
+
+@media (max-width: 600px) {
+  .sz-footer__grid { grid-template-columns: 1fr; }
+  .sz-footer__top { padding: 2rem 1.5rem 1.5rem; }
+  .sz-footer__bottom { padding: 1rem 1.5rem; flex-direction: column; align-items: flex-start; }
+  .sz-footer__col { padding: 1.5rem 1.5rem; border-right: none; border-bottom: 2px solid rgba(245,240,232,0.08); }
+}
+</style>
