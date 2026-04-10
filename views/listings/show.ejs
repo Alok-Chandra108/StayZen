@@ -1,33 +1,15 @@
 <%- layout("/layouts/boilerplate") -%>
 <%
   const amenityIcons = {
-    "WiFi": "fa-wifi",
-    "Parking": "fa-square-parking",
-    "Pool": "fa-water-ladder",
-    "Air Conditioning": "fa-snowflake",
-    "Heating": "fa-fire",
-    "Kitchen": "fa-kitchen-set",
-    "Washer": "fa-soap",
-    "Dryer": "fa-tshirt",
-    "Books & Reading Material": "fa-book",
-    "Gym": "fa-dumbbell",
-    "TV": "fa-tv",
-    "Balcony": "fa-building",
-    "Elevator": "fa-elevator",
-    "Hot Tub": "fa-hot-tub-person",
-    "BBQ Grill": "fa-fire-burner",
-    "Fireplace": "fa-fire-flame-curved",
-    "Outdoor Seating": "fa-chair",
-    "Sound System": "fa-volume-high",
-    "Workspace": "fa-laptop",
-    "Pet Friendly": "fa-dog",
-    "Smoking Allowed": "fa-smoking",
-    "Security Cameras": "fa-video",
-    "Breakfast Included": "fa-mug-hot",
-    "Private Entrance": "fa-door-closed",
-    "Wheelchair Accessible": "fa-wheelchair",
-    "First Aid Kit": "fa-kit-medical",
-    "Game Console": "fa-gamepad"
+    "WiFi": "fa-wifi", "Parking": "fa-square-parking", "Pool": "fa-water-ladder",
+    "Air Conditioning": "fa-snowflake", "Heating": "fa-fire", "Kitchen": "fa-kitchen-set",
+    "Washer": "fa-soap", "Dryer": "fa-tshirt", "Books & Reading Material": "fa-book",
+    "Gym": "fa-dumbbell", "TV": "fa-tv", "Balcony": "fa-building",
+    "Elevator": "fa-elevator", "Hot Tub": "fa-hot-tub-person", "BBQ Grill": "fa-fire-burner",
+    "Fireplace": "fa-fire-flame-curved", "Outdoor Seating": "fa-chair", "Sound System": "fa-volume-high",
+    "Workspace": "fa-laptop", "Pet Friendly": "fa-dog", "Smoking Allowed": "fa-smoking",
+    "Security Cameras": "fa-video", "Breakfast Included": "fa-mug-hot", "Private Entrance": "fa-door-closed",
+    "Wheelchair Accessible": "fa-wheelchair", "First Aid Kit": "fa-kit-medical", "Game Console": "fa-gamepad"
   };
 
   const listingDataJson = JSON.stringify({
@@ -37,305 +19,200 @@
       price: listing.price
   });
 %>
+<script id="listing-data" type="application/json"><%- listingDataJson %></script>
+<script>const listingData = JSON.parse(document.getElementById('listing-data').textContent);</script>
 
-<script id="listing-data" type="application/json">
-  <%- listingDataJson %>
-</script>
+<!-- ===================== NEW BRUTALIST SHOW LAYOUT ===================== -->
+<div class="sz-view-wrapper">
 
-<script>
-  const listingData = JSON.parse(document.getElementById('listing-data').textContent);
-</script>
-
-<!-- ===================== SHOW PAGE ===================== -->
-<div class="nb-show-page-outer">
-
-  <!-- HERO IMAGE -->
-  <div class="nb-show-hero">
-    <img src="<%= listing.image.url %>" class="nb-show-hero__img" alt="<%= listing.title %>">
-
-    <!-- Price Stamp -->
-    <div class="nb-show-hero__stamp">
-      <div class="nb-show-hero__stamp-price">₹<%= listing.price.toLocaleString("en-IN") %></div>
-      <div class="nb-show-hero__stamp-label">per night</div>
-    </div>
-
-    <!-- Decorative SVG corner brackets on hero -->
-    <svg class="nb-corner-bracket nb-corner-bracket--bl" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <polyline points="60,0 0,0 0,60" stroke="#FFFDF0" stroke-width="6" fill="none"/>
-    </svg>
-  </div>
-
-  <!-- TICKER STRIP -->
-  <div class="nb-ticker-strip">
-    <div class="nb-ticker-track">
-      <span class="nb-ticker-item"><span class="nb-ticker-dot"></span><%= listing.title %></span>
-      <span class="nb-ticker-item"><span class="nb-ticker-dot"></span><%= listing.location %>, <%= listing.country %></span>
-      <span class="nb-ticker-item"><span class="nb-ticker-dot"></span>₹<%= listing.price.toLocaleString("en-IN") %> / Night</span>
-      <span class="nb-ticker-item"><span class="nb-ticker-dot"></span>Hosted by <%= listing.owner.username %></span>
-      <span class="nb-ticker-item"><span class="nb-ticker-dot"></span><%= listing.title %></span>
-      <span class="nb-ticker-item"><span class="nb-ticker-dot"></span><%= listing.location %>, <%= listing.country %></span>
-      <span class="nb-ticker-item"><span class="nb-ticker-dot"></span>₹<%= listing.price.toLocaleString("en-IN") %> / Night</span>
-      <span class="nb-ticker-item"><span class="nb-ticker-dot"></span>Hosted by <%= listing.owner.username %></span>
+  <!-- Top Marquee -->
+  <div class="sz-view-marquee sz-view-marquee--top">
+    <div class="sz-view-marquee-track">
+      <span><%= listing.title.toUpperCase() %> ✦ <%= listing.location.toUpperCase() %> ✦ </span>
+      <span><%= listing.title.toUpperCase() %> ✦ <%= listing.location.toUpperCase() %> ✦ </span>
+      <span><%= listing.title.toUpperCase() %> ✦ <%= listing.location.toUpperCase() %> ✦ </span>
+      <span><%= listing.title.toUpperCase() %> ✦ <%= listing.location.toUpperCase() %> ✦ </span>
     </div>
   </div>
 
-  <!-- MAIN LAYOUT: content + sidebar -->
-  <div class="nb-show-layout">
+  <!-- Hero Section -->
+  <div class="sz-view-hero">
+    <!-- Offset decorative blocks -->
+    <div class="sz-view-hero__bg-block sz-view-hero__bg-block--1"></div>
+    <div class="sz-view-hero__bg-block sz-view-hero__bg-block--2"></div>
 
-    <!-- ===== LEFT: MAIN CONTENT COL ===== -->
-    <div class="nb-show-main">
-
-      <!-- Title -->
-      <h1 class="nb-show-title"><%= listing.title %></h1>
-
-      <!-- Meta badges row -->
-      <div class="nb-meta-row">
-        <span class="nb-badge nb-badge--owner">
-          <i class="fa-regular fa-id-badge"></i>
-          <% if (listing.owner && listing.owner.username) { %><%= listing.owner.username %><% } %>
-        </span>
-        <span class="nb-badge nb-badge--location">
-          <i class="fa-solid fa-location-dot"></i>
-          <%= listing.location %>, <%= listing.country %>
-        </span>
-        <% if (listing.tags && listing.tags.length > 0) { %>
-          <% listing.tags.forEach(tag => { %>
-            <span class="nb-badge nb-badge--acid">
-              <i class="fa-solid fa-hashtag"></i>
-              <%= tag %>
-            </span>
-          <% }) %>
-        <% } %>
-      </div>
-
-      <!-- Description -->
-      <div class="nb-description-block">
-        <div class="nb-description-block__label">
-          About this place
+    <div class="sz-view-hero__content">
+      <div class="sz-view-hero__image-box">
+        <img src="<%= listing.image.url %>" alt="<%= listing.title %>">
+        <!-- Floating Price Stamp -->
+        <div class="sz-stamp">
+          <div class="sz-stamp-val">₹<%= listing.price.toLocaleString("en-IN") %></div>
+          <div class="sz-stamp-unit">/NIGHT</div>
         </div>
-        <p class="nb-description-block__text"><%= listing.description %></p>
       </div>
+      <div class="sz-view-hero__title-box">
+        <h1 class="sz-view-hero__title"><%= listing.title %></h1>
+        <div class="sz-view-hero__meta">
+          <span class="sz-view-badge sz-view-badge--owner"><i class="fa-solid fa-user me-2"></i>HOST: <%= listing.owner.username %></span>
+          <span class="sz-view-badge sz-view-badge--loc"><i class="fa-solid fa-location-dot me-2"></i><%= listing.location %>, <%= listing.country %></span>
+        </div>
+      </div>
+    </div>
+  </div>
 
-      <!-- Amenities -->
+  <div class="sz-view-grid">
+    <!-- LEFT CONTENT AREA -->
+    <div class="sz-view-main">
+      
+      <!-- Description Section -->
+      <section class="sz-view-section sz-view-desc-box">
+        <h2 class="sz-view-section-title"><i class="fa-solid fa-bolt"></i> THE RUNDOWN</h2>
+        <div class="sz-view-desc-text"><%= listing.description %></div>
+      </section>
+
+      <!-- Amenities Section -->
       <% if (listing.amenities && listing.amenities.length > 0) { %>
-        <div class="mb-3">
-          <h2 class="nb-section-head"><i class="fa-solid fa-circle-check me-2" style="color:var(--coral);"></i>What's included</h2>
-          <div class="nb-amenities-grid">
-            <% listing.amenities.forEach((amenity) => {
+      <section class="sz-view-section sz-view-amenities-box">
+        <h2 class="sz-view-section-title"><i class="fa-solid fa-list-check"></i> AMENITIES</h2>
+        <div class="sz-view-amenities">
+           <% listing.amenities.forEach((amenity) => {
                 const icon = amenityIcons[amenity] || "fa-check";
-            %>
-              <div class="nb-amenity-chip">
-                <i class="fa-solid <%= icon %>"></i>
-                <%= amenity %>
-              </div>
-            <% }) %>
-          </div>
+           %>
+             <div class="sz-view-amenity">
+               <i class="fa-solid <%= icon %>"></i>
+               <span><%= amenity %></span>
+             </div>
+           <% }) %>
         </div>
+      </section>
       <% } %>
 
-      <!-- Tags -->
+      <!-- Tags Section -->
       <% if (listing.tags && listing.tags.length > 0) { %>
-        <div class="mb-3">
-          <h2 class="nb-section-head"><i class="fa-solid fa-tags me-2" style="color:var(--lavender);"></i>Tags</h2>
-          <div class="nb-tags-row">
-            <% listing.tags.forEach(tag => { %>
-              <span class="nb-tag-chip">
-                <i class="fa-solid fa-tag"></i>
-                <%= tag %>
-              </span>
-            <% }) %>
-          </div>
+      <section class="sz-view-section">
+        <div class="sz-view-tags">
+          <% listing.tags.forEach(tag => { %>
+            <div class="sz-view-tag-chip"><i class="fa-solid fa-hashtag me-1"></i><%= tag %></div>
+          <% }) %>
         </div>
+      </section>
       <% } %>
 
-      <!-- Map -->
-      <div class="mb-3">
-        <h2 class="nb-section-head"><i class="fa-solid fa-map-location-dot me-2" style="color:var(--coral);"></i>Where you'll be</h2>
-        <div class="nb-map-block">
-          <div class="nb-map-block__header">
-            <i class="fa-solid fa-compass"></i>
-            <%= listing.location %>, <%= listing.country %>
-          </div>
-          <div id="map" style="height: 420px; width: 100%; background: #e5e3df;"></div>
+      <!-- Map Section -->
+      <section class="sz-view-section sz-view-map-box mt-4">
+        <h2 class="sz-view-section-title"><i class="fa-solid fa-compass"></i> TERRITORY</h2>
+        <div class="sz-view-map-container mt-2">
+          <div id="map" class="sz-view-map"></div>
         </div>
-      </div>
+      </section>
 
-    </div><!-- /nb-show-main -->
+      <!-- Reviews Section -->
+      <section class="sz-view-section sz-view-reviews-box mb-5">
+        <h2 class="sz-view-section-title"><i class="fa-solid fa-star"></i> INTEL / REVIEWS [<%= listing.reviews.length %>]</h2>
+        
+        <% if(currUser) { %>
+          <div class="sz-view-review-form">
+            <h3 class="sz-view-review-form__header">LEAVE YOUR MARK</h3>
+            <div class="sz-view-review-form__body">
+              <form action="/listings/<%= listing.id %>/reviews" method="post" novalidate class="needs-validation">
+                  <div class="sz-view-review-rating">
+                    <label class="d-block mb-2 font-weight-bold" style="font-weight: 900; letter-spacing: 1px;">RATING:</label>
+                    <fieldset class="starability-slot sz-view-stars">
+                      <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0" checked aria-label="No rating." />
+                      <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                      <label for="first-rate1" title="Terrible">1 star</label>
+                      <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                      <label for="first-rate2" title="Not good">2 stars</label>
+                      <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                      <label for="first-rate3" title="Average">3 stars</label>
+                      <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                      <label for="first-rate4" title="Very good">4 stars</label>
+                      <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                      <label for="first-rate5" title="Amazing">5 stars</label>
+                    </fieldset>
+                  </div>
+                  
+                  <textarea name="review[comment]" cols="30" rows="3" class="sz-view-textarea form-control" required placeholder="Type your unfiltered thoughts..."></textarea>
+                  <div class="invalid-feedback">Intel required. Don't leave it blank.</div>
 
-    <!-- ===== RIGHT: SIDEBAR ===== -->
-    <div class="nb-show-sidebar">
-      <div class="nb-book-card">
-
-        <!-- Price header -->
-        <div class="nb-book-card__header">
-          <div class="nb-book-card__price">₹<%= listing.price.toLocaleString("en-IN") %></div>
-          <div class="nb-book-card__per">per night</div>
-        </div>
-
-        <!-- Info rows -->
-        <div class="nb-book-card__body">
-
-          <div class="nb-book-card__info-row">
-            <span class="nb-book-card__info-icon"><i class="fa-solid fa-location-dot"></i></span>
-            <div>
-              <div class="nb-book-card__info-label">Location</div>
-              <div class="nb-book-card__info-value"><%= listing.location %>, <%= listing.country %></div>
+                  <button class="sz-btn sz-btn--action w-100 mt-3" type="submit"><i class="fa-solid fa-bullhorn me-2"></i>DROP REVIEW</button>
+              </form>
             </div>
           </div>
-
-          <div class="nb-book-card__info-row">
-            <span class="nb-book-card__info-icon"><i class="fa-regular fa-user"></i></span>
-            <div>
-              <div class="nb-book-card__info-label">Hosted by</div>
-              <div class="nb-book-card__info-value"><%= listing.owner.username %></div>
-            </div>
-          </div>
-
-          <% if (listing.amenities && listing.amenities.length > 0) { %>
-          <div class="nb-book-card__info-row">
-            <span class="nb-book-card__info-icon"><i class="fa-solid fa-circle-check"></i></span>
-            <div>
-              <div class="nb-book-card__info-label">Amenities</div>
-              <div class="nb-book-card__info-value"><%= listing.amenities.length %> included</div>
-            </div>
-          </div>
-          <% } %>
-
-          <% if (listing.reviews && listing.reviews.length > 0) { %>
-          <div class="nb-book-card__info-row">
-            <span class="nb-book-card__info-icon"><i class="fa-solid fa-star"></i></span>
-            <div>
-              <div class="nb-book-card__info-label">Reviews</div>
-              <div class="nb-book-card__info-value"><%= listing.reviews.length %> review<%= listing.reviews.length !== 1 ? 's' : '' %></div>
-            </div>
-          </div>
-          <% } %>
-
-        </div><!-- /nb-book-card__body -->
-
-        <!-- Owner actions -->
-        <% if (currUser && currUser._id.equals(listing.owner._id)) { %>
-          <div class="nb-owner-actions">
-            <a href="/listings/<%= listing._id %>/edit" class="nb-btn nb-btn--edit">
-              <i class="fa-solid fa-pen-to-square"></i> Edit
-            </a>
-            <form method="Post" action="/listings/<%= listing._id %>?_method=DELETE" style="flex:1;">
-              <button class="nb-btn nb-btn--delete" style="width:100%;">
-                <i class="fa-solid fa-trash"></i> Delete
-              </button>
-            </form>
+        <% } else { %>
+          <div class="sz-alert-box mb-4 p-3 border border-dark rounded-0 bg-warning" style="font-weight:800; border-width: 3px !important; box-shadow: 4px 4px 0 #000;">
+            You must be logged in to leave a review. <a href="/login" style="color:var(--ink);">Log in here →</a>
           </div>
         <% } %>
 
-      </div><!-- /nb-book-card -->
-    </div><!-- /nb-show-sidebar -->
-
-  </div><!-- /nb-show-layout -->
-
-  <!-- ===================== REVIEWS SECTION ===================== -->
-  <div class="nb-reviews-section">
-
-    <!-- Review Form -->
-    <% if(currUser) { %>
-      <div class="nb-review-form-block">
-        <div class="nb-review-form-block__header">
-          <i class="fa-solid fa-star"></i>
-          Leave your review
-        </div>
-        <div class="nb-review-form-block__body">
-          <form action="/listings/<%= listing.id %>/reviews" method="post" novalidate class="needs-validation">
-
-            <div class="nb-form-group mb-4">
-              <label class="nb-label">
-                <span class="nb-step-number">1</span>
-                Rating
-              </label>
-              <fieldset class="starability-slot">
-                <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0" checked aria-label="No rating." />
-                <input type="radio" id="first-rate1" name="review[rating]" value="1" />
-                <label for="first-rate1" title="Terrible">1 star</label>
-                <input type="radio" id="first-rate2" name="review[rating]" value="2" />
-                <label for="first-rate2" title="Not good">2 stars</label>
-                <input type="radio" id="first-rate3" name="review[rating]" value="3" />
-                <label for="first-rate3" title="Average">3 stars</label>
-                <input type="radio" id="first-rate4" name="review[rating]" value="4" />
-                <label for="first-rate4" title="Very good">4 stars</label>
-                <input type="radio" id="first-rate5" name="review[rating]" value="5" />
-                <label for="first-rate5" title="Amazing">5 stars</label>
-              </fieldset>
-            </div>
-
-            <div class="nb-form-group mb-4">
-              <label for="comment" class="nb-label">
-                <span class="nb-step-number">2</span>
-                Your comment
-              </label>
-              <textarea name="review[comment]" id="comment" cols="30" rows="4" class="form-control" required></textarea>
-              <div class="invalid-feedback">Please add some comments</div>
-            </div>
-
-            <button class="nb-btn nb-btn--submit" type="submit">
-              <i class="fa-solid fa-paper-plane me-2"></i>
-              Post Review
-            </button>
-          </form>
-        </div>
-      </div>
-    <% } %>
-
-    <!-- All Reviews -->
-    <% if (listing.reviews.length > 0) { %>
-      <h2 class="nb-section-head mb-4">
-        <i class="fa-solid fa-comments me-2" style="color:var(--lavender);"></i>
-        All Reviews
-        <span style="font-size:1rem; font-weight:700; color:rgba(0,0,0,0.4); margin-left:10px;">— <%= listing.reviews.length %></span>
-      </h2>
-      <div class="nb-reviews-grid">
-        <% for (let review of listing.reviews) { %>
-          <div class="nb-review-card">
-            <div class="nb-review-card__top">
-              <div class="nb-review-card__author-row">
-                <div class="nb-review-card__avatar">
-                  <%= review.author.username ? review.author.username.charAt(0).toUpperCase() : 'U' %>
-                </div>
-                <span class="nb-review-card__name"><%= review.author.username %></span>
+        <% if (listing.reviews.length > 0) { %>
+          <div class="sz-view-review-list">
+            <% for (let review of listing.reviews) { %>
+              <div class="sz-view-review-card">
+                 <div class="sz-view-review-card__top">
+                    <span class="sz-view-review-author"><i class="fa-solid fa-user-ninja me-2"></i><%= review.author.username %></span>
+                    <span class="sz-view-review-rating">
+                      <% for (let i = 1; i <= 5; i++) { %>
+                        <% if (i <= review.rating) { %> ★ <% } else { %> ☆ <% } %>
+                      <% } %>
+                    </span>
+                 </div>
+                 <p class="sz-view-review-text"><%= review.comment %></p>
+                 
+                 <% if (currUser && currUser._id.toString() === review.author._id.toString()) { %>
+                  <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
+                    <button class="sz-view-btn-delete" title="Purge Review"><i class="fa-solid fa-trash-can"></i></button>
+                  </form>
+                 <% } %>
               </div>
-
-              <% if (currUser && currUser._id.toString() === review.author._id.toString()) { %>
-                <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
-                  <button class="nb-review-card__delete-btn" title="Delete review">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </form>
-              <% } %>
-            </div>
-
-            <p class="nb-review-card__comment"><%= review.comment %></p>
-
-            <div class="nb-review-card__stars">
-              <% for (let i = 1; i <= 5; i++) { %>
-                <% if (i <= review.rating) { %>
-                  <i class="fas fa-star"></i>
-                <% } else { %>
-                  <i class="far fa-star"></i>
-                <% } %>
-              <% } %>
-            </div>
+            <% } %>
           </div>
         <% } %>
-      </div>
-    <% } else { %>
-      <% if (!currUser) { %>
-        <div class="nb-no-reviews">
-          <div class="nb-no-reviews__icon">✏️</div>
-          <div class="nb-no-reviews__title">No reviews yet</div>
-          <div class="nb-no-reviews__sub">Log in to be the first to leave a review.</div>
+      </section>
+
+    </div><!-- /sz-view-main -->
+
+    <!-- RIGHT FIXED ACTION SIDEBAR -->
+    <div class="sz-view-sidebar">
+      <div class="sz-view-ticket">
+        <div class="sz-view-ticket__punch sz-view-ticket__punch--left"></div>
+        <div class="sz-view-ticket__punch sz-view-ticket__punch--right"></div>
+        
+        <div class="sz-view-ticket__header">
+          <div class="sz-view-ticket__eyebrow">CLEARANCE PASS</div>
+          <div class="sz-view-ticket__price">₹<%= listing.price.toLocaleString("en-IN") %></div>
+          <div class="sz-view-ticket__per">PER NIGHT</div>
         </div>
-      <% } %>
-    <% } %>
+        
+        <div class="sz-view-ticket__body">
+          <div class="sz-view-ticket__row">
+            <span>LOC.</span>
+            <strong><%= listing.location %></strong>
+          </div>
+          <div class="sz-view-ticket__row">
+            <span>HOST</span>
+            <strong><%= listing.owner.username %></strong>
+          </div>
+          <div class="sz-view-ticket__row">
+            <span>RATING</span>
+            <strong><%= listing.reviews.length > 0 ? listing.reviews.length + ' LOGGED' : 'NO DATA' %></strong>
+          </div>
+        </div>
+        
+        <div class="sz-view-ticket__footer">
+          <% if (currUser && currUser._id.equals(listing.owner._id)) { %>
+             <a href="/listings/<%= listing._id %>/edit" class="sz-btn sz-btn--warn w-100 mb-2"><i class="fa-solid fa-pen-ruler me-2"></i>REVISE</a>
+             <form method="Post" action="/listings/<%= listing._id %>?_method=DELETE" class="w-100">
+               <button class="sz-btn sz-btn--danger w-100"><i class="fa-solid fa-biohazard me-2"></i>OBLITERATE</button>
+             </form>
+          <% } else { %>
+             <button class="sz-btn sz-btn--action w-100" onclick="alert('Booking functionality coming soon.')"><i class="fa-solid fa-bolt me-2"></i>SECURE PASS</button>
+          <% } %>
+        </div>
+      </div>
+    </div><!-- /sz-view-sidebar -->
 
-  </div><!-- /nb-reviews-section -->
-
-</div><!-- /nb-show-page-outer -->
+  </div><!-- /sz-view-grid -->
+</div><!-- /sz-view-wrapper -->
 
 <script src="/js/map.js"></script>

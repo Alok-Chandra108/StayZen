@@ -1,7 +1,321 @@
 <% layout("/layouts/boilerplate") %>
 
-<div class="row mt-4">
-    <div class="alert alert-danger col-6 offset-3 text-center" role="alert">
-        <p class="alert-heading"><%= err.message %> </p>
+<!-- ================================================================
+     STAYZEN — FATAL ERROR PAGE / RAW & CHAOTIC
+     ================================================================ -->
+<div class="sz-fatal-wrapper">
+
+  <!-- Base Grid Background -->
+  <div class="sz-fatal-grid"></div>
+
+  <!-- Massive Background Marquees -->
+  <div class="sz-fatal-marquee sz-fatal-marquee--top">
+    <div class="sz-fatal-track">
+      <span>FATAL EXCEPTION ✦ PAGE NOT FOUND ✦ SYSTEM HALT ✦</span>
+      <span>FATAL EXCEPTION ✦ PAGE NOT FOUND ✦ SYSTEM HALT ✦</span>
+      <span>FATAL EXCEPTION ✦ PAGE NOT FOUND ✦ SYSTEM HALT ✦</span>
+    </div>
+  </div>
+  
+  <div class="sz-fatal-marquee sz-fatal-marquee--bottom">
+    <div class="sz-fatal-track sz-fatal-track--reverse">
+      <span>GLITCH IN THE MATRIX ✦ TURN BACK ✦ 404 / 500 ✦</span>
+      <span>GLITCH IN THE MATRIX ✦ TURN BACK ✦ 404 / 500 ✦</span>
+      <span>GLITCH IN THE MATRIX ✦ TURN BACK ✦ 404 / 500 ✦</span>
+    </div>
+  </div>
+
+  <!-- Floating Decorative SVG Stickers -->
+  <div class="sz-fatal-sticker sz-fatal-sticker--1" aria-hidden="true">
+    <svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <rect x="10" y="10" width="100" height="100" fill="#FF4D2E" stroke="#0A0A0A" stroke-width="6"/>
+      <text x="60" y="75" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="70" fill="#0A0A0A">!</text>
+    </svg>
+  </div>
+
+  <div class="sz-fatal-sticker sz-fatal-sticker--2" aria-hidden="true">
+    <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="45" fill="#C8FF00" stroke="#0A0A0A" stroke-width="6"/>
+      <text x="50" y="65" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="50" fill="#0A0A0A">?</text>
+    </svg>
+  </div>
+
+  <!-- Central Box -->
+  <div class="sz-fatal-box">
+    
+    <!-- Top Eyebrow -->
+    <div class="sz-fatal-box__eyebrow">
+      <div class="sz-fatal-badge-pulse"></div>
+      SYSTEM ALERT — ERROR DETECTED
+    </div>
+
+    <!-- Main Title -->
+    <h1 class="sz-fatal-box__title">VOID<br>SPACE.</h1>
+    
+    <!-- Error Message Banner -->
+    <div class="sz-fatal-box__message-banner">
+      <i class="fa-solid fa-skull-crossbones sz-fatal-icon"></i>
+      <span class="sz-fatal-text"><%= err.message || "The requested resource vanished into the ether." %></span>
+    </div>
+
+    <!-- Stack Trace (For dev mode) -->
+    <% if (process.env.NODE_ENV !== 'production' && err.stack) { %>
+      <div class="sz-fatal-box__stack">
+        <pre><code><%= err.stack %></code></pre>
       </div>
+    <% } %>
+
+    <!-- Action -->
+    <div class="sz-fatal-box__action">
+      <a href="/listings" class="sz-btn-fatal-return">
+        <i class="fa-solid fa-person-running me-2"></i> ABORT / RETURN TO LISTINGS
+      </a>
+    </div>
+
+  </div>
+
 </div>
+
+<style>
+/* ====================================================
+   FATAL ERROR PAGE STYLES (BRUTAL LUXE)
+   ==================================================== */
+
+.sz-fatal-wrapper {
+  position: relative;
+  min-height: 90vh;
+  width: 100%;
+  background: var(--lavender, #7C6AF7);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  border-bottom: 5px solid var(--ink, #0A0A0A);
+}
+
+/* Grid overlay */
+.sz-fatal-grid {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(10,10,10,0.1) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(10,10,10,0.1) 2px, transparent 2px);
+  background-size: 60px 60px;
+  background-position: center;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Marquees */
+.sz-fatal-marquee {
+  position: absolute;
+  width: 120%;
+  left: -10%;
+  background: var(--ink, #0A0A0A);
+  color: var(--cream, #F5F0E8);
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-weight: 900;
+  font-size: clamp(2rem, 5vw, 4rem);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 1rem 0;
+  border-top: 5px solid var(--ink, #0A0A0A);
+  border-bottom: 5px solid var(--ink, #0A0A0A);
+  z-index: 2;
+  transform: rotate(-3deg);
+  overflow: hidden;
+  box-shadow: 15px 15px 0 var(--lime, #C8FF00);
+}
+
+.sz-fatal-marquee--top {
+  top: 10%;
+  background: var(--coral, #FF4D2E);
+  color: var(--ink, #0A0A0A);
+  box-shadow: 15px 15px 0 var(--ink, #0A0A0A);
+}
+
+.sz-fatal-marquee--bottom {
+  bottom: 10%;
+  transform: rotate(2deg);
+  box-shadow: -15px 15px 0 var(--blush, #FFB8C6);
+}
+
+.sz-fatal-track {
+  display: flex;
+  white-space: nowrap;
+  animation: fatalMarquee 15s linear infinite;
+}
+
+.sz-fatal-track--reverse {
+  animation: fatalMarqueeRev 18s linear infinite;
+}
+
+@keyframes fatalMarquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes fatalMarqueeRev {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+/* 3D Stickers */
+.sz-fatal-sticker {
+  position: absolute;
+  z-index: 3;
+  animation: floatSticker 6s ease-in-out infinite;
+}
+
+.sz-fatal-sticker--1 {
+  top: 25%;
+  left: 10%;
+  transform: rotate(-12deg);
+}
+
+.sz-fatal-sticker--2 {
+  bottom: 25%;
+  right: 15%;
+  transform: rotate(18deg);
+  animation-delay: 1s;
+}
+
+@keyframes floatSticker {
+  0%, 100% { transform: translateY(0) rotate(-10deg); }
+  50% { transform: translateY(-20px) rotate(5deg); }
+}
+
+/* Central Card */
+.sz-fatal-box {
+  position: relative;
+  z-index: 10;
+  background: var(--cream, #F5F0E8);
+  border: 5px solid var(--ink, #0A0A0A);
+  box-shadow: 20px 20px 0 var(--ink, #0A0A0A);
+  width: 100%;
+  max-width: 700px;
+  text-align: center;
+  padding: 4rem 3rem;
+}
+
+.sz-fatal-box__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--ink, #0A0A0A);
+  color: var(--lime, #C8FF00);
+  border: 3px solid var(--ink, #0A0A0A);
+  padding: 0.5rem 1.2rem;
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-weight: 900;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  box-shadow: 4px 4px 0 var(--coral, #FF4D2E);
+  margin-bottom: 2rem;
+  transform: rotate(-2deg);
+}
+
+.sz-fatal-badge-pulse {
+  width: 12px;
+  height: 12px;
+  background: var(--coral, #FF4D2E);
+  border-radius: 50%;
+  animation: pulseFatal 0.8s infinite;
+}
+
+@keyframes pulseFatal {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+.sz-fatal-box__title {
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: clamp(4rem, 12vw, 7rem);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -4px;
+  text-transform: uppercase;
+  color: var(--ink, #0A0A0A);
+  text-shadow: 8px 8px 0 var(--blush, #FFB8C6);
+  margin-bottom: 2.5rem;
+}
+
+.sz-fatal-box__message-banner {
+  background: var(--yellow, #FFE500);
+  border: 4px solid var(--ink, #0A0A0A);
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+  transform: rotate(1deg);
+  box-shadow: 6px 6px 0 var(--ink, #0A0A0A);
+}
+
+.sz-fatal-icon {
+  font-size: 2rem;
+  color: var(--coral, #FF4D2E);
+}
+
+.sz-fatal-text {
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ink, #0A0A0A);
+  text-align: left;
+  line-height: 1.4;
+}
+
+.sz-fatal-box__stack {
+  background: var(--ink, #0A0A0A);
+  color: var(--lime, #C8FF00);
+  padding: 1.5rem;
+  border: 4px solid var(--ink, #0A0A0A);
+  text-align: left;
+  overflow-x: auto;
+  font-family: monospace;
+  font-size: 0.85rem;
+  margin-bottom: 2.5rem;
+  box-shadow: inset 5px 5px 0 rgba(0,0,0,0.5);
+}
+
+.sz-btn-fatal-return {
+  display: inline-block;
+  background: var(--ink, #0A0A0A);
+  color: var(--lime, #C8FF00) !important;
+  border: 4px solid var(--ink, #0A0A0A);
+  padding: 1.2rem 2.5rem;
+  font-family: var(--font-main, 'Space Grotesk', sans-serif);
+  font-weight: 900;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-decoration: none !important;
+  box-shadow: 8px 8px 0 var(--coral, #FF4D2E);
+  transition: all 0.15s ease;
+  width: 100%;
+}
+
+.sz-btn-fatal-return:hover {
+  transform: translate(6px, 6px);
+  box-shadow: 2px 2px 0 var(--coral, #FF4D2E);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .sz-fatal-marquee {
+    transform: rotate(0deg);
+    left: 0;
+    width: 100%;
+  }
+  .sz-fatal-box { padding: 3rem 1.5rem; }
+  .sz-fatal-sticker { display: none; }
+  .sz-fatal-box__message-banner { flex-direction: column; text-align: center; gap: 0.5rem; }
+  .sz-fatal-text { text-align: center; }
+}
+</style>
