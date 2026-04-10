@@ -1,4 +1,5 @@
 const Listing = require("../models/listing");
+const Booking = require("../models/booking");
 const axios = require("axios");
 
 module.exports.index = async (req, res) => {
@@ -15,10 +16,10 @@ module.exports.showListing = async (req, res) => {
     const listing = await Listing.findById(id).populate({path: "reviews", populate: { path: "author"},}).populate("owner");
     if(!listing){
         req.flash("failure", "Requested listing does not exists");
-        res.redirect("/listings")
+        return res.redirect("/listings")
     }
-    res.render('listings/show', { listing });
-
+    const bookings = await Booking.find({ listing: id });
+    res.render('listings/show', { listing, bookings });
 }
 
 

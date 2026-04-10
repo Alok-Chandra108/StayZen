@@ -14,6 +14,26 @@
   color: #0A0A0A !important;
   font-weight: 900 !important;
 }
+/* Explicitly mark Booked Dates */
+.flatpickr-day.sz-booked-cell {
+  background: #E0E0E0 !important;
+  color: #999 !important;
+  text-decoration: line-through !important;
+  cursor: not-allowed !important;
+  position: relative;
+}
+.flatpickr-day.sz-booked-cell:after {
+  content: 'BOOKED';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-15deg);
+  font-size: 8px;
+  font-weight: 900;
+  color: rgba(255, 0, 0, 0.4);
+  pointer-events: none;
+  letter-spacing: 0;
+}
 .sz-date-input {
   width: 100%;
   padding: 10px;
@@ -52,7 +72,8 @@
       coordinates: (listing.geometry && listing.geometry.coordinates) ? [listing.geometry.coordinates[1], listing.geometry.coordinates[0]] : [0,0],
       title: listing.title,
       location: listing.location,
-      price: listing.price
+      price: listing.price,
+      bookings: typeof bookings !== 'undefined' ? bookings : []
   });
 %>
 <script id="listing-data" type="application/json"><%- listingDataJson %></script>
@@ -237,9 +258,13 @@
           <% if (!currUser || !currUser._id.equals(listing.owner._id)) { %>
             <form action="/listings/<%= listing.id %>/bookings" method="POST" id="booking-form" class="mt-4">
               <label style="font-size: 0.8rem; font-weight: 800; display:block; margin-bottom: 5px;">SELECT DATES</label>
+              
+              <input type="hidden" id="hiddenCheckIn" name="checkIn" required>
+              <input type="hidden" id="hiddenCheckOut" name="checkOut" required>
+              
               <div style="display: flex; gap: 10px;">
-                <input type="text" id="checkIn" name="checkIn" class="sz-date-input" placeholder="CHECK-IN" required readonly>
-                <input type="text" id="checkOut" name="checkOut" class="sz-date-input" placeholder="CHECK-OUT" required readonly>
+                <input type="text" id="checkIn" class="sz-date-input" placeholder="CHECK-IN" readonly>
+                <input type="text" id="checkOut" class="sz-date-input" placeholder="CHECK-OUT" readonly>
               </div>
 
               <div class="sz-view-ticket__total" style="display: none;" id="brutal-total-box">
@@ -276,32 +301,91 @@
     const nightsSpan = document.getElementById('brutal-nights');
     const priceSpan = document.getElementById('brutal-price');
     
-    // Listing data from server variables
-    const pricePerNight = <%= listing.price %>;
+    // Listing data from the JSON script tag (resolves IDE syntax errors)
+    const pricePerNight = listingData.price;
+    const rawBookings = listingData.bookings;
+    
+    // Format disabled ranges simply
+    const disabledRanges = rawBookings.map(b => ({
+       from: b.checkIn,
+       to: b.checkOut
+    }));
     
     if(!checkInInput) return; // Owner viewing
 
-    let checkOutPicker;
+    const hiddenCheckIn = document.getElementById('hiddenCheckIn');
+    const hiddenCheckOut = document.getElementById('hiddenCheckOut');
 
-    const checkInPicker = flatpickr(checkInInput, {
+    // Initialize one single range picker on the Check-In input
+    const fp = flatpickr(checkInInput, {
+      mode: "range",
       minDate: "today",
+      disable: disabledRanges,
+      showMonths: window.innerWidth > 768 ? 2 : 1, // Show two months like Airbnb on desktop
+      altInput: true,
+      altFormat: "M j, Y",
+      dateFormat: "Y-m-d",
+      onValueUpdate: function(selectedDates, dateStr, instance) {
+        // Force the first input to ONLY show the start date, even in range mode
+        if (selectedDates.length >= 1 && instance.altInput) {
+          instance.altInput.value = instance.formatDate(selectedDates[0], "M j, Y");
+        }
+        if (selectedDates.length === 2) {
+          checkOutInput.value = instance.formatDate(selectedDates[1], "M j, Y");
+        } else {
+          checkOutInput.value = "";
+        }
+      },
+      onDayCreate: function(dObj, dStr, fp, dayElem) {
+        const date = dayElem.dateObj;
+        date.setHours(0,0,0,0);
+        
+        const isBooked = rawBookings.some(b => {
+            const start = new Date(b.checkIn);
+            const end = new Date(b.checkOut);
+            start.setHours(0,0,0,0);
+            end.setHours(0,0,0,0);
+            return date >= start && date <= end;
+        });
+
+        if (isBooked) {
+          dayElem.classList.add("sz-booked-cell");
+          dayElem.title = "This date is already reserved";
+        }
+      },
       onChange: function(selectedDates, dateStr, instance) {
-        checkOutPicker.set('minDate', dateStr);
-        calculateTotal();
+         if (selectedDates.length >= 1) {
+             hiddenCheckIn.value = instance.formatDate(selectedDates[0], "Y-m-d");
+         } else {
+             hiddenCheckIn.value = "";
+         }
+
+         if (selectedDates.length === 2) {
+             hiddenCheckOut.value = instance.formatDate(selectedDates[1], "Y-m-d");
+             calculateTotal(selectedDates[0], selectedDates[1]);
+         } else {
+             hiddenCheckOut.value = "";
+             totalBox.style.display = "none";
+         }
       }
     });
 
-    checkOutPicker = flatpickr(checkOutInput, {
-      minDate: "today",
-      onChange: function(selectedDates, dateStr, instance) {
-        calculateTotal();
-      }
+    document.getElementById('booking-form').addEventListener('submit', function(e) {
+        if(!hiddenCheckIn.value || !hiddenCheckOut.value) {
+            e.preventDefault();
+            alert("Please select a complete Check-In and Check-Out date range.");
+        }
     });
 
-    function calculateTotal() {
-      if(checkInInput.value && checkOutInput.value) {
-        const d1 = new Date(checkInInput.value);
-        const d2 = new Date(checkOutInput.value);
+    // Make clicking the checkout input simply open the checkIn picker
+    checkOutInput.addEventListener('click', () => {
+         fp.open();
+    });
+
+    // Make checkout input look styled but read-only
+    checkOutInput.readOnly = true;
+
+    function calculateTotal(d1, d2) {
         const diffTime = d2 - d1;
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
         
@@ -312,7 +396,6 @@
         } else {
            totalBox.style.display = "none";
         }
-      }
     }
   });
 </script>
