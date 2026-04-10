@@ -37,6 +37,10 @@ module.exports.createBooking = async (req, res) => {
     }
 
     const listing = await Listing.findById(id);
+    if (!listing) {
+        req.flash("failure", "Target listing missing from records.");
+        return res.redirect("/listings");
+    }
     const diffTime = Math.abs(checkOutDate - checkInDate);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
     

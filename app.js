@@ -22,6 +22,9 @@ const passRouter = require("./routes/pass.js");
 
 const passport = require('passport');
 const LocalStrategy = require("passport-local");
+const helmet = require("helmet");
+const mongoSanitize = require('express-mongo-sanitize');
+const rateLimit = require('express-rate-limit');
 
 
 
@@ -46,6 +49,62 @@ app.use(methodOverride("_method"));
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, "/public")))
 
+// Security: NoSQL Injection Protection
+app.use(mongoSanitize());
+
+// Security: Helmet for HTTP Headers
+const scriptSrcUrls = [
+    "https://cdn.jsdelivr.net",
+    "https://unpkg.com",
+    "https://cdnjs.cloudflare.com",
+];
+const styleSrcUrls = [
+    "https://cdn.jsdelivr.net",
+    "https://unpkg.com",
+    "https://fonts.googleapis.com",
+    "https://cdnjs.cloudflare.com",
+];
+const connectSrcUrls = [
+    "https://unpkg.com",
+];
+const fontSrcUrls = [
+    "https://fonts.gstatic.com",
+    "https://cdnjs.cloudflare.com",
+];
+
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            defaultSrc: [],
+            connectSrc: ["'self'", ...connectSrcUrls],
+            scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+            styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+            workerSrc: ["'self'", "blob:"],
+            objectSrc: [],
+            imgSrc: [
+                "'self'",
+                "blob:",
+                "data:",
+                "https://res.cloudinary.com/dos4ag6kt/", 
+                "https://images.unsplash.com/",
+                "https://unpkg.com/", // For Leaflet tiles
+            ],
+            fontSrc: ["'self'", ...fontSrcUrls],
+        },
+    })
+);
+
+// Security: Rate Limiting
+const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+    standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+    message: "Too many login/signup attempts from this IP, please try again after 15 minutes",
+});
+app.use("/login", authLimiter);
+app.use("/signup", authLimiter);
+
 
 const store  = MongoStore.create({
     mongoUrl: MONGO_URI,
@@ -67,7 +126,9 @@ const sessionOptions = {
     cookie: {
         expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
         maxAge: 7 * 24 * 60 * 60 *1000,
-        httpOnly: true
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: 'lax'
     }
 };
 
@@ -112,8 +173,11 @@ app.all("*", (req, res, next) => {
 // Error handling middleware (must come last)
 app.use((err, req, res, next) => {
     let { statusCode = 500, message = "Something went wrong" } = err;
-    res.status(statusCode).render("error.ejs", { err })
-    // res.status(statusCode).send(message);
+    console.error(`[ERROR] ${statusCode} - ${message}`);
+    if (process.env.NODE_ENV !== "production") {
+        console.error(err.stack);
+    }
+    res.status(statusCode).render("error.ejs", { err, message });
 });
 
 

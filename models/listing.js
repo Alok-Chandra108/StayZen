@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-const { type } = require("os");
-const { title } = require("process");
 const Schema = mongoose.Schema;
 const Review = require("./review.js")
 

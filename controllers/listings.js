@@ -37,13 +37,21 @@ module.exports.createListing = async (req, res, next) => {
         const encodedLocation = encodeURIComponent(locationInput);
         const geoUrl = `https://nominatim.openstreetmap.org/search?q=${encodedLocation}&format=json&limit=1`;
 
-        const response = await axios.get(geoUrl, {
-            headers: { 'User-Agent': 'Leaflet-Map-App' }
-        });
+        let geoData;
+        try {
+            const response = await axios.get(geoUrl, {
+                headers: { 'User-Agent': 'StayZen-App' },
+                timeout: 5000 // 5 second timeout
+            });
+            geoData = response.data[0];
+        } catch (geoErr) {
+            console.error("Geocoding service error:", geoErr.message);
+            req.flash("failure", "Geocoding service is currently unavailable. Please try again later.");
+            return res.redirect("/listings/new");
+        }
 
-        const geoData = response.data[0];
         if (!geoData) {
-            req.flash("failure", "Invalid location provided.");
+            req.flash("failure", "Could not find the location provided. Please be more specific (e.g., City, State).");
             return res.redirect("/listings/new");
         }
 
@@ -59,7 +67,7 @@ module.exports.createListing = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-};
+}
 
 
 module.exports.editListing = async (req, res) => {
@@ -98,14 +106,25 @@ module.exports.updateListing = async (req, res, next) => {
         const encodedLocation = encodeURIComponent(locationInput);
         const geoUrl = `https://nominatim.openstreetmap.org/search?q=${encodedLocation}&format=json&limit=1`;
 
-        const response = await axios.get(geoUrl, {
-            headers: { 'User-Agent': 'Leaflet-Map-App' }
-        });
+        let geoData;
+        try {
+            const response = await axios.get(geoUrl, {
+                headers: { 'User-Agent': 'StayZen-App' },
+                timeout: 5000
+            });
+            geoData = response.data[0];
+        } catch (geoErr) {
+            console.error("Geocoding service error:", geoErr.message);
+            req.flash("failure", "Geocoding service unavailable. Updated listing without changing location coordinates.");
+            // We still save the other changes, but don't update geometry if API fails
+            await listing.save();
+            return res.redirect(`/listings/${id}`);
+        }
 
-        const geoData = response.data[0];
         if (!geoData) {
-            req.flash("failure", "Invalid location provided.");
-            return res.redirect(`/listings/${id}/edit`);
+            req.flash("failure", "Invalid location provided. Location mapping was not updated.");
+            await listing.save();
+            return res.redirect(`/listings/${id}`);
         }
 
         listing.geometry = {
@@ -120,7 +139,7 @@ module.exports.updateListing = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-};
+}
 
 module.exports.destroyListing = async(req, res) => {
     let {id} = req.params;

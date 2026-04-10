@@ -27,7 +27,7 @@ module.exports.isOwner = async(req, res, next) => {
             req.flash("failure", "Listing does not exist!");
             return res.redirect("/listings");
         }
-        if(!listing.owner._id.equals(res.locals.currUser._id)) {
+        if(!listing.owner.equals(res.locals.currUser._id)) {
             req.flash("failure", "You are not the Owner of this listing");
             return res.redirect(`/listings/${id}`);
         }
@@ -35,14 +35,16 @@ module.exports.isOwner = async(req, res, next) => {
 }
 
 module.exports.validateListing = (req, res, next) => {
+    if (!req.body.listing) {
+        throw new ExpressError(400, "Listing data is missing");
+    }
     if (!req.body.listing.amenities) req.body.listing.amenities = [];
     if (!req.body.listing.tags) req.body.listing.tags = [];
 
-
-    let  {error} = listingSchema.validate(req.body);
+    let { error } = listingSchema.validate(req.body);
     const safeRedirect = req.get("Referrer") || "/";
-    
-    if(error){
+
+    if (error) {
         const amenitiesError = error.details.find(e => e.context.key === "amenities");
         const tagsError = error.details.find(e => e.context.key === "tags");
 
@@ -57,11 +59,10 @@ module.exports.validateListing = (req, res, next) => {
         }
 
         let errMsg = error.details.map((el) => el.message).join(",");
-        throw new ExpressError(400, errMsg);
-        req.flash("failure", errMsg);  
-    }else{
-        next();
+        req.flash("failure", errMsg);
+        return res.redirect(safeRedirect);
     }
+    next();
 }
 
 module.exports.validateReview = (req, res, next) => {
