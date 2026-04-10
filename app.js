@@ -18,6 +18,7 @@ const User = require('./models/user');
 const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
+const passRouter = require("./routes/pass.js");
 
 const passport = require('passport');
 const LocalStrategy = require("passport-local");
@@ -95,6 +96,12 @@ app.get("/", (req, res) => {
 
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
+app.use("/listings/:id/bookings", passRouter);
+
+const passController = require("./controllers/passes.js");
+const { isLoggedIn } = require("./utils/middleware.js");
+app.get("/dashboard", isLoggedIn, require("./utils/wrapAsync.js")(passController.index));
+
 app.use("/", userRouter);
 
 

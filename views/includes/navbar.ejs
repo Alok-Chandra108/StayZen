@@ -62,6 +62,9 @@
         <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i> Login
       </a>
     <% } else { %>
+      <a href="/dashboard" class="nb-nav-link" style="background:var(--yellow); color:var(--ink); border-color:var(--ink);" id="nav-passes">
+        <i class="fa-solid fa-ticket" aria-hidden="true"></i> My Passes
+      </a>
       <span class="nb-nav-user">
         <i class="fa-solid fa-circle-user" aria-hidden="true"></i>
         <%= currUser.username %>

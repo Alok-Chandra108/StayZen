@@ -1,4 +1,40 @@
 <%- layout("/layouts/boilerplate") -%>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<style>
+/* Brutalist Overrides for Flatpickr */
+.flatpickr-calendar {
+  border: 3px solid #0A0A0A !important;
+  border-radius: 0 !important;
+  box-shadow: 6px 6px 0 #0A0A0A !important;
+  font-family: 'Space Grotesk', sans-serif !important;
+}
+.flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay {
+  background: #C8FF00 !important;
+  border-color: #0A0A0A !important;
+  color: #0A0A0A !important;
+  font-weight: 900 !important;
+}
+.sz-date-input {
+  width: 100%;
+  padding: 10px;
+  border: 3px solid #0A0A0A;
+  background: #f5f0e8;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  cursor: pointer;
+}
+.sz-view-ticket__total {
+  background: #FF4D2E;
+  color: #fff;
+  padding: 15px;
+  border: 3px solid #0A0A0A;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  font-weight: 900;
+}
+</style>
 <%
   const amenityIcons = {
     "WiFi": "fa-wifi", "Parking": "fa-square-parking", "Pool": "fa-water-ladder",
@@ -197,6 +233,21 @@
             <span>RATING</span>
             <strong><%= listing.reviews.length > 0 ? listing.reviews.length + ' LOGGED' : 'NO DATA' %></strong>
           </div>
+
+          <% if (!currUser || !currUser._id.equals(listing.owner._id)) { %>
+            <form action="/listings/<%= listing.id %>/bookings" method="POST" id="booking-form" class="mt-4">
+              <label style="font-size: 0.8rem; font-weight: 800; display:block; margin-bottom: 5px;">SELECT DATES</label>
+              <div style="display: flex; gap: 10px;">
+                <input type="text" id="checkIn" name="checkIn" class="sz-date-input" placeholder="CHECK-IN" required readonly>
+                <input type="text" id="checkOut" name="checkOut" class="sz-date-input" placeholder="CHECK-OUT" required readonly>
+              </div>
+
+              <div class="sz-view-ticket__total" style="display: none;" id="brutal-total-box">
+                <span>TOTAL FOR <span id="brutal-nights">0</span> NIGHTS</span>
+                <strong id="brutal-price">₹0</strong>
+              </div>
+            </form>
+          <% } %>
         </div>
         
         <div class="sz-view-ticket__footer">
@@ -206,7 +257,7 @@
                <button class="sz-btn sz-btn--danger w-100"><i class="fa-solid fa-biohazard me-2"></i>OBLITERATE</button>
              </form>
           <% } else { %>
-             <button class="sz-btn sz-btn--action w-100" onclick="alert('Booking functionality coming soon.')"><i class="fa-solid fa-bolt me-2"></i>SECURE PASS</button>
+             <button type="submit" form="booking-form" class="sz-btn sz-btn--action w-100"><i class="fa-solid fa-bolt me-2"></i>SECURE PASS</button>
           <% } %>
         </div>
       </div>
@@ -216,3 +267,52 @@
 </div><!-- /sz-view-wrapper -->
 
 <script src="/js/map.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const checkInInput = document.getElementById('checkIn');
+    const checkOutInput = document.getElementById('checkOut');
+    const totalBox = document.getElementById('brutal-total-box');
+    const nightsSpan = document.getElementById('brutal-nights');
+    const priceSpan = document.getElementById('brutal-price');
+    
+    // Listing data from server variables
+    const pricePerNight = <%= listing.price %>;
+    
+    if(!checkInInput) return; // Owner viewing
+
+    let checkOutPicker;
+
+    const checkInPicker = flatpickr(checkInInput, {
+      minDate: "today",
+      onChange: function(selectedDates, dateStr, instance) {
+        checkOutPicker.set('minDate', dateStr);
+        calculateTotal();
+      }
+    });
+
+    checkOutPicker = flatpickr(checkOutInput, {
+      minDate: "today",
+      onChange: function(selectedDates, dateStr, instance) {
+        calculateTotal();
+      }
+    });
+
+    function calculateTotal() {
+      if(checkInInput.value && checkOutInput.value) {
+        const d1 = new Date(checkInInput.value);
+        const d2 = new Date(checkOutInput.value);
+        const diffTime = d2 - d1;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+        
+        if(diffDays > 0) {
+           nightsSpan.textContent = diffDays;
+           priceSpan.textContent = "₹" + (diffDays * pricePerNight).toLocaleString("en-IN");
+           totalBox.style.display = "flex";
+        } else {
+           totalBox.style.display = "none";
+        }
+      }
+    }
+  });
+</script>
