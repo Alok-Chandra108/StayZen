@@ -1,34 +1,39 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const searchForm = document.querySelector("form");
-  const searchInput = document.getElementById("search-input");
+  const searchForm = document.querySelector(".nb-search-bar");
+  const searchInput = document.querySelector(".nb-search-input");
   const filters = document.querySelectorAll(".filter");
   const cards = document.querySelectorAll(".listing-card");
-  const container = document.getElementById("listing-container");
   const noMatchContainer = document.querySelector(".no-match-container");
 
-  // Prevent form submission
-  searchForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-  });
+  // Only run on the index page (where listing cards exist)
+  if (!cards.length) return;
 
-  let activeFilter = null;
+  // Prevent navbar search form from navigating
+  if (searchForm) {
+    searchForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+    });
+  }
 
-  // Unified filter + search logic
+  let activeTag = null; // stores the data-tag string e.g. "Amazing Pools"
+
   function applyFilters() {
-    const searchTerm = searchInput.value.trim().toLowerCase();
-    const selectedFilter = activeFilter?.querySelector("p").innerText.trim().toLowerCase() || null;
+    const searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : "";
     let anyVisible = false;
 
     cards.forEach(card => {
-      const title = card.querySelector("b")?.textContent.toLowerCase() || "";
-      const tags = JSON.parse(card.getAttribute("data-tags") || "[]").map(t => t.toLowerCase());
+      const title  = card.querySelector("b")?.textContent.toLowerCase() || "";
+      const tags   = JSON.parse(card.getAttribute("data-tags") || "[]");
 
       const matchesSearch = title.includes(searchTerm);
-      const matchesFilter = selectedFilter ? tags.includes(selectedFilter) : true;
+      // Compare data-tag value (e.g. "Amazing Pools") against the stored tags array
+      const matchesFilter = activeTag
+        ? tags.some(t => t.toLowerCase() === activeTag.toLowerCase())
+        : true;
 
       const shouldShow = matchesSearch && matchesFilter;
-      card.parentElement.style.display = shouldShow ? "block" : "none";
-
+      const cardLink = card.closest(".sz-card-link");
+      if (cardLink) cardLink.style.display = shouldShow ? "block" : "none";
       if (shouldShow) anyVisible = true;
     });
 
@@ -37,23 +42,24 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Search logic
-  searchInput.addEventListener("keyup", function () {
-    applyFilters();
-  });
+  // Real-time search
+  if (searchInput) {
+    searchInput.addEventListener("input", applyFilters);
+  }
 
-  // Filter logic
+  // Category filter clicks — use data-tag, not the <p> text
   filters.forEach(filter => {
     filter.addEventListener("click", () => {
-      if (activeFilter === filter) {
-        // Toggle off
+      const tag = filter.dataset.tag; // e.g. "Amazing Pools"
+
+      if (activeTag === tag) {
+        // Clicking the same filter again deactivates it
         filter.classList.remove("active");
-        activeFilter = null;
+        activeTag = null;
       } else {
-        // Activate new filter
         filters.forEach(f => f.classList.remove("active"));
-        activeFilter = filter;
         filter.classList.add("active");
+        activeTag = tag;
       }
 
       applyFilters();

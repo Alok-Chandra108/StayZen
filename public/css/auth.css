@@ -1,0 +1,218 @@
+/* ============================================================
+   STAYZEN AUTH — BRUTAL LUXE 2.0
+   Login & Signup — Unapologetic Entry
+   ============================================================ */
+
+.sz-auth-page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+  /* Add containment to prevent bleed into global shell */
+  position: relative;
+  z-index: 1;
+}
+
+/* Left panel */
+.sz-auth-left {
+  position: relative;
+  background: var(--lavender);
+  border-right: 4px solid var(--ink);
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  padding: 3rem;
+}
+
+.sz-auth-bg-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sz-auth-left__text {
+  position: relative;
+  z-index: 2;
+}
+
+.sz-auth-left__eyebrow {
+  font-size: 0.7rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--lime);
+  background: var(--ink);
+  padding: 0.35rem 0.8rem;
+  display: inline-block;
+  margin-bottom: 1rem;
+  border: 2px solid var(--lime);
+}
+
+.sz-auth-left__big {
+  font-family: var(--font-h);
+  font-size: clamp(4rem, 10vw, 7rem);
+  font-weight: 900;
+  letter-spacing: -4px;
+  line-height: 0.9;
+  text-transform: uppercase;
+  color: var(--cream);
+  text-shadow: 5px 5px 0 var(--ink);
+  margin-bottom: 1.5rem;
+}
+
+.sz-auth-left__small {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgba(245,240,232,0.8);
+  line-height: 1.6;
+  border-left: 4px solid var(--lime);
+  padding-left: 1rem;
+}
+
+/* Right panel */
+.sz-auth-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  background: var(--cream);
+  position: relative;
+  z-index: 1;
+}
+
+.sz-auth-form-card {
+  width: 100%;
+  max-width: 420px;
+  border: 4px solid var(--ink);
+  box-shadow: 12px 12px 0 var(--ink);
+  background: var(--white);
+}
+
+.sz-auth-form-card__header {
+  background: var(--ink);
+  padding: 3.5rem 2.5rem 2.5rem;
+  /* Ensure title doesn't overflow */
+  overflow: hidden;
+}
+
+.sz-auth-form-card__eyebrow {
+  font-size: 0.68rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--lime);
+  margin-bottom: 0.8rem;
+}
+
+.sz-auth-form-card__title {
+  font-family: var(--font-h);
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  font-weight: 900;
+  letter-spacing: -1.5px;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: var(--cream);
+  margin: 0;
+}
+
+.sz-auth-form-card__body { padding: 2rem; }
+
+.sz-auth-field { margin-bottom: 1.5rem; }
+
+.sz-auth-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+}
+
+.sz-auth-step {
+  display: inline-flex;
+  width: 22px;
+  height: 22px;
+  background: var(--coral);
+  color: var(--white);
+  border: 2px solid var(--ink);
+  font-size: 0.75rem;
+  font-weight: 900;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sz-auth-input {
+  width: 100%;
+  border: 3px solid var(--ink) !important;
+  border-radius: 0 !important;
+  padding: 0.9rem 1rem !important;
+  font-size: 0.9rem !important;
+  font-family: var(--font-p);
+  background: var(--cream) !important;
+  color: var(--ink) !important;
+  outline: none !important;
+  transition: all 0.12s;
+  box-shadow: inset 2px 2px 0 rgba(10,10,10,0.06) !important;
+}
+
+.sz-auth-input:focus {
+  background: var(--white) !important;
+  box-shadow: 5px 5px 0 var(--ink) !important;
+  transform: translate(-2px, -2px);
+}
+
+.sz-auth-submit {
+  width: 100%;
+  padding: 1rem;
+  background: var(--ink);
+  color: var(--lime) !important;
+  border: 3px solid var(--ink);
+  font-family: var(--font-h);
+  font-weight: 900;
+  font-size: 0.88rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 6px 6px 0 var(--coral);
+  transition: all 0.12s;
+  margin-top: 0.5rem;
+  cursor: pointer;
+}
+
+.sz-auth-submit:hover {
+  transform: translate(3px, 3px);
+  box-shadow: 3px 3px 0 var(--coral);
+}
+
+.sz-auth-submit--signup {
+  box-shadow: 6px 6px 0 var(--lavender);
+}
+
+.sz-auth-submit--signup:hover {
+  box-shadow: 3px 3px 0 var(--lavender);
+}
+
+.sz-auth-switch {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(10,10,10,0.55);
+}
+
+.sz-auth-switch a {
+  color: var(--lavender);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.sz-auth-switch a:hover { text-decoration: underline; }
+
+@media (max-width: 768px) {
+  .sz-auth-page { grid-template-columns: 1fr; }
+  .sz-auth-left { display: none; }
+  .sz-auth-right { padding: 2rem 1rem; align-items: flex-start; padding-top: 3rem; }
+}

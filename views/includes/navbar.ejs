@@ -2,33 +2,13 @@
      STAYZEN NAVBAR — NEU-BRUTALISM × AWWWARDS
      ============================================================ -->
 
-<!-- Top Ticker Announcement Bar -->
-<div class="nb-nav-ticker" aria-hidden="true">
-  <div class="ticker-content">
-    <span class="ticker-item">Explore Raw Escapes</span>
-    <span class="ticker-item">Premium Brutalist Comfort</span>
-    <span class="ticker-item">Unapologetic Spaces</span>
-    <span class="ticker-item">StayZen: Book Your Next Adventure</span>
-    <span class="ticker-item">✦ Limited Openings for 2026</span>
-    <span class="ticker-item">Explore Raw Escapes</span>
-    <span class="ticker-item">Premium Brutalist Comfort</span>
-    <span class="ticker-item">Unapologetic Spaces</span>
-    <span class="ticker-item">StayZen: Book Your Next Adventure</span>
-    <span class="ticker-item">✦ Limited Openings for 2026</span>
-  </div>
-</div>
 
 <!-- Main Navbar -->
 <nav class="nb-navbar" role="navigation" aria-label="Main navigation">
 
   <!-- Brand -->
   <a class="navbar-brand" href="/listings" aria-label="StayZen home">
-    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <rect x="1" y="1" width="30" height="30" fill="#C8FF00" stroke="#0A0A0A" stroke-width="2.5"/>
-      <path d="M6 26 L16 8 L26 26" stroke="#0A0A0A" stroke-width="3" fill="none" stroke-linejoin="miter"/>
-      <line x1="10" y1="20" x2="22" y2="20" stroke="#0A0A0A" stroke-width="3"/>
-    </svg>
-    <span>STAYZEN</span>
+    <span class="sz-brand-text">STAYZEN</span>
   </a>
 
   <!-- Search -->
@@ -38,39 +18,32 @@
         class="nb-search-input"
         name="search"
         type="search"
-        placeholder="Where do you want to be?"
+        placeholder="Search territory..."
         aria-label="Search listings"
         autocomplete="off"
       />
       <button class="nb-search-btn" type="submit" aria-label="Submit search">
-        <i class="fa-solid fa-magnifying-glass me-1" aria-hidden="true"></i> Search
+        <i class="fa-solid fa-bolt" aria-hidden="true"></i>
       </button>
     </form>
   </div>
 
   <!-- Actions -->
-  <div class="d-flex align-items-center gap-2 flex-shrink-0">
-    <a href="/listings/new" class="nb-nav-link nb-nav-link--purple" id="nav-new-listing">
-      <i class="fa-solid fa-plus" aria-hidden="true"></i> New
+  <div class="nb-nav-actions">
+    <a href="/listings/new" class="sz-btn sz-btn--action" style="padding: 0.6rem 1.2rem; font-size: 0.75rem;" id="nav-new-listing">
+      <i class="fa-solid fa-plus me-1" aria-hidden="true"></i> LIST SPACE
     </a>
 
     <% if (!currUser) { %>
-      <a href="/signup" class="nb-nav-link nb-nav-link--pink" id="nav-signup">
-        <i class="fa-solid fa-user-plus" aria-hidden="true"></i> Sign Up
-      </a>
-      <a href="/login" class="nb-nav-link nb-nav-link--coral" id="nav-login">
-        <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i> Login
+      <a href="/login" class="sz-btn" style="padding: 0.6rem 1.2rem; font-size: 0.75rem;" id="nav-login">
+        LOGIN
       </a>
     <% } else { %>
-      <a href="/dashboard" class="nb-nav-link" style="background:var(--yellow); color:var(--ink); border-color:var(--ink);" id="nav-passes">
-        <i class="fa-solid fa-ticket" aria-hidden="true"></i> My Passes
+      <a href="/dashboard" class="sz-btn sz-btn--warn" style="padding: 0.6rem 1.2rem; font-size: 0.75rem;" id="nav-passes">
+        PASSES
       </a>
-      <span class="nb-nav-user">
-        <i class="fa-solid fa-circle-user" aria-hidden="true"></i>
-        <%= currUser.username %>
-      </span>
-      <a href="/logout" class="nb-nav-link nb-nav-link--coral" id="nav-logout">
-        <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i> Logout
+      <a href="/logout" class="sz-btn sz-btn--danger" style="padding: 0.6rem 1.2rem; font-size: 0.75rem; border-width: 2px; box-shadow: 4px 4px 0 var(--ink);" id="nav-logout">
+        <i class="fa-solid fa-power-off"></i>
       </a>
     <% } %>
   </div>

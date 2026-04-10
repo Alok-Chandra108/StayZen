@@ -1,0 +1,178 @@
+/* ============================================================
+   STAYZEN FOOTER — BRUTAL LUXE 2.0
+   ============================================================ */
+
+.sz-footer-marquee {
+  background: var(--ink);
+  border-top: 4px solid var(--ink);
+  border-bottom: 4px solid var(--ink);
+  padding: 1rem 0;
+  overflow: hidden;
+  position: relative;
+  z-index: 10;
+}
+
+.sz-footer-marquee__track {
+  display: flex;
+  white-space: nowrap;
+  animation: footerMarquee 40s linear infinite;
+}
+
+.sz-footer-marquee__track span {
+  display: inline-block;
+  padding: 0 4rem;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--lime);
+  text-transform: uppercase;
+  letter-spacing: -1px;
+}
+
+@keyframes footerMarquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.sz-footer {
+  background: var(--ink);
+  color: var(--cream);
+  padding: 4rem 3rem 2rem;
+  font-family: var(--font-p);
+  border-top: none;
+}
+
+.sz-footer__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding-bottom: 3rem;
+  border-bottom: 2px solid rgba(245,240,232,0.1);
+}
+
+.sz-footer__wordmark {
+  font-family: var(--font-h);
+  font-size: clamp(3rem, 10vw, 7rem);
+  font-weight: 900;
+  letter-spacing: -4px;
+  line-height: 0.8;
+  color: var(--cream);
+  margin-bottom: 1rem;
+}
+
+.sz-footer__tagline {
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(245,240,232,0.6);
+  max-width: 400px;
+}
+
+.sz-footer__social {
+  display: flex;
+  gap: 1rem;
+}
+
+.sz-footer__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 3rem;
+  padding: 4rem 0;
+  border-bottom: 2px solid rgba(245,240,232,0.1);
+}
+
+.sz-footer__col-head {
+  font-family: var(--font-h);
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--lime);
+  margin-bottom: 1.5rem;
+}
+
+.sz-footer__links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.sz-footer__links a {
+  color: rgba(245,240,232,0.5);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.sz-footer__links a:hover {
+  color: var(--white);
+  transform: translateX(8px);
+}
+
+.sz-footer__manifesto {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: rgba(245,240,232,0.05);
+  padding: 2rem;
+  border: 3px solid rgba(245,240,232,0.1);
+}
+
+.sz-footer__manifesto-text {
+  font-family: var(--font-h);
+  font-weight: 900;
+  font-size: 1.8rem;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.sz-footer__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.sz-footer__copyright {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: rgba(245,240,232,0.3);
+  letter-spacing: 1px;
+}
+
+.sz-footer__status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--lime);
+  letter-spacing: 1px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--lime);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--lime);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  .sz-footer { padding: 3rem 1.5rem 1.5rem; }
+  .sz-footer__top { flex-direction: column; align-items: flex-start; }
+  .sz-footer__wordmark { font-size: 4rem; }
+}

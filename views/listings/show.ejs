@@ -1,60 +1,5 @@
 <%- layout("/layouts/boilerplate") -%>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<style>
-/* Brutalist Overrides for Flatpickr */
-.flatpickr-calendar {
-  border: 3px solid #0A0A0A !important;
-  border-radius: 0 !important;
-  box-shadow: 6px 6px 0 #0A0A0A !important;
-  font-family: 'Space Grotesk', sans-serif !important;
-}
-.flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay {
-  background: #C8FF00 !important;
-  border-color: #0A0A0A !important;
-  color: #0A0A0A !important;
-  font-weight: 900 !important;
-}
-/* Explicitly mark Booked Dates */
-.flatpickr-day.sz-booked-cell {
-  background: #E0E0E0 !important;
-  color: #999 !important;
-  text-decoration: line-through !important;
-  cursor: not-allowed !important;
-  position: relative;
-}
-.flatpickr-day.sz-booked-cell:after {
-  content: 'BOOKED';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(-15deg);
-  font-size: 8px;
-  font-weight: 900;
-  color: rgba(255, 0, 0, 0.4);
-  pointer-events: none;
-  letter-spacing: 0;
-}
-.sz-date-input {
-  width: 100%;
-  padding: 10px;
-  border: 3px solid #0A0A0A;
-  background: #f5f0e8;
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 800;
-  cursor: pointer;
-}
-.sz-view-ticket__total {
-  background: #FF4D2E;
-  color: #fff;
-  padding: 15px;
-  border: 3px solid #0A0A0A;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 15px;
-  font-weight: 900;
-}
-</style>
 <%
   const amenityIcons = {
     "WiFi": "fa-wifi", "Parking": "fa-square-parking", "Pool": "fa-water-ladder",
@@ -321,19 +266,40 @@
       mode: "range",
       minDate: "today",
       disable: disabledRanges,
-      showMonths: window.innerWidth > 768 ? 2 : 1, // Show two months like Airbnb on desktop
+      showMonths: window.innerWidth > 992 ? 2 : 1,
       altInput: true,
       altFormat: "M j, Y",
       dateFormat: "Y-m-d",
+      // Important: prevent flatpickr from auto-populating the input with the range
       onValueUpdate: function(selectedDates, dateStr, instance) {
-        // Force the first input to ONLY show the start date, even in range mode
-        if (selectedDates.length >= 1 && instance.altInput) {
-          instance.altInput.value = instance.formatDate(selectedDates[0], "M j, Y");
+        if (selectedDates.length >= 1) {
+          // Manually update the visible altInput to ONLY show the start date
+          setTimeout(() => {
+            if (instance.altInput) {
+              instance.altInput.value = instance.formatDate(selectedDates[0], "M j, Y");
+            }
+          }, 0);
+          
+          hiddenCheckIn.value = instance.formatDate(selectedDates[0], "Y-m-d");
         }
+        
         if (selectedDates.length === 2) {
           checkOutInput.value = instance.formatDate(selectedDates[1], "M j, Y");
+          hiddenCheckOut.value = instance.formatDate(selectedDates[1], "Y-m-d");
+          calculateTotal(selectedDates[0], selectedDates[1]);
         } else {
           checkOutInput.value = "";
+          hiddenCheckOut.value = "";
+          totalBox.style.display = "none";
+        }
+      },
+      onClose: function(selectedDates, dateStr, instance) {
+        if (selectedDates.length === 1) {
+           // If they closed it after only picking one, clear it or logic as needed
+           // For now, let's just ensure the display is correct
+           if (instance.altInput) {
+             instance.altInput.value = instance.formatDate(selectedDates[0], "M j, Y");
+           }
         }
       },
       onDayCreate: function(dObj, dStr, fp, dayElem) {
@@ -352,21 +318,6 @@
           dayElem.classList.add("sz-booked-cell");
           dayElem.title = "This date is already reserved";
         }
-      },
-      onChange: function(selectedDates, dateStr, instance) {
-         if (selectedDates.length >= 1) {
-             hiddenCheckIn.value = instance.formatDate(selectedDates[0], "Y-m-d");
-         } else {
-             hiddenCheckIn.value = "";
-         }
-
-         if (selectedDates.length === 2) {
-             hiddenCheckOut.value = instance.formatDate(selectedDates[1], "Y-m-d");
-             calculateTotal(selectedDates[0], selectedDates[1]);
-         } else {
-             hiddenCheckOut.value = "";
-             totalBox.style.display = "none";
-         }
       }
     });
 
