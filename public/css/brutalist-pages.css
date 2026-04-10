@@ -1227,7 +1227,7 @@
 .sz-view-wrapper {
   background: var(--cream);
   min-height: 100vh;
-  overflow-x: hidden;
+  /* removed overflow */
   padding-bottom: 5rem;
 }
 
@@ -1486,7 +1486,7 @@
 .sz-view-map-container {
   border: var(--border-xl);
   box-shadow: 12px 12px 0 var(--ink);
-  height: 250px;
+  height: 320px;
   background: #ccc;
 }
 #map { width: 100%; height: 100%; }
