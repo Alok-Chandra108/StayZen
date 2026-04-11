@@ -4,6 +4,8 @@ if(process.env.NODE_ENV != "production"){
 
 const express = require("express");
 const app = express();
+app.set("trust proxy", 1);
+
 const mongoose = require("mongoose");
 const path = require("path");
 const methodOverride = require("method-override")
@@ -71,7 +73,9 @@ const connectSrcUrls = [
 const fontSrcUrls = [
     "https://fonts.gstatic.com",
     "https://cdnjs.cloudflare.com",
+    "https://cdn.jsdelivr.net",
 ];
+
 
 app.use(
     helmet.contentSecurityPolicy({
