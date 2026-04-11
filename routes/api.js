@@ -42,4 +42,33 @@ router.get("/available", async (req, res) => {
     }
 });
 
+// GET /api/listings/:id/check-lock?checkIn=...&checkOut=...
+router.get("/:id/check-lock", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { checkIn, checkOut } = req.query;
+        const BookingLock = require("../models/lock");
+
+        if (!checkIn || !checkOut) {
+            return res.status(400).json({ error: "Dates required" });
+        }
+
+        const start = new Date(checkIn);
+        const end = new Date(checkOut);
+
+        // Find any active locks for this listing that overlap with requested dates
+        // exclude user's own locks if we were using sessions, but for simplicity we check overall hold
+        const activeLock = await BookingLock.findOne({
+            listing: id,
+            checkIn: { $lt: end },
+            checkOut: { $gt: start }
+        });
+
+        res.json({ locked: !!activeLock });
+    } catch (err) {
+        console.error("API /check-lock error:", err);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
 module.exports = router;

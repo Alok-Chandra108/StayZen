@@ -61,10 +61,15 @@
               </div>
             </div>
             
-            <footer class="sz-pass-ticket__footer">
+            <footer class="sz-pass-ticket__footer" style="display: flex; justify-content: space-between; align-items: center;">
               <a href="/listings/<%= pass.listing._id %>" class="sz-pass-ticket__link">
                 VIEW INTEL <i class="fa-solid fa-arrow-right ms-2"></i>
               </a>
+              <% if(pass.status === 'Confirmed') { %>
+                <a href="/dashboard/bookings/<%= pass._id %>/pass" class="sz-btn sz-btn--action" style="font-size: 0.7rem; padding: 4px 10px;">
+                  <i class="fa-solid fa-download me-2"></i> DOWNLOAD PASS
+                </a>
+              <% } %>
             </footer>
             
           </article>

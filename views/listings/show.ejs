@@ -211,9 +211,23 @@
                 <input type="text" id="checkOut" class="sz-date-input" placeholder="CHECK-OUT" readonly>
               </div>
 
-              <div class="sz-view-ticket__total" style="display: none;" id="brutal-total-box">
-                <span>TOTAL FOR <span id="brutal-nights">0</span> NIGHTS</span>
-                <strong id="brutal-price">₹0</strong>
+              <div id="lock-status-container" style="display: none; margin-top: 1rem;">
+                <!-- Locked status will be injected here -->
+              </div>
+
+              <div id="brutal-total-box" style="display: none; flex-direction: column; gap: 4px; padding: 1rem; border-top: 3px dashed var(--ink); margin-top: 1rem;">
+                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 800;">
+                  <span>BASE YIELD (<span id="brutal-nights">0</span> NIGHTS)</span>
+                  <span id="brutal-subtotal">₹0</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 800; color: var(--coral);">
+                  <span>GOVERNMENT LEVY (18%)</span>
+                  <span id="brutal-tax">₹0</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-top: 8px; border-top: 2px solid var(--ink); padding-top: 8px;">
+                  <span style="font-weight: 900; font-size: 0.85rem;">GRAND TOTAL</span>
+                  <strong id="brutal-grand-total" style="font-size: 1.2rem; font-weight: 900;">₹0</strong>
+                </div>
               </div>
             </form>
           <% } %>
@@ -243,23 +257,24 @@
     const totalBox = document.getElementById('brutal-total-box');
     const nightsSpan = document.getElementById('brutal-nights');
     const priceSpan = document.getElementById('brutal-price');
+    const hiddenCheckIn = document.getElementById('hiddenCheckIn');
+    const hiddenCheckOut = document.getElementById('hiddenCheckOut');
+    const lockContainer = document.getElementById('lock-status-container');
     
-    // Listing data from the JSON script tag (resolves IDE syntax errors)
+    // Listing data from the JSON script tag
     const pricePerNight = listingData.price;
     const rawBookings = listingData.bookings;
+    const listingId = listingData.id || '<%= listing._id %>';
     
-    // Format disabled ranges simply
+    // Format disabled ranges
     const disabledRanges = rawBookings.map(b => ({
        from: b.checkIn,
        to: b.checkOut
     }));
     
-    if(!checkInInput) return; // Owner viewing
+    if(!checkInInput) return; // Owner view
 
-    const hiddenCheckIn = document.getElementById('hiddenCheckIn');
-    const hiddenCheckOut = document.getElementById('hiddenCheckOut');
-
-    // Initialize one single range picker on the Check-In input
+    // Initialize Flatpickr
     const fp = flatpickr(checkInInput, {
       mode: "range",
       minDate: "today",
@@ -268,16 +283,13 @@
       altInput: true,
       altFormat: "M j, Y",
       dateFormat: "Y-m-d",
-      // Important: prevent flatpickr from auto-populating the input with the range
       onValueUpdate: function(selectedDates, dateStr, instance) {
         if (selectedDates.length >= 1) {
-          // Manually update the visible altInput to ONLY show the start date
           setTimeout(() => {
             if (instance.altInput) {
               instance.altInput.value = instance.formatDate(selectedDates[0], "M j, Y");
             }
           }, 0);
-          
           hiddenCheckIn.value = instance.formatDate(selectedDates[0], "Y-m-d");
         }
         
@@ -285,25 +297,22 @@
           checkOutInput.value = instance.formatDate(selectedDates[1], "M j, Y");
           hiddenCheckOut.value = instance.formatDate(selectedDates[1], "Y-m-d");
           calculateTotal(selectedDates[0], selectedDates[1]);
+          checkLockStatus(hiddenCheckIn.value, hiddenCheckOut.value);
         } else {
           checkOutInput.value = "";
           hiddenCheckOut.value = "";
           totalBox.style.display = "none";
+          if(lockContainer) lockContainer.style.display = 'none';
         }
       },
       onClose: function(selectedDates, dateStr, instance) {
-        if (selectedDates.length === 1) {
-           // If they closed it after only picking one, clear it or logic as needed
-           // For now, let's just ensure the display is correct
-           if (instance.altInput) {
-             instance.altInput.value = instance.formatDate(selectedDates[0], "M j, Y");
-           }
+        if (selectedDates.length === 1 && instance.altInput) {
+          instance.altInput.value = instance.formatDate(selectedDates[0], "M j, Y");
         }
       },
       onDayCreate: function(dObj, dStr, fp, dayElem) {
         const date = dayElem.dateObj;
         date.setHours(0,0,0,0);
-        
         const isBooked = rawBookings.some(b => {
             const start = new Date(b.checkIn);
             const end = new Date(b.checkOut);
@@ -311,7 +320,6 @@
             end.setHours(0,0,0,0);
             return date >= start && date <= end;
         });
-
         if (isBooked) {
           dayElem.classList.add("sz-booked-cell");
           dayElem.title = "This date is already reserved";
@@ -326,24 +334,51 @@
         }
     });
 
-    // Make clicking the checkout input simply open the checkIn picker
-    checkOutInput.addEventListener('click', () => {
-         fp.open();
-    });
-
-    // Make checkout input look styled but read-only
+    checkOutInput.addEventListener('click', () => fp.open());
     checkOutInput.readOnly = true;
 
     function calculateTotal(d1, d2) {
-        const diffTime = d2 - d1;
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-        
+        const diffDays = Math.ceil(Math.abs(d2 - d1) / (1000 * 60 * 60 * 24)); 
+        const subtotalSpan = document.getElementById('brutal-subtotal');
+        const taxSpan = document.getElementById('brutal-tax');
+        const grandTotalSpan = document.getElementById('brutal-grand-total');
+
         if(diffDays > 0) {
+           const subtotal = diffDays * pricePerNight;
+           const tax = subtotal * 0.18;
+           const grandTotal = subtotal + tax;
+
            nightsSpan.textContent = diffDays;
-           priceSpan.textContent = "₹" + (diffDays * pricePerNight).toLocaleString("en-IN");
+           subtotalSpan.textContent = "₹" + subtotal.toLocaleString("en-IN");
+           taxSpan.textContent = "₹" + tax.toLocaleString("en-IN");
+           grandTotalSpan.textContent = "₹" + grandTotal.toLocaleString("en-IN");
+           
            totalBox.style.display = "flex";
         } else {
            totalBox.style.display = "none";
+        }
+    }
+
+    async function checkLockStatus(checkIn, checkOut) {
+        if(!lockContainer) return;
+        try {
+            const response = await fetch(`/api/listings/${listingId}/check-lock?checkIn=${checkIn}&checkOut=${checkOut}`);
+            const data = await response.json();
+            if (data.locked) {
+                lockContainer.innerHTML = `
+                    <div style="background: var(--yellow); border: 3px solid var(--ink); padding: 1rem; box-shadow: 4px 4px 0 var(--ink); display: flex; align-items: center; gap: 10px;">
+                        <i class="fa-solid fa-triangle-exclamation" style="font-size: 1.5rem;"></i>
+                        <div style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase;">
+                            WARNING: Territory under negotiation by another agent. 
+                        </div>
+                    </div>
+                `;
+                lockContainer.style.display = 'block';
+            } else {
+                lockContainer.style.display = 'none';
+            }
+        } catch (err) {
+            console.error("Lock check failed:", err);
         }
     }
   });
