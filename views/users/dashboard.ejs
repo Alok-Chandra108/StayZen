@@ -1,79 +1,88 @@
 <%- layout("/layouts/boilerplate") -%>
 
-<main class="sz-dashboard">
-  <div class="container">
-    
-    <header class="sz-dashboard__header">
-      <h1 class="sz-dashboard__title">
-        <i class="fa-solid fa-ticket me-3"></i>MY PASSES
-      </h1>
-      <div class="sz-badge sz-badge--action">
-        <%= passes.length %> SECURED
-      </div>
-    </header>
+  <main class="sz-dashboard">
+    <div class="container">
 
-    <% if(passes.length === 0) { %>
-      <div class="sz-dashboard__empty">
-        <i class="fa-solid fa-ghost"></i>
-        <h2 class="sz-dashboard__title" style="font-size: 2rem;">NO PASSES SECURED</h2>
-        <p class="sz-hero__sub" style="margin: 2rem auto; border-left: none; padding: 0;">You haven't claimed any territory yet. Browse the grid and secure your next base.</p>
-        <a href="/listings" class="sz-btn sz-btn--action">EXPLORE GRID</a>
-      </div>
-    <% } else { %>
-      <div class="sz-pass-grid">
-        <% passes.forEach((pass) => { %>
-          <article class="sz-pass-ticket">
-            <% 
-              let statusClass = 'sz-pass-ticket__status--pending';
-              if (!pass.status || pass.status === 'Confirmed') {
-                statusClass = 'sz-pass-ticket__status--confirmed';
-              } else if (pass.status === 'Declined') {
-                statusClass = 'sz-pass-ticket__status--declined';
-              }
-            %>
-            <div class="sz-pass-ticket__img-wrap">
-              <img src="<%= pass.listing.image.url %>" alt="<%= pass.listing.title %>">
-              <div class="sz-pass-ticket__status sz-pass-ticket__status--confirmed">
-                CONFIRMED
-              </div>
-            </div>
-            
-            <div class="sz-pass-ticket__content">
-              <h2 class="sz-pass-ticket__title"><%= pass.listing.title %></h2>
-              <div class="sz-pass-ticket__loc">
-                <i class="fa-solid fa-location-dot"></i>
-                <%= pass.listing.location %>
-              </div>
-              
-              <div class="sz-pass-ticket__data">
-                <div class="sz-pass-ticket__row">
-                  <span class="sz-pass-ticket__label">INFILTRATION</span>
-                  <span class="sz-pass-ticket__val"><%= pass.checkIn.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) %></span>
-                </div>
-                <div class="sz-pass-ticket__row">
-                  <span class="sz-pass-ticket__label">EXTRACTION</span>
-                  <span class="sz-pass-ticket__val"><%= pass.checkOut.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) %></span>
-                </div>
-                <div class="sz-pass-ticket__row sz-pass-ticket__total">
-                  <span class="sz-pass-ticket__label" style="color: var(--coral);">TOTAL VALUE</span>
-                  <span class="sz-pass-ticket__val" style="color: var(--coral); font-size: 1.2rem;">₹<%= pass.totalPrice.toLocaleString("en-IN") %></span>
-                </div>
-              </div>
-            </div>
-            
-            <footer class="sz-pass-ticket__footer" style="display: flex; justify-content: space-between; align-items: center;">
-              <a href="/listings/<%= pass.listing._id %>" class="sz-pass-ticket__link">
-                VIEW INTEL <i class="fa-solid fa-arrow-right ms-2"></i>
-              </a>
-              <a href="/dashboard/bookings/<%= pass._id %>/pass" class="sz-btn sz-btn--action" style="font-size: 0.7rem; padding: 4px 10px;">
-                <i class="fa-solid fa-download me-2"></i> DOWNLOAD PASS
-              </a>
-            </footer>
+      <header class="sz-dashboard__header">
+        <h1 class="sz-dashboard__title">
+          <i class="fa-solid fa-ticket me-3"></i>MY PASSES
+        </h1>
+        <div class="sz-badge sz-badge--action">
+          <%= passes.length %> CONFIRMED
+        </div>
+      </header>
 
-            
-          </article>
-        <% }) %>
-      </div>
-    <% } %>
-  </div>
-</main>
+      <% if(passes.length===0) { %>
+        <div class="sz-dashboard__empty">
+          <i class="fa-solid fa-ghost"></i>
+          <h2 class="sz-dashboard__title" style="font-size: 2rem;">NO CONFIRMED PASSES</h2>
+          <p class="sz-hero__sub" style="margin: 2rem auto; border-left: none; padding: 0;">You haven't booked any stays yet. Explore the listings to find your next place.</p>
+
+          <a href="/listings" class="sz-btn sz-btn--action">EXPLORE LISTINGS</a>
+
+        </div>
+        <% } else { %>
+          <div class="sz-pass-grid">
+            <% passes.forEach((pass)=> { %>
+              <article class="sz-pass-ticket">
+                <% let statusClass='sz-pass-ticket__status--pending' ; if (!pass.status || pass.status==='Confirmed' ) {
+                  statusClass='sz-pass-ticket__status--confirmed' ; } else if (pass.status==='Declined' ) {
+                  statusClass='sz-pass-ticket__status--declined' ; } %>
+                  <div class="sz-pass-ticket__img-wrap">
+                    <img src="<%= pass.listing.image.url %>" alt="<%= pass.listing.title %>">
+                    <div class="sz-pass-ticket__status sz-pass-ticket__status--confirmed">
+                      CONFIRMED
+                    </div>
+                  </div>
+
+                  <div class="sz-pass-ticket__content">
+                    <h2 class="sz-pass-ticket__title">
+                      <%= pass.listing.title %>
+                    </h2>
+                    <div class="sz-pass-ticket__loc">
+                      <i class="fa-solid fa-location-dot"></i>
+                      <%= pass.listing.location %>
+                    </div>
+
+                    <div class="sz-pass-ticket__data">
+                      <div class="sz-pass-ticket__row">
+                        <span class="sz-pass-ticket__label">CHECK-IN</span>
+
+                        <span class="sz-pass-ticket__val">
+                          <%= pass.checkIn.toLocaleDateString('en-GB', { day: '2-digit' , month: 'short' ,
+                            year: 'numeric' }) %>
+                        </span>
+                      </div>
+                      <div class="sz-pass-ticket__row">
+                        <span class="sz-pass-ticket__label">CHECK-OUT</span>
+
+                        <span class="sz-pass-ticket__val">
+                          <%= pass.checkOut.toLocaleDateString('en-GB', { day: '2-digit' , month: 'short' ,
+                            year: 'numeric' }) %>
+                        </span>
+                      </div>
+                      <div class="sz-pass-ticket__row sz-pass-ticket__total">
+                        <span class="sz-pass-ticket__label" style="color: var(--coral);">TOTAL PRICE</span>
+
+                        <span class="sz-pass-ticket__val" style="color: var(--coral); font-size: 1.2rem;">₹<%=
+                            pass.totalPrice.toLocaleString("en-IN") %></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <footer class="sz-pass-ticket__footer"
+                    style="display: flex; justify-content: space-between; align-items: center;">
+                    <a href="/listings/<%= pass.listing._id %>" class="sz-pass-ticket__link">
+                      VIEW DETAILS <i class="fa-solid fa-arrow-right ms-2"></i>
+                    </a>
+                    <a href="/dashboard/bookings/<%= pass._id %>/pass" class="sz-btn sz-btn--action"
+                      style="font-size: 0.7rem; padding: 4px 10px;">
+                      <i class="fa-solid fa-download me-2"></i> DOWNLOAD PASS
+                    </a>
+                  </footer>
+              </article>
+              <% }) %>
+          </div>
+          <% } %>
+    </div>
+  </main>

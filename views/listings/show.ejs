@@ -101,7 +101,8 @@
 
       <!-- Map Section -->
       <section class="sz-view-section sz-view-map-box mt-4">
-        <h2 class="sz-view-section-title"><i class="fa-solid fa-compass"></i> TERRITORY</h2>
+        <h2 class="sz-view-section-title"><i class="fa-solid fa-compass"></i> LOCATION</h2>
+
         <div class="sz-view-map-container mt-2">
           <div id="map" class="sz-view-map"></div>
         </div>
@@ -109,7 +110,8 @@
 
       <!-- Reviews Section -->
       <section class="sz-view-section sz-view-reviews-box mb-5">
-        <h2 class="sz-view-section-title"><i class="fa-solid fa-star"></i> INTEL / REVIEWS [<%= listing.reviews.length %>]</h2>
+        <h2 class="sz-view-section-title"><i class="fa-solid fa-star"></i> REVIEWS [<%= listing.reviews.length %>]</h2>
+
         
         <% if(currUser) { %>
           <div class="sz-view-review-form">
@@ -134,7 +136,8 @@
                   </div>
                   
                   <textarea name="review[comment]" cols="30" rows="3" class="sz-view-textarea form-control" required placeholder="Type your unfiltered thoughts..."></textarea>
-                  <div class="invalid-feedback">Intel required. Don't leave it blank.</div>
+                  <div class="invalid-feedback">Comment required. Don't leave it blank.</div>
+
 
                   <button class="sz-btn sz-btn--action w-100 mt-3" type="submit"><i class="fa-solid fa-bullhorn me-2"></i>DROP REVIEW</button>
               </form>
@@ -162,8 +165,9 @@
                  
                  <% if (currUser && currUser._id.toString() === review.author._id.toString()) { %>
                   <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
-                    <button class="sz-view-btn-delete" title="Purge Review"><i class="fa-solid fa-trash-can"></i></button>
+                    <button class="sz-view-btn-delete" title="Delete Review"><i class="fa-solid fa-trash-can"></i></button>
                   </form>
+
                  <% } %>
               </div>
             <% } %>
@@ -180,8 +184,9 @@
         <div class="sz-view-ticket__punch sz-view-ticket__punch--right"></div>
         
         <div class="sz-view-ticket__header">
-          <div class="sz-view-ticket__eyebrow">CLEARANCE PASS</div>
+          <div class="sz-view-ticket__eyebrow">BOOKING PASS</div>
           <div class="sz-view-ticket__price">₹<%= listing.price.toLocaleString("en-IN") %></div>
+
           <div class="sz-view-ticket__per">PER NIGHT</div>
         </div>
         
@@ -195,9 +200,10 @@
             <strong><%= listing.owner.username %></strong>
           </div>
           <div class="sz-view-ticket__row">
-            <span>RATING</span>
-            <strong><%= listing.reviews.length > 0 ? listing.reviews.length + ' LOGGED' : 'NO DATA' %></strong>
+            <span>STATUS</span>
+            <strong><%= listing.reviews.length > 0 ? listing.reviews.length + ' REVIEWS' : 'NEW LISTING' %></strong>
           </div>
+
 
           <% if (!currUser || !currUser._id.equals(listing.owner._id)) { %>
             <form action="/listings/<%= listing.id %>/bookings" method="POST" id="booking-form" class="mt-4">
@@ -217,13 +223,14 @@
 
               <div id="brutal-total-box" style="display: none; flex-direction: column; gap: 4px; padding: 1rem; border-top: 3px dashed var(--ink); margin-top: 1rem;">
                 <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 800;">
-                  <span>BASE YIELD (<span id="brutal-nights">0</span> NIGHTS)</span>
+                  <span>PRICE FOR (<span id="brutal-nights">0</span> NIGHTS)</span>
                   <span id="brutal-subtotal">₹0</span>
                 </div>
                 <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 800; color: var(--coral);">
-                  <span>GOVERNMENT LEVY (18%)</span>
+                  <span>GOVERNMENT TAX (18%)</span>
                   <span id="brutal-tax">₹0</span>
                 </div>
+
                 <div style="display: flex; justify-content: space-between; margin-top: 8px; border-top: 2px solid var(--ink); padding-top: 8px;">
                   <span style="font-weight: 900; font-size: 0.85rem;">GRAND TOTAL</span>
                   <strong id="brutal-grand-total" style="font-size: 1.2rem; font-weight: 900;">₹0</strong>
@@ -235,14 +242,15 @@
         
         <div class="sz-view-ticket__footer">
           <% if (currUser && currUser._id.equals(listing.owner._id)) { %>
-             <a href="/listings/<%= listing._id %>/edit" class="sz-btn sz-btn--warn w-100 mb-2"><i class="fa-solid fa-pen-ruler me-2"></i>REVISE</a>
+             <a href="/listings/<%= listing._id %>/edit" class="sz-btn sz-btn--warn w-100 mb-2"><i class="fa-solid fa-pen-ruler me-2"></i>EDIT LISTING</a>
              <form method="Post" action="/listings/<%= listing._id %>?_method=DELETE" class="w-100">
-               <button class="sz-btn sz-btn--danger w-100"><i class="fa-solid fa-biohazard me-2"></i>OBLITERATE</button>
+                <button class="sz-btn sz-btn--danger w-100"><i class="fa-solid fa-trash-can me-2"></i>DELETE LISTING</button>
              </form>
           <% } else { %>
-             <button type="submit" form="booking-form" class="sz-btn sz-btn--action w-100"><i class="fa-solid fa-bolt me-2"></i>SECURE PASS</button>
+             <button type="submit" form="booking-form" class="sz-btn sz-btn--action w-100"><i class="fa-solid fa-bolt me-2"></i>BOOK NOW</button>
           <% } %>
         </div>
+
       </div>
     </div><!-- /sz-view-sidebar -->
 
@@ -369,9 +377,10 @@
                     <div style="background: var(--yellow); border: 3px solid var(--ink); padding: 1rem; box-shadow: 4px 4px 0 var(--ink); display: flex; align-items: center; gap: 10px;">
                         <i class="fa-solid fa-triangle-exclamation" style="font-size: 1.5rem;"></i>
                         <div style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase;">
-                            WARNING: Territory under negotiation by another agent. 
+                            WARNING: Dates currently being selected by another user.
                         </div>
                     </div>
+
                 `;
                 lockContainer.style.display = 'block';
             } else {

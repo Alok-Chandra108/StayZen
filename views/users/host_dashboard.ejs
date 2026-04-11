@@ -6,12 +6,13 @@
     
     <header class="sz-dashboard__header">
       <h1 class="sz-dashboard__title" style="flex: 1;">
-        <i class="fa-solid fa-chess-rook me-3"></i>HOST COMMAND
+        <i class="fa-solid fa-chess-rook me-3"></i>HOST DASHBOARD
       </h1>
       <div class="sz-badge sz-badge--action" style="background: var(--lime); color: var(--ink);">
-        <%= listings.length %> ASSETS
+        <%= listings.length %> LISTINGS
       </div>
     </header>
+
 
     <% 
       // Extract query parameters safely
@@ -54,7 +55,8 @@
 
     </div>
 
-    <!-- ANALYTICS SUB-COMMAND -->
+    <!-- ANALYTICS DASHBOARD -->
+
     <div class="sz-analytics-grid">
       
       <!-- Yield Trend Chart -->
@@ -67,7 +69,8 @@
         </div>
       </div>
 
-      <!-- Occupancy & Assets -->
+      <!-- Occupancy & Performance -->
+
       <div style="display: flex; flex-direction: column; gap: 2rem;">
         
         <!-- Occupancy Circle -->
@@ -82,7 +85,8 @@
 
         <!-- Asset Performance Bar -->
         <div class="sz-analytics-card" style="box-shadow: 10px 10px 0 var(--lime);">
-          <h3 class="sz-analytics-card__title" style="font-size: 0.9rem;">ASSET_RANKING</h3>
+          <h3 class="sz-analytics-card__title" style="font-size: 0.9rem;">PERFORMANCE_RANKING</h3>
+
           <div style="height: 180px; position: relative;">
             <canvas id="assetChart"></canvas>
           </div>
@@ -95,9 +99,10 @@
     <!-- UPCOMING RESERVATIONS -->
     <section style="margin-bottom: 5rem;">
       <h2 style="font-family: var(--font-h); font-size: 2rem; font-weight: 900; text-transform: uppercase; border-bottom: 4px solid var(--ink); padding-bottom: 1rem; margin-bottom: 2rem; display: flex; align-items: center; justify-content: space-between;">
-        <span>Upcoming Intel</span>
+        <span>Upcoming Bookings</span>
         <span style="font-size: 0.9rem; background: var(--ink); color: var(--lime); padding: 4px 12px; letter-spacing: 1px;"><%= upcomingBookings.length %> ACTIVE</span>
       </h2>
+
       
       <% if(upcomingBookings.length === 0) { %>
         <div class="sz-dashboard__empty" style="background: var(--white); padding: 3rem;">
@@ -109,9 +114,10 @@
           <table style="width: 100%; border-collapse: collapse; text-align: left; min-width: 800px;">
             <thead>
               <tr style="background: var(--ink); color: var(--cream); font-weight: 900; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">
-                <th style="padding: 1.2rem; border-right: 2px dashed rgba(245,240,232,0.2);">Territory</th>
-                <th style="padding: 1.2rem; border-right: 2px dashed rgba(245,240,232,0.2);">Guest Intel</th>
+                <th style="padding: 1.2rem; border-right: 2px dashed rgba(245,240,232,0.2);">Listing</th>
+                <th style="padding: 1.2rem; border-right: 2px dashed rgba(245,240,232,0.2);">Guest</th>
                 <th style="padding: 1.2rem; border-right: 2px dashed rgba(245,240,232,0.2);">Timeline</th>
+
                 <th style="padding: 1.2rem; border-right: 2px dashed rgba(245,240,232,0.2);">Payout</th>
                 <th style="padding: 1.2rem; text-align: center;">Status</th>
               </tr>
@@ -158,11 +164,13 @@
 
     <!-- PAST RESERVATIONS -->
     <section style="margin-bottom: 5rem;">
-      <h2 style="font-family: var(--font-h); font-size: 2rem; font-weight: 900; text-transform: uppercase; border-bottom: 4px solid var(--ink); padding-bottom: 1rem; margin-bottom: 2rem;">Archive Intel (Past)</h2>
+      <h2 style="font-family: var(--font-h); font-size: 2rem; font-weight: 900; text-transform: uppercase; border-bottom: 4px solid var(--ink); padding-bottom: 1rem; margin-bottom: 2rem;">Past Bookings</h2>
+
       
       <% if(pastBookings.length === 0) { %>
         <div style="padding: 2rem; border: 4px dashed var(--ink); text-align: center; opacity: 0.5;">
-          <p style="font-weight: 800; margin: 0;">NO COMPLETED OPERATIONS</p>
+          <p style="font-weight: 800; margin: 0;">NO COMPLETED BOOKINGS</p>
+
         </div>
       <% } else { %>
         <div style="border: 4px solid var(--ink); background: var(--white); box-shadow: 8px 8px 0 var(--ink); overflow-x: auto; opacity: 0.85;">
@@ -192,13 +200,15 @@
 
     <!-- OWNED ASSETS -->
     <section>
-      <h2 style="font-family: var(--font-h); font-size: 2rem; font-weight: 900; text-transform: uppercase; border-bottom: 4px solid var(--ink); padding-bottom: 1rem; margin-bottom: 2rem;">Deployment Grid (Your Assets)</h2>
+      <h2 style="font-family: var(--font-h); font-size: 2rem; font-weight: 900; text-transform: uppercase; border-bottom: 4px solid var(--ink); padding-bottom: 1rem; margin-bottom: 2rem;">My Listings</h2>
+
       
       <% if(listings.length === 0) { %>
         <div class="sz-dashboard__empty" style="background: var(--white);">
           <i class="fa-solid fa-house-flag"></i>
-          <h2 style="font-family: var(--font-h); font-size: 2rem;">NO TERRITORY</h2>
-          <a href="/listings/new" class="sz-btn sz-btn--action" style="margin-top: 1rem;">LIST NEW ASSET</a>
+          <h2 style="font-family: var(--font-h); font-size: 2rem;">NO LISTINGS</h2>
+          <a href="/listings/new" class="sz-btn sz-btn--action" style="margin-top: 1rem;">LIST NEW PROPERTY</a>
+
         </div>
       <% } else { %>
         <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem;">
@@ -214,8 +224,9 @@
                 </div>
               </div>
               <a href="/listings/<%= listing._id %>" style="display: block; padding: 0.8rem; text-align: center; background: var(--ink); color: var(--lime); font-weight: 900; text-transform: uppercase; text-decoration: none; border-top: 4px solid var(--ink); font-size: 0.8rem;">
-                VIEW ASSET
+                VIEW DETAILS
               </a>
+
             </div>
           <% }) %>
         </div>
@@ -225,7 +236,8 @@
   </div>
 </main>
 
-<!-- DATA_SHELL FOR ANALYTICS (Hidden) -->
+<!-- DATA_STORE FOR ANALYTICS (Hidden) -->
+
 <div id="analytics-data" 
      style="display: none;" 
      data-monthly='<%- JSON.stringify(monthlyYield) %>'

@@ -171,7 +171,8 @@ module.exports.downloadPass = async (req, res) => {
     doc.fillColor(CREAM)
        .font('Helvetica-Bold')
        .fontSize(22)
-       .text('STAYZEN // CLEARANCE_PASS', 40, 25, { characterSpacing: 2 });
+       .text('STAYZEN // BOOKING_PASS', 40, 25, { characterSpacing: 2 });
+
     
     doc.fontSize(9)
        .text(`DTS_VERSION: 1.0.4 // LOG_ID: ${booking._id.toString().substring(0,12).toUpperCase()}`, 500, 32, { align: 'right', width: 260 });
@@ -185,27 +186,30 @@ module.exports.downloadPass = async (req, res) => {
 
     // Data Segments (Improved Alignment)
     // Left Column
-    doc.fontSize(9).font('Helvetica-Bold').text('TARGET LOCATION', 40, 175);
+    doc.fontSize(9).font('Helvetica-Bold').text('LISTING LOCATION', 40, 175);
     doc.fontSize(14).text(booking.listing.location.toUpperCase(), 40, 190, { width: 300 });
+
 
     const lat = booking.listing.geometry?.coordinates[1]?.toFixed(4) || "0.0000";
     const lng = booking.listing.geometry?.coordinates[0]?.toFixed(4) || "0.0000";
     doc.fontSize(8).text(`COORD: [ ${lat} N , ${lng} E ]`, 40, 215);
 
     // Right Column (Fixed position to avoid overlap)
-    doc.fontSize(9).text('OPERATIVE dossier', 380, 175);
+    doc.fontSize(9).text('GUEST DETAILS', 380, 175);
     doc.fontSize(14).text(booking.user.username.toUpperCase(), 380, 190, { width: 200 });
-    doc.fontSize(8).text(`AGENT_UID: ${booking.user._id.toString().substring(0,8).toUpperCase()}`, 380, 215);
+    doc.fontSize(8).text(`USER_UID: ${booking.user._id.toString().substring(0,8).toUpperCase()}`, 380, 215);
+
 
     // Middle Bar (Separator)
     doc.moveTo(40, 235).lineTo(580, 235).dash(4, { space: 4 }).stroke(INK);
 
     // Timeline
-    doc.fontSize(9).text('INFILTRATION', 40, 255);
+    doc.fontSize(9).text('CHECK-IN', 40, 255);
     doc.fontSize(18).text(booking.checkIn.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase(), 40, 275);
 
-    doc.fontSize(9).text('EXFILTRATION', 220, 255);
+    doc.fontSize(9).text('CHECK-OUT', 220, 255);
     doc.fontSize(18).text(booking.checkOut.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase(), 220, 275);
+
 
     const diffDays = Math.ceil(Math.abs(booking.checkOut - booking.checkIn) / (1000 * 60 * 60 * 24));
     doc.fontSize(9).text('DURATION', 400, 255);
@@ -218,7 +222,8 @@ module.exports.downloadPass = async (req, res) => {
     const subtotal = booking.totalPrice / 1.18;
     const tax = booking.totalPrice - subtotal;
     
-    doc.fontSize(9).text('FINANCIAL_LEDGER', 40, 340);
+    doc.fontSize(9).text('PAYMENT_RECEIPT', 40, 340);
+
     doc.fontSize(11)
        .text(`SUB: INR ${subtotal.toLocaleString("en-IN")}`, 40, 360)
        .text(`TAX (18%): INR ${tax.toLocaleString("en-IN")}`, 200, 360);
@@ -234,7 +239,8 @@ module.exports.downloadPass = async (req, res) => {
     doc.fontSize(10).font('Helvetica-Bold').text('APPROVED', 685, 325);
 
     // Vertical Text Line 
-    doc.fontSize(8).text('INTEL_CLEARANCE_AUTH_LEVEL_CONFIRMED', 630, 280, { lineBreak: false });
+    doc.fontSize(8).text('STAYZEN_BOOKING_VERIFIED_STATUS_CONFIRMED', 630, 280, { lineBreak: false });
+
 
     // QR Code
     doc.image(qrCodeBuffer, 640, 100, { width: 140, height: 140 });
