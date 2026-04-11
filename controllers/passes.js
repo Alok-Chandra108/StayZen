@@ -131,15 +131,13 @@ module.exports.downloadPass = async (req, res) => {
     }
 
 
-    // Generate QR Code data (URL + Summary)
+    // Generate QR Code data (URL ONLY for auto-redirection)
     const protocol = req.protocol;
     const host = req.get('host');
     const verifyUrl = `${protocol}://${host}/verify/${booking._id}`;
     
-    // Structured text for generic scanners
-    const qrData = `STAYZEN CLEARANCE PASS\n----------------------\nVERIFY: ${verifyUrl}\n\nLOG_ID: ${booking._id}\nTARGET: ${booking.listing.title}\nAGENT: ${booking.user.username}\nIN: ${booking.checkIn.toLocaleDateString()}\nOUT: ${booking.checkOut.toLocaleDateString()}\nSTATUS: ${booking.status}`;
+    const qrCodeBuffer = await QRCode.toBuffer(verifyUrl, {
 
-    const qrCodeBuffer = await QRCode.toBuffer(qrData, {
         color: {
             dark: '#000000',
             light: '#F5F0E8'
