@@ -353,6 +353,100 @@ input:checked + .sz-slider:before {
   transform: translateX(18px);
 }
 
+/* ── DATE RANGE AVAILABILITY FILTER ── */
+.sz-date-filter-wrapper {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.sz-date-filter-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--cream);
+  border: 3px solid var(--ink);
+  padding: 0.4rem 0.9rem;
+  box-shadow: 4px 4px 0 var(--ink);
+  transition: box-shadow 0.12s ease, transform 0.12s ease;
+}
+
+.sz-date-filter-box:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+.sz-date-filter-box > i {
+  font-size: 0.85rem;
+  color: var(--ink);
+  flex-shrink: 0;
+}
+
+.sz-date-filter-input {
+  width: 90px;
+  border: none;
+  background: transparent;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--ink);
+  outline: none;
+  cursor: pointer;
+  padding: 2px 0;
+}
+
+.sz-date-filter-input::placeholder {
+  color: rgba(10, 10, 10, 0.35);
+  font-weight: 700;
+}
+
+/* Override Flatpickr alt input styling */
+.sz-date-filter-box .flatpickr-input + .form-control,
+.sz-date-filter-box input.active {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--ink);
+  outline: none;
+  padding: 2px 0;
+  width: 90px;
+  cursor: pointer;
+}
+
+.sz-date-filter-arrow {
+  font-size: 0.85rem;
+  font-weight: 900;
+  color: var(--coral);
+  flex-shrink: 0;
+}
+
+.sz-date-filter-clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background: var(--coral);
+  border: 2px solid var(--ink);
+  color: var(--cream);
+  font-size: 0.65rem;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: background 0.12s ease;
+}
+
+.sz-date-filter-clear:hover {
+  background: var(--ink);
+  color: var(--lime);
+}
+
 /* ── TAX INFO TEXT ── */
 .tax-info {
   font-size: 0.75rem;
@@ -530,6 +624,9 @@ input:checked + .sz-slider:before {
   .sz-card-link { border-right: none !important; }
   .sz-hero__ctas { flex-direction: column; align-items: flex-start; }
   .sz-cta-primary, .sz-cta-secondary { width: 100%; justify-content: center; }
-  .sz-filter-section { padding: 1rem; gap: 0.8rem; }
+  .sz-filter-section { padding: 1rem; gap: 0.8rem; flex-direction: column; align-items: stretch; }
   .sz-filter-label { font-size: 0.65rem; padding: 0.4rem 0.8rem; }
+  .sz-date-filter-wrapper { margin-left: 0; }
+  .sz-date-filter-box { width: 100%; justify-content: center; }
+  .sz-date-filter-input { width: 80px; font-size: 0.65rem; }
 }

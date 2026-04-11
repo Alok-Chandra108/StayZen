@@ -16,7 +16,84 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   let activeTag = null; // stores the data-tag string e.g. "Amazing Pools"
+  let unavailableIds = new Set(); // listing IDs unavailable for selected dates
 
+  // ── DATE RANGE AVAILABILITY FILTER ──
+  const checkinInput = document.getElementById("avail-checkin");
+  const checkoutInput = document.getElementById("avail-checkout");
+  const clearBtn = document.getElementById("avail-clear");
+
+  if (checkinInput && typeof flatpickr !== "undefined") {
+    const fp = flatpickr(checkinInput, {
+      mode: "range",
+      minDate: "today",
+      showMonths: window.innerWidth > 768 ? 2 : 1,
+      altInput: true,
+      altFormat: "M j, Y",
+      dateFormat: "Y-m-d",
+      onValueUpdate: function(selectedDates, dateStr, instance) {
+        if (selectedDates.length >= 1) {
+          // Show only check-in date in the first input
+          setTimeout(() => {
+            if (instance.altInput) {
+              instance.altInput.value = instance.formatDate(selectedDates[0], "M j, Y");
+            }
+          }, 0);
+        }
+
+        if (selectedDates.length === 2) {
+          checkoutInput.value = instance.formatDate(selectedDates[1], "M j, Y");
+          clearBtn.style.display = "flex";
+          fetchAvailability(
+            instance.formatDate(selectedDates[0], "Y-m-d"),
+            instance.formatDate(selectedDates[1], "Y-m-d")
+          );
+        } else {
+          checkoutInput.value = "";
+          // Don't clear unavailableIds yet — wait for full range
+        }
+      },
+      onClose: function(selectedDates, dateStr, instance) {
+        if (selectedDates.length === 1) {
+          if (instance.altInput) {
+            instance.altInput.value = instance.formatDate(selectedDates[0], "M j, Y");
+          }
+        }
+      }
+    });
+
+    // Clicking the checkout input opens the range picker
+    if (checkoutInput) {
+      checkoutInput.addEventListener("click", () => fp.open());
+      checkoutInput.readOnly = true;
+    }
+
+    // Clear button resets dates
+    if (clearBtn) {
+      clearBtn.addEventListener("click", () => {
+        fp.clear();
+        checkoutInput.value = "";
+        clearBtn.style.display = "none";
+        unavailableIds = new Set();
+        applyFilters();
+      });
+    }
+  }
+
+  async function fetchAvailability(checkIn, checkOut) {
+    try {
+      const res = await fetch(`/api/listings/available?checkIn=${checkIn}&checkOut=${checkOut}`);
+      if (!res.ok) throw new Error("API error");
+      const data = await res.json();
+      unavailableIds = new Set(data.unavailableIds || []);
+    } catch (err) {
+      console.error("Availability check failed:", err);
+      unavailableIds = new Set();
+    }
+    applyFilters();
+  }
+
+  // ── UNIFIED FILTER LOGIC ──
   function applyFilters() {
     const searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : "";
     let anyVisible = false;
@@ -24,14 +101,19 @@ document.addEventListener("DOMContentLoaded", () => {
     cards.forEach(card => {
       const title  = card.querySelector("b")?.textContent.toLowerCase() || "";
       const tags   = JSON.parse(card.getAttribute("data-tags") || "[]");
+      const listingId = card.getAttribute("data-id") || "";
 
       const matchesSearch = title.includes(searchTerm);
       // Compare data-tag value (e.g. "Amazing Pools") against the stored tags array
       const matchesFilter = activeTag
         ? tags.some(t => t.toLowerCase() === activeTag.toLowerCase())
         : true;
+      // Check date availability
+      const matchesAvailability = unavailableIds.size > 0
+        ? !unavailableIds.has(listingId)
+        : true;
 
-      const shouldShow = matchesSearch && matchesFilter;
+      const shouldShow = matchesSearch && matchesFilter && matchesAvailability;
       const cardLink = card.closest(".sz-card-link");
       if (cardLink) cardLink.style.display = shouldShow ? "block" : "none";
       if (shouldShow) anyVisible = true;

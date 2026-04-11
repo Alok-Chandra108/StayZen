@@ -19,6 +19,7 @@ const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 const passRouter = require("./routes/pass.js");
+const apiRouter = require("./routes/api.js");
 
 const passport = require('passport');
 const LocalStrategy = require("passport-local");
@@ -158,6 +159,7 @@ app.get("/", (req, res) => {
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/listings/:id/bookings", passRouter);
+app.use("/api/listings", apiRouter);
 
 const passController = require("./controllers/passes.js");
 const { isLoggedIn } = require("./utils/middleware.js");
