@@ -20,28 +20,86 @@ module.exports.index = async (req, res) => {
 
     const { startDate, endDate } = req.query;
     
-    // Only calculate earnings for confirmed bookings (missing status implies older confirmed data)
-    let yieldBookings = bookings.filter(b => (!b.status || b.status === "Confirmed"));
-
+    // 1. Filtered Yield for the Summary Card and Tables
+    let filteredBookings = bookings.filter(b => !b.status || b.status === "Confirmed");
     if (startDate && endDate) {
         const start = new Date(startDate);
         const end = new Date(endDate);
         start.setHours(0,0,0,0);
         end.setHours(23,59,59,999);
-        yieldBookings = yieldBookings.filter(b => {
+        filteredBookings = filteredBookings.filter(b => {
              const checkOut = new Date(b.checkOut);
              return checkOut >= start && checkOut <= end;
         });
     }
+    const totalEarnings = filteredBookings.reduce((sum, booking) => sum + booking.totalPrice, 0);
 
-    const totalEarnings = yieldBookings.reduce((sum, booking) => sum + booking.totalPrice, 0);
+    // 2. Historical Yield (Unfiltered Confirmed Bookings)
+    const confirmedBookings = bookings.filter(b => !b.status || b.status === "Confirmed");
 
-    // Pass searchQuery explicitly to avoid any potential conflict with 'query'
+    // --- ANALYTICS AGGREGATION ---
+    // 1. Monthly Yield (Last 6 Months - Always show full history)
+    const monthlyYield = [];
+    for (let i = 0; i < 6; i++) {
+        const d = new Date();
+        d.setMonth(d.getMonth() - (5 - i));
+        const monthName = d.toLocaleString('default', { month: 'short' }).toUpperCase();
+        const year = d.getFullYear();
+        
+        const monthTotal = confirmedBookings.reduce((sum, b) => {
+            const checkOut = new Date(b.checkOut);
+            if (checkOut.getMonth() === d.getMonth() && checkOut.getFullYear() === d.getFullYear()) {
+                return sum + b.totalPrice;
+            }
+            return sum;
+        }, 0);
+
+        monthlyYield.push({ month: `${monthName} ${year}`, total: monthTotal });
+    }
+
+    // 2. Listing Performance (Yield by Asset - Overall)
+    const listingPerformance = listings.map(listing => {
+        const yieldForListing = confirmedBookings
+            .filter(b => b.listing._id.equals(listing._id))
+            .reduce((sum, b) => sum + b.totalPrice, 0);
+        return { title: listing.title, yield: yieldForListing };
+    }).sort((a, b) => b.yield - a.yield);
+
+    // 3. Occupancy Density (Current Month)
+    const currentMonthStart = new Date();
+    currentMonthStart.setDate(1);
+    currentMonthStart.setHours(0,0,0,0);
+    const nextMonthStart = new Date(currentMonthStart);
+    nextMonthStart.setMonth(nextMonthStart.getMonth() + 1);
+    
+    const daysInMonth = Math.round((nextMonthStart - currentMonthStart) / (1000 * 60 * 60 * 24));
+    
+    let totalBookedDays = 0;
+    confirmedBookings.forEach(b => {
+        const start = new Date(b.checkIn);
+        const end = new Date(b.checkOut);
+        
+        // Overlap with current month
+        const overlapStart = new Date(Math.max(start, currentMonthStart));
+        const overlapEnd = new Date(Math.min(end, nextMonthStart));
+        
+        if (overlapEnd > overlapStart) {
+            const diff = Math.round((overlapEnd - overlapStart) / (1000 * 60 * 60 * 24));
+            totalBookedDays += diff;
+        }
+    });
+
+    const totalCapacityDays = listings.length * daysInMonth;
+    const occupancyRate = totalCapacityDays > 0 ? ((totalBookedDays / totalCapacityDays) * 100).toFixed(1) : 0;
+
     res.render("users/host_dashboard.ejs", { 
         listings, 
         upcomingBookings,
         pastBookings,
         totalEarnings,
+        monthlyYield,
+        listingPerformance,
+        occupancyRate,
         searchQuery: req.query || {}
     });
 };

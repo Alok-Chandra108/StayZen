@@ -255,3 +255,63 @@
   .sz-pass-grid { grid-template-columns: 1fr; gap: 2rem; }
   .sz-pass-ticket::before, .sz-pass-ticket::after { top: 160px; }
 }
+
+/* ANALYTICS SECTION */
+.sz-analytics-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+@media (max-width: 992px) {
+  .sz-analytics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sz-analytics-card {
+  background: var(--white);
+  border: 4px solid var(--ink);
+  box-shadow: 10px 10px 0 var(--ink);
+  padding: 2rem;
+}
+
+.sz-analytics-card__title {
+  font-family: var(--font-h);
+  font-size: 1.2rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sz-occupancy-circle {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 8px solid var(--ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem auto;
+  background: var(--lime);
+  box-shadow: 5px 5px 0 var(--ink);
+}
+
+.sz-occupancy-circle__val {
+  font-family: var(--font-h);
+  font-size: 2.5rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.sz-occupancy-circle__label {
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}

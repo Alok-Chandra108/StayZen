@@ -1,4 +1,5 @@
 <%- layout("/layouts/boilerplate") -%>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <main class="sz-dashboard">
   <div class="container">
@@ -49,6 +50,44 @@
             <a href="/host-dashboard" class="sz-btn" style="padding: 0.8rem; font-size: 0.8rem; text-align: center; background: var(--lavender); color: var(--white);">RESET</a>
           </div>
         </form>
+      </div>
+
+    </div>
+
+    <!-- ANALYTICS SUB-COMMAND -->
+    <div class="sz-analytics-grid">
+      
+      <!-- Yield Trend Chart -->
+      <div class="sz-analytics-card">
+        <h3 class="sz-analytics-card__title">
+          <i class="fa-solid fa-chart-line"></i> YIELD PROJECTION (6M)
+        </h3>
+        <div style="height: 300px; position: relative;">
+          <canvas id="yieldChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Occupancy & Assets -->
+      <div style="display: flex; flex-direction: column; gap: 2rem;">
+        
+        <!-- Occupancy Circle -->
+        <div class="sz-analytics-card" style="text-align: center; border-color: var(--ink); border-style: double; border-width: 6px;">
+          <h3 class="sz-analytics-card__title" style="justify-content: center; font-size: 0.9rem;">DENSITY_LEVEL</h3>
+          <div class="sz-occupancy-circle">
+            <span class="sz-occupancy-circle__val"><%= occupancyRate %>%</span>
+            <span class="sz-occupancy-circle__label">Occupancy</span>
+          </div>
+          <p style="font-size: 0.65rem; font-weight: 800; color: var(--coral); margin-top: 1rem; text-transform: uppercase;">Current Month Utilization</p>
+        </div>
+
+        <!-- Asset Performance Bar -->
+        <div class="sz-analytics-card" style="box-shadow: 10px 10px 0 var(--lime);">
+          <h3 class="sz-analytics-card__title" style="font-size: 0.9rem;">ASSET_RANKING</h3>
+          <div style="height: 180px; position: relative;">
+            <canvas id="assetChart"></canvas>
+          </div>
+        </div>
+
       </div>
 
     </div>
@@ -194,3 +233,92 @@
 
   </div>
 </main>
+
+<!-- DATA_SHELL FOR ANALYTICS (Hidden) -->
+<div id="analytics-data" 
+     style="display: none;" 
+     data-monthly='<%- JSON.stringify(monthlyYield) %>'
+     data-performance='<%- JSON.stringify(listingPerformance) %>'>
+</div>
+
+<script>
+  // --- DATA EXTRACTION ---
+  const dataShell = document.getElementById('analytics-data');
+  const monthlyYieldData = JSON.parse(dataShell.getAttribute('data-monthly'));
+  const performanceDataRaw = JSON.parse(dataShell.getAttribute('data-performance'));
+
+  // --- CHART.JS CONFIGURATION (BRUTALIST STYLE) ---
+  const yieldCtx = document.getElementById('yieldChart').getContext('2d');
+  const assetCtx = document.getElementById('assetChart').getContext('2d');
+
+  // 1. Yield Trend Chart
+  new Chart(yieldCtx, {
+    type: 'line',
+    data: {
+      labels: monthlyYieldData.map(y => y.month),
+      datasets: [{
+        label: 'YIELD (INR)',
+        data: monthlyYieldData.map(y => y.total),
+        borderColor: '#0A0A0A',
+        backgroundColor: 'rgba(10, 10, 10, 0.05)',
+        borderWidth: 4,
+        fill: true,
+        tension: 0,
+        pointBackgroundColor: '#FF4500',
+        pointBorderColor: '#0A0A0A',
+        pointBorderWidth: 2,
+        pointRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: { color: 'rgba(0,0,0,0.1)', borderDash: [5, 5] },
+          ticks: { font: { weight: '900', size: 10 } }
+        },
+        x: {
+          grid: { display: false },
+          ticks: { font: { weight: '900', size: 10 } }
+        }
+      },
+      plugins: {
+        legend: { display: false }
+      }
+    }
+  });
+
+  // 2. Asset Performance Chart
+  new Chart(assetCtx, {
+    type: 'bar',
+    data: {
+      labels: performanceDataRaw.map(p => p.title.length > 15 ? p.title.substring(0,12)+'...' : p.title ),
+      datasets: [{
+        label: 'TOTAL_YIELD',
+        data: performanceDataRaw.map(p => p.yield),
+        backgroundColor: '#CCFF00',
+        borderColor: '#0A0A0A',
+        borderWidth: 3
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      indexAxis: 'y',
+      scales: {
+        y: { 
+          grid: { display: false },
+          ticks: { font: { weight: '900', size: 9 } }
+        },
+        x: { 
+          display: false 
+        }
+      },
+      plugins: {
+        legend: { display: false }
+      }
+    }
+  });
+</script>
