@@ -136,83 +136,108 @@ module.exports.downloadPass = async (req, res) => {
             light: '#F5F0E8'
         },
         margin: 1,
-        width: 120
+        width: 150
     });
 
     const doc = new PDFDocument({
-        size: [600, 300], // Horizontal ticket size
+        size: [800, 400], // Increased Width and Height
         margins: { top: 0, bottom: 0, left: 0, right: 0 }
     });
 
-    // Set response headers for PDF download
+    // Set response headers
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Content-Disposition', `attachment; filename=StayZen_Pass_${booking._id}.pdf`);
     doc.pipe(res);
 
-    // --- DRAWING THE BRUTALIST PASS ---
+    // --- DESIGN TOKENS ---
     const CREAM = '#F5F0E8';
     const INK = '#0A0A0A';
     const CORAL = '#FF4500';
+    const LIME = '#CCFF00';
 
     // Background
-    doc.rect(0, 0, 600, 300).fill(CREAM);
+    doc.rect(0, 0, 800, 400).fill(CREAM);
 
-    // Main Header Bar (Black)
-    doc.rect(0, 0, 600, 60).fill(INK);
+    // 1. TOP MARQUEE (Black Header)
+    doc.rect(0, 0, 800, 70).fill(INK);
     doc.fillColor(CREAM)
        .font('Helvetica-Bold')
-       .fontSize(18)
-       .text('STAYZEN CLEARANCE PASS', 30, 22, { characterSpacing: 2 });
+       .fontSize(22)
+       .text('STAYZEN // CLEARANCE_PASS', 40, 25, { characterSpacing: 2 });
     
-    // Subtext at top right
-    doc.fontSize(8)
-       .text(`ISSUE_ID: ${booking._id.toString().toUpperCase()}`, 400, 28, { align: 'right', width: 170 });
+    doc.fontSize(9)
+       .text(`DTS_VERSION: 1.0.4 // LOG_ID: ${booking._id.toString().substring(0,12).toUpperCase()}`, 500, 32, { align: 'right', width: 260 });
 
-    // --- CONTENT SECTION ---
+    // 2. MAIN CONTENT AREA
     doc.fillColor(INK);
 
-    // Listing Title (Huge)
-    doc.fontSize(24)
-       .text(booking.listing.title.toUpperCase(), 30, 85);
+    // Title Section
+    doc.fontSize(32).text(booking.listing.title.toUpperCase(), 40, 100);
+    doc.fontSize(10).text(`LISTING_ID: ${booking.listing._id.toString().substring(0,8).toUpperCase()}`, 40, 140);
 
-    // Metadata Grid
-    doc.fontSize(8).font('Helvetica-Bold').text('LOCATION', 30, 130);
-    doc.fontSize(12).text(booking.listing.location.toUpperCase(), 30, 142);
+    // Data Segments (Improved Alignment)
+    // Left Column
+    doc.fontSize(9).font('Helvetica-Bold').text('TARGET LOCATION', 40, 175);
+    doc.fontSize(14).text(booking.listing.location.toUpperCase(), 40, 190, { width: 300 });
 
-    doc.fontSize(8).text('GUEST dossier', 180, 130);
-    doc.fontSize(12).text(booking.user.username.toUpperCase(), 180, 142);
+    const lat = booking.listing.geometry?.coordinates[1]?.toFixed(4) || "0.0000";
+    const lng = booking.listing.geometry?.coordinates[0]?.toFixed(4) || "0.0000";
+    doc.fontSize(8).text(`COORD: [ ${lat} N , ${lng} E ]`, 40, 215);
 
-    // Dashed Line Separator
-    doc.moveTo(30, 175).lineTo(570, 175).dash(5, { space: 5 }).stroke(INK);
+    // Right Column (Fixed position to avoid overlap)
+    doc.fontSize(9).text('OPERATIVE dossier', 380, 175);
+    doc.fontSize(14).text(booking.user.username.toUpperCase(), 380, 190, { width: 200 });
+    doc.fontSize(8).text(`AGENT_UID: ${booking.user._id.toString().substring(0,8).toUpperCase()}`, 380, 215);
 
-    // Timeline Section
-    doc.fontSize(8).text('INFILTRATION DATE', 30, 195);
-    doc.fontSize(14).text(booking.checkIn.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase(), 30, 210);
+    // Middle Bar (Separator)
+    doc.moveTo(40, 235).lineTo(580, 235).dash(4, { space: 4 }).stroke(INK);
 
-    doc.fontSize(8).text('EXFILTRATION DATE', 180, 195);
-    doc.fontSize(14).text(booking.checkOut.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase(), 180, 210);
+    // Timeline
+    doc.fontSize(9).text('INFILTRATION', 40, 255);
+    doc.fontSize(18).text(booking.checkIn.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase(), 40, 275);
 
-    // Financial Breakdown
+    doc.fontSize(9).text('EXFILTRATION', 220, 255);
+    doc.fontSize(18).text(booking.checkOut.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase(), 220, 275);
+
+    const diffDays = Math.ceil(Math.abs(booking.checkOut - booking.checkIn) / (1000 * 60 * 60 * 24));
+    doc.fontSize(9).text('DURATION', 400, 255);
+    doc.fontSize(18).text(`${diffDays} DAYS`, 400, 275);
+
+    // 3. FINANCIAL LEDGER (Bottom Section)
+    doc.rect(0, 320, 600, 80).fill(INK);
+    doc.fillColor(CREAM);
+    
     const subtotal = booking.totalPrice / 1.18;
     const tax = booking.totalPrice - subtotal;
-
-    doc.fontSize(8).text('FINANCIAL BREAKDOWN', 30, 255);
-    doc.fontSize(10)
-       .text(`SUBTOTAL: ₹${subtotal.toLocaleString("en-IN")}`, 30, 268)
-       .text(`TAX (18%): ₹${tax.toLocaleString("en-IN")}`, 180, 268);
-
-    // Grand Total (Big & Red/Coral)
-    doc.fillColor(CORAL).fontSize(16).text(`TOTAL: ₹${booking.totalPrice.toLocaleString("en-IN")}`, 30, 280);
-
-    // --- FOOTER AND QR CODE ---
-    // Right Sidebar / Stub effect
-    doc.moveTo(480, 60).lineTo(480, 300).dash(2, { space: 2 }).stroke(INK);
     
+    doc.fontSize(9).text('FINANCIAL_LEDGER', 40, 340);
+    doc.fontSize(11)
+       .text(`SUB: INR ${subtotal.toLocaleString("en-IN")}`, 40, 360)
+       .text(`TAX (18%): INR ${tax.toLocaleString("en-IN")}`, 200, 360);
+
+    doc.fillColor(LIME).fontSize(18).text(`GRAND TOTAL: INR ${booking.totalPrice.toLocaleString("en-IN")}`, 40, 375);
+
+    // 4. SIDEBAR STUB (Vertical Line)
+    doc.moveTo(620, 70).lineTo(620, 400).dash(2, { space: 2 }).stroke(INK);
+    doc.fillColor(INK);
+
+    // "APPROVED" Geometric Stamp
+    doc.circle(710, 330, 40).lineWidth(3).stroke();
+    doc.fontSize(10).font('Helvetica-Bold').text('APPROVED', 685, 325);
+
+    // Vertical Text Line 
+    doc.fontSize(8).text('INTEL_CLEARANCE_AUTH_LEVEL_CONFIRMED', 630, 280, { lineBreak: false });
+
     // QR Code
-    doc.image(qrCodeBuffer, 480, 100, { width: 100, height: 100 });
+    doc.image(qrCodeBuffer, 640, 100, { width: 140, height: 140 });
     
-    doc.fillColor(INK).font('Helvetica-Bold').fontSize(7)
-       .text('AUTH_KEY', 484, 210, { width: 100, align: 'center' });
+    doc.fontSize(8).font('Helvetica-Bold').text('AUTH_KEY_SCAN', 640, 250, { width: 140, align: 'center' });
+
+    // Mock Barcode effect at the bottom right
+    for(let i=0; i<30; i++) {
+       let w = Math.random() * 3 + 1;
+       doc.rect(640 + (i*4), 300, w, 15).fill(INK);
+    }
 
     doc.end();
 };
