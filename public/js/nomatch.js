@@ -18,6 +18,67 @@ document.addEventListener("DOMContentLoaded", () => {
   let activeTag = null; // stores the data-tag string e.g. "Amazing Pools"
   let unavailableIds = new Set(); // listing IDs unavailable for selected dates
 
+  // ── GLOBAL MAP INITIALIZATION ──
+  const mapContainer = document.getElementById("global-map");
+  let globalMap = null;
+  const markers = new Map(); // listingId -> L.marker
+  let allMarkerGroup = null;
+
+  if (mapContainer && typeof L !== "undefined") {
+      globalMap = L.map('global-map', {
+          scrollWheelZoom: false,
+          attributionControl: false
+      }).setView([20.5937, 78.9629], 5); // Fallback coordinates
+      
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19
+      }).addTo(globalMap);
+      
+      allMarkerGroup = L.featureGroup().addTo(globalMap);
+
+      cards.forEach(card => {
+          const lat = parseFloat(card.getAttribute("data-lat"));
+          const lng = parseFloat(card.getAttribute("data-lng"));
+          const listingId = card.getAttribute("data-id");
+          const price = card.getAttribute("data-price");
+          const title = card.getAttribute("data-title");
+          const url = card.getAttribute("data-url");
+
+          if (lat && lng && lat !== 0 && lng !== 0) {
+              const brutalIcon = L.divIcon({
+                  className: 'brutal-marker',
+                  html: `
+                      <div class="brutal-marker-tag" style="padding: 4px 8px; font-weight: 800; font-family: 'Space Grotesk', sans-serif; background: #0A0A0A; color: #C8FF00; border: 2px solid #0A0A0A; font-size: 14px; white-space: nowrap; box-shadow: 2px 2px 0 #FFF;">
+                          ₹ ${Number(price).toLocaleString("en-IN")}
+                      </div>
+                  `,
+                  iconSize: [0, 0],
+                  iconAnchor: [0, 0]
+              });
+
+              const popupHtml = `
+                  <div style="text-align: center; font-family: 'Space Grotesk', sans-serif; min-width: 150px;">
+                      <h6 style="font-weight: 900; margin-bottom: 5px; text-transform: uppercase;">${title}</h6>
+                      <a href="${url}" style="font-weight: 800; color: #FFF; background: #FF5722; padding: 4px 8px; text-decoration: none; display: inline-block; margin-top: 5px; border: 2px solid #000; box-shadow: 2px 2px 0 #000;">VIEW DETAILS</a>
+                  </div>
+              `;
+
+              const marker = L.marker([lat, lng], { icon: brutalIcon });
+              marker.bindPopup(popupHtml, { offset: [0, -20] });
+              
+              markers.set(listingId, marker);
+              marker.addTo(allMarkerGroup);
+          }
+      });
+      
+      if (markers.size > 0) {
+          globalMap.fitBounds(allMarkerGroup.getBounds(), { padding: [50, 50] });
+      }
+      
+      setTimeout(() => globalMap.invalidateSize(), 500);
+      window.addEventListener('resize', () => { setTimeout(() => globalMap.invalidateSize(), 500); });
+  }
+
   // ── DATE RANGE AVAILABILITY FILTER ──
   const checkinInput = document.getElementById("avail-checkin");
   const checkoutInput = document.getElementById("avail-checkout");
@@ -75,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
         checkoutInput.value = "";
         clearBtn.style.display = "none";
         unavailableIds = new Set();
-        applyFilters();
+        applyFilters(true);
       });
     }
   }
@@ -90,15 +151,16 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Availability check failed:", err);
       unavailableIds = new Set();
     }
-    applyFilters();
+    applyFilters(true);
   }
 
   // ── UNIFIED FILTER LOGIC ──
-  function applyFilters() {
+  function applyFilters(shouldUpdateBounds = false) {
     const searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : "";
     let anyVisible = false;
     let cardsToShow = [];
     let cardsToHide = [];
+    let visibleMarkers = [];
 
     cards.forEach(card => {
       const title  = card.querySelector("b")?.textContent.toLowerCase() || "";
@@ -118,6 +180,16 @@ document.addEventListener("DOMContentLoaded", () => {
       const shouldShow = matchesSearch && matchesFilter && matchesAvailability;
       const cardLink = card.closest(".sz-card-link");
       
+      if (globalMap && markers.has(listingId)) {
+        const marker = markers.get(listingId);
+        if (shouldShow) {
+            if (!allMarkerGroup.hasLayer(marker)) allMarkerGroup.addLayer(marker);
+            visibleMarkers.push(marker);
+        } else {
+            if (allMarkerGroup.hasLayer(marker)) allMarkerGroup.removeLayer(marker);
+        }
+      }
+
       if (cardLink) {
         if (shouldShow) {
             cardsToShow.push(cardLink);
@@ -187,11 +259,17 @@ document.addEventListener("DOMContentLoaded", () => {
         noMatchContainer.style.display = anyVisible ? "none" : "block";
       }
     }
+
+    // Update map bounds smoothly
+    if (globalMap && shouldUpdateBounds && visibleMarkers.length > 0) {
+        const tempGroup = L.featureGroup(visibleMarkers);
+        globalMap.flyToBounds(tempGroup.getBounds(), { padding: [50, 50], maxZoom: 12, duration: 0.5 });
+    }
   }
 
   // Real-time search
   if (searchInput) {
-    searchInput.addEventListener("input", applyFilters);
+    searchInput.addEventListener("input", () => applyFilters(false));
   }
 
   // Category filter clicks — use data-tag, not the <p> text
@@ -209,7 +287,7 @@ document.addEventListener("DOMContentLoaded", () => {
         activeTag = tag;
       }
 
-      applyFilters();
+      applyFilters(true);
     });
   });
 });

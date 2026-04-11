@@ -89,6 +89,10 @@ app.use(
                 "https://res.cloudinary.com/dos4ag6kt/", 
                 "https://images.unsplash.com/",
                 "https://unpkg.com/", // For Leaflet tiles
+                "https://tile.openstreetmap.org",
+                "https://a.tile.openstreetmap.org",
+                "https://b.tile.openstreetmap.org",
+                "https://c.tile.openstreetmap.org",
             ],
             fontSrc: ["'self'", ...fontSrcUrls],
         },
