@@ -166,6 +166,8 @@ const hostController = require("./controllers/hosts.js");
 const { isLoggedIn } = require("./utils/middleware.js");
 app.get("/dashboard", isLoggedIn, require("./utils/wrapAsync.js")(passController.index));
 app.get("/host-dashboard", isLoggedIn, require("./utils/wrapAsync.js")(hostController.index));
+app.post("/host-dashboard/bookings/:id/accept", isLoggedIn, require("./utils/wrapAsync.js")(hostController.acceptBooking));
+app.post("/host-dashboard/bookings/:id/decline", isLoggedIn, require("./utils/wrapAsync.js")(hostController.declineBooking));
 
 app.use("/", userRouter);
 

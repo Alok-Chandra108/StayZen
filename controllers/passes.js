@@ -26,6 +26,7 @@ module.exports.createBooking = async (req, res) => {
     // Check for overlapping dates
     const overlappingBookings = await Booking.find({
         listing: id,
+        status: { $ne: 'Declined' },
         $or: [
             { checkIn: { $lt: checkOutDate }, checkOut: { $gt: checkInDate } }
         ]
@@ -56,7 +57,7 @@ module.exports.createBooking = async (req, res) => {
 
     await newBooking.save();
 
-    req.flash("success", "Secure Pass Confirmed!");
+    req.flash("success", "Pass requested! Host must accept to secure your space.");
     res.redirect("/dashboard");
 };
 

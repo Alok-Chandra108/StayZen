@@ -23,10 +23,19 @@
       <div class="sz-pass-grid">
         <% passes.forEach((pass) => { %>
           <article class="sz-pass-ticket">
-            
+            <% 
+              let statusClass = 'sz-pass-ticket__status--pending';
+              if (!pass.status || pass.status === 'Confirmed') {
+                statusClass = 'sz-pass-ticket__status--confirmed';
+              } else if (pass.status === 'Declined') {
+                statusClass = 'sz-pass-ticket__status--declined';
+              }
+            %>
             <div class="sz-pass-ticket__img-wrap">
               <img src="<%= pass.listing.image.url %>" alt="<%= pass.listing.title %>">
-              <div class="sz-pass-ticket__status">SECURED</div>
+              <div class="sz-pass-ticket__status <%= statusClass %>">
+                <%= pass.status ? pass.status.toUpperCase() : 'CONFIRMED' %>
+              </div>
             </div>
             
             <div class="sz-pass-ticket__content">

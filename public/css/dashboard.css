@@ -108,6 +108,45 @@
   letter-spacing: 1px;
 }
 
+.sz-pass-ticket__status--confirmed {
+  background: var(--lime);
+  color: var(--ink);
+}
+
+.sz-pass-ticket__status--pending {
+  background: var(--yellow);
+  color: var(--ink);
+}
+
+.sz-pass-ticket__status--declined {
+  background: var(--coral);
+  color: var(--white);
+}
+
+.sz-status-label {
+  padding: 4px 12px;
+  font-weight: 900;
+  font-size: 0.75rem;
+  border: 2px solid var(--ink);
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.sz-status-label--confirmed {
+  background: var(--lime);
+  color: var(--ink);
+}
+
+.sz-status-label--pending {
+  background: var(--yellow);
+  color: var(--ink);
+}
+
+.sz-status-label--declined {
+  background: var(--coral);
+  color: var(--white);
+}
+
 .sz-pass-ticket__content {
   padding: 2.5rem 1.5rem 1.5rem;
   flex: 1;
