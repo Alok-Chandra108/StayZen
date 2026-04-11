@@ -97,6 +97,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function applyFilters() {
     const searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : "";
     let anyVisible = false;
+    let cardsToShow = [];
+    let cardsToHide = [];
 
     cards.forEach(card => {
       const title  = card.querySelector("b")?.textContent.toLowerCase() || "";
@@ -115,12 +117,75 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const shouldShow = matchesSearch && matchesFilter && matchesAvailability;
       const cardLink = card.closest(".sz-card-link");
-      if (cardLink) cardLink.style.display = shouldShow ? "block" : "none";
-      if (shouldShow) anyVisible = true;
+      
+      if (cardLink) {
+        if (shouldShow) {
+            cardsToShow.push(cardLink);
+            anyVisible = true;
+        } else {
+            cardsToHide.push(cardLink);
+        }
+      }
     });
 
-    if (noMatchContainer) {
-      noMatchContainer.style.display = anyVisible ? "none" : "block";
+    // ── ANIMATED REVEAL WITH GSAP ──
+    if (typeof gsap !== "undefined") {
+      // 1. Hide the ones that shouldn't match
+      if (cardsToHide.length > 0) {
+          gsap.to(cardsToHide, {
+              duration: 0.2,
+              opacity: 0,
+              scale: 0.95,
+              onComplete: () => {
+                  cardsToHide.forEach(c => {
+                      c.style.display = "none";
+                  });
+              }
+          });
+      }
+
+      // 2. Show the matching ones
+      if (cardsToShow.length > 0) {
+          // Immediately set display block so they take space
+          cardsToShow.forEach(c => {
+              if (c.style.display === "none" || c.style.display === "") {
+                  c.style.display = "block";
+                  // Animate them in newly
+                  gsap.fromTo(c, 
+                      { opacity: 0, scale: 0.9 }, 
+                      { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.2)", delay: 0.1 }
+                  );
+              } else {
+                  // Ensure they are fully visible if they were already showing
+                  gsap.to(c, { opacity: 1, scale: 1, duration: 0.2 });
+              }
+          });
+      }
+      
+      // Handle the "No Match" graphic
+      if (noMatchContainer) {
+          if (anyVisible) {
+              noMatchContainer.style.display = "none";
+          } else {
+              noMatchContainer.style.display = "block";
+              gsap.fromTo(noMatchContainer, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4 });
+          }
+      }
+
+      // Refresh ScrollTrigger after a slight delay to allow layout adjustments
+      setTimeout(() => {
+          if (typeof ScrollTrigger !== "undefined") {
+              ScrollTrigger.refresh();
+          }
+      }, 300);
+
+    } else {
+      // Fallback if GSAP is unavailable
+      cardsToHide.forEach(c => c.style.display = "none");
+      cardsToShow.forEach(c => c.style.display = "block");
+      if (noMatchContainer) {
+        noMatchContainer.style.display = anyVisible ? "none" : "block";
+      }
     }
   }
 
