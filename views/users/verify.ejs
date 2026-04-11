@@ -1,0 +1,252 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="sz-verify-page">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                
+                <div class="sz-verify-card <%= status === 'Verified' ? 'sz-verify-card--success' : 'sz-verify-card--danger' %>">
+                    
+                    <!-- Header -->
+                    <div class="sz-verify-header">
+                        <div class="sz-verify-eyebrow">Intel Clearance Protocol</div>
+                        <h1 class="sz-verify-title">Pass Verification</h1>
+                        <div class="sz-verify-status-badge">
+                            <%= status.toUpperCase() %>
+                        </div>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="sz-verify-body">
+                        <% if (status === 'Verified' && booking) { %>
+                            
+                            <div class="sz-verify-intel">
+                                <div class="row g-4">
+                                    <div class="col-md-6">
+                                        <div class="sz-intel-item">
+                                            <label>Target Listing</label>
+                                            <div class="value"><%= booking.listing.title %></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="sz-intel-item">
+                                            <label>Authorized Agent</label>
+                                            <div class="value"><%= booking.user.username %></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="sz-intel-item">
+                                            <label>Infiltration (Check-In)</label>
+                                            <div class="value"><%= booking.checkIn.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) %></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="sz-intel-item">
+                                            <label>Exfiltration (Check-Out)</label>
+                                            <div class="value"><%= booking.checkOut.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) %></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="sz-intel-secondary mt-4">
+                                    <div class="sz-intel-sub">LISTING_ID: <%= booking.listing._id %></div>
+                                    <div class="sz-intel-sub">LOG_ID: <%= booking._id %></div>
+                                </div>
+                            </div>
+
+                            <div class="sz-verify-footer mt-5">
+                                <div class="sz-access-alert">
+                                    <i class="fa-solid fa-shield-halved me-2"></i>
+                                    AUTHENTICATED ACCESS GRANTED
+                                </div>
+                            </div>
+
+                        <% } else { %>
+                            
+                            <div class="sz-verify-error text-center py-5">
+                                <div class="sz-error-icon mb-4">
+                                    <i class="fa-solid fa-triangle-exclamation"></i>
+                                </div>
+                                <h3>ACCESS DENIED</h3>
+                                <p>The scanned pass is either invalid, expired, or has not been confirmed by the host.</p>
+                                
+                                <% if (booking && booking.status !== 'Confirmed') { %>
+                                    <div class="sz-status-note mt-3">
+                                        CURRENT STATUS: <strong><%= booking.status.toUpperCase() %></strong>
+                                    </div>
+                                <% } %>
+
+                                <div class="mt-5">
+                                    <a href="/" class="sz-btn sz-btn--action">Return to Base</a>
+                                </div>
+                            </div>
+
+                        <% } %>
+                    </div>
+
+                    <!-- Sidebar Decorations -->
+                    <div class="sz-verify-decoration" aria-hidden="true">
+                        <div class="sz-verify-tape">SECURITY CLEARANCE ✦ CONFIRMED ✦ STAYZEN</div>
+                        <div class="sz-verify-barcode"></div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.sz-verify-page {
+    background-color: var(--cream);
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    padding: 2rem 0;
+}
+
+.sz-verify-card {
+    background: var(--white);
+    border: 5px solid var(--ink);
+    box-shadow: 20px 20px 0 var(--ink);
+    position: relative;
+    overflow: hidden;
+}
+
+.sz-verify-card--success { border-color: var(--ink); }
+.sz-verify-card--danger { border-color: var(--coral); box-shadow: 20px 20px 0 var(--coral); }
+
+.sz-verify-header {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 3rem 2.5rem;
+    position: relative;
+}
+
+.sz-verify-card--danger .sz-verify-header { background: var(--coral); }
+
+.sz-verify-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    opacity: 0.7;
+    margin-bottom: 0.5rem;
+}
+
+.sz-verify-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    letter-spacing: -2px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.sz-verify-status-badge {
+    position: absolute;
+    top: 50%;
+    right: 2.5rem;
+    transform: translateY(-50%) rotate(-5deg);
+    padding: 0.8rem 1.5rem;
+    background: var(--lime);
+    color: var(--ink);
+    border: 3px solid var(--ink);
+    font-weight: 900;
+    font-size: 1.5rem;
+    box-shadow: 6px 6px 0 var(--white);
+}
+
+.sz-verify-card--danger .sz-verify-status-badge {
+    background: var(--white);
+    color: var(--coral);
+    border-color: var(--coral);
+    box-shadow: 6px 6px 0 var(--ink);
+}
+
+.sz-verify-body {
+    padding: 3rem 2.5rem;
+}
+
+.sz-intel-item label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: rgba(10,10,10,0.5);
+    margin-bottom: 0.5rem;
+}
+
+.sz-intel-item .value {
+    font-size: 1.4rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+.sz-intel-secondary {
+    border-top: 2px dashed rgba(10,10,10,0.1);
+    padding-top: 1.5rem;
+}
+
+.sz-intel-sub {
+    font-size: 0.7rem;
+    font-family: monospace;
+    color: rgba(10,10,10,0.4);
+    margin-bottom: 0.2rem;
+}
+
+.sz-access-alert {
+    background: var(--lime);
+    color: var(--ink);
+    padding: 1rem 1.5rem;
+    font-weight: 900;
+    text-align: center;
+    border: 3px solid var(--ink);
+    letter-spacing: 1px;
+}
+
+.sz-verify-error h3 {
+    font-weight: 900;
+    font-size: 2.5rem;
+    letter-spacing: -1px;
+    color: var(--coral);
+}
+
+.sz-error-icon {
+    font-size: 5rem;
+    color: var(--coral);
+}
+
+.sz-verify-decoration {
+    position: relative;
+    height: 40px;
+    background: var(--ink);
+    overflow: hidden;
+}
+
+.sz-verify-tape {
+    color: var(--cream);
+    font-size: 0.7rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding-top: 10px;
+    letter-spacing: 5px;
+    animation: tapeScroll 20s linear infinite;
+}
+
+@keyframes tapeScroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+.sz-verify-barcode {
+    position: absolute;
+    bottom: 0;
+    right: 1rem;
+    width: 100px;
+    height: 100%;
+    background: repeating-linear-gradient(90deg, var(--cream), var(--cream) 2px, var(--ink) 2px, var(--ink) 6px);
+    opacity: 0.2;
+}
+</style>

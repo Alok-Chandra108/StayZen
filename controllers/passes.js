@@ -129,8 +129,15 @@ module.exports.downloadPass = async (req, res) => {
         return res.redirect("/dashboard");
     }
 
-    // Generate QR Code buffer (Booking ID)
-    const qrCodeBuffer = await QRCode.toBuffer(booking._id.toString(), {
+    // Generate QR Code data (URL + Summary)
+    const protocol = req.protocol;
+    const host = req.get('host');
+    const verifyUrl = `${protocol}://${host}/verify/${booking._id}`;
+    
+    // Structured text for generic scanners
+    const qrData = `STAYZEN CLEARANCE PASS\n----------------------\nVERIFY: ${verifyUrl}\n\nLOG_ID: ${booking._id}\nTARGET: ${booking.listing.title}\nAGENT: ${booking.user.username}\nIN: ${booking.checkIn.toLocaleDateString()}\nOUT: ${booking.checkOut.toLocaleDateString()}\nSTATUS: ${booking.status}`;
+
+    const qrCodeBuffer = await QRCode.toBuffer(qrData, {
         color: {
             dark: '#000000',
             light: '#F5F0E8'
@@ -138,6 +145,7 @@ module.exports.downloadPass = async (req, res) => {
         margin: 1,
         width: 150
     });
+
 
     const doc = new PDFDocument({
         size: [800, 400], // Increased Width and Height
@@ -241,3 +249,23 @@ module.exports.downloadPass = async (req, res) => {
 
     doc.end();
 };
+
+module.exports.verifyPass = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const booking = await Booking.findById(id).populate("listing").populate("user");
+        
+        let status = "Invalid";
+        if (booking && booking.status === "Confirmed") {
+            status = "Verified";
+        } else if (booking) {
+            status = booking.status; // e.g. Pending, Declined
+        }
+
+        res.render("users/verify.ejs", { booking, status });
+    } catch (err) {
+        // If ID is malformed or not found
+        res.render("users/verify.ejs", { booking: null, status: "Access Denied" });
+    }
+};
+

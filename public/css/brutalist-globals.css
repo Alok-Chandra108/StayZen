@@ -420,13 +420,16 @@
 .flash-container {
   position: fixed;
   top: 2rem;
-  right: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 11000;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 1rem;
   pointer-events: none;
 }
+
 
 /* ── Responsive Form Card ── */
 @media (max-width: 680px) {

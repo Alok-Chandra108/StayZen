@@ -7,6 +7,8 @@ const { saveRedirectUrl } = require("../utils/middleware.js");
 
 
 const userController = require("../controllers/users.js");
+const passController = require("../controllers/passes.js");
+
 
 router.route("/signup")
 .get(userController.renderSignupForm)
@@ -22,4 +24,7 @@ router.route("/login")
 
 router.get("/logout", userController.logout)
 
+router.get("/verify/:id", wrapAsync(passController.verifyPass))
+
 module.exports = router;
+
