@@ -162,8 +162,10 @@ app.use("/listings/:id/bookings", passRouter);
 app.use("/api/listings", apiRouter);
 
 const passController = require("./controllers/passes.js");
+const hostController = require("./controllers/hosts.js");
 const { isLoggedIn } = require("./utils/middleware.js");
 app.get("/dashboard", isLoggedIn, require("./utils/wrapAsync.js")(passController.index));
+app.get("/host-dashboard", isLoggedIn, require("./utils/wrapAsync.js")(hostController.index));
 
 app.use("/", userRouter);
 
