@@ -113,8 +113,9 @@
                 <th style="padding: 1.2rem; border-right: 2px dashed rgba(245,240,232,0.2);">Guest Intel</th>
                 <th style="padding: 1.2rem; border-right: 2px dashed rgba(245,240,232,0.2);">Timeline</th>
                 <th style="padding: 1.2rem; border-right: 2px dashed rgba(245,240,232,0.2);">Payout</th>
-                <th style="padding: 1.2rem; text-align: center;">Status / Action</th>
+                <th style="padding: 1.2rem; text-align: center;">Status</th>
               </tr>
+
             </thead>
             <tbody>
               <% upcomingBookings.forEach((booking) => { %>
@@ -142,21 +143,11 @@
                   </td>
                   <td style="padding: 1.2rem; font-weight: 900; border-right: 2px dashed rgba(10,10,10,0.1);">₹<%= booking.totalPrice.toLocaleString("en-IN") %></td>
                   <td style="padding: 1.2rem; text-align: center;">
-                    <% if(!booking.status || booking.status === 'Pending') { %>
-                      <div style="display: flex; gap: 0.5rem; justify-content: center;">
-                        <form action="/host-dashboard/bookings/<%= booking._id %>/accept" method="POST">
-                          <button type="submit" style="background: var(--lime); border: 2px solid var(--ink); font-weight: 900; font-size: 0.7rem; padding: 4px 8px; cursor: pointer; box-shadow: 2px 2px 0 var(--ink);">ACCEPT</button>
-                        </form>
-                        <form action="/host-dashboard/bookings/<%= booking._id %>/decline" method="POST">
-                          <button type="submit" style="background: var(--coral); border: 2px solid var(--ink); color: var(--white); font-weight: 900; font-size: 0.7rem; padding: 4px 8px; cursor: pointer; box-shadow: 2px 2px 0 var(--ink);">DECLINE</button>
-                        </form>
-                      </div>
-                    <% } else { %>
-                      <span class="sz-status-label <%= 'sz-status-label--' + (booking.status ? booking.status.toLowerCase() : 'confirmed') %>">
-                        <%= booking.status ? booking.status.toUpperCase() : 'CONFIRMED' %>
-                      </span>
-                    <% } %>
+                    <span class="sz-status-label sz-status-label--confirmed">
+                      CONFIRMED
+                    </span>
                   </td>
+
                 </tr>
               <% }) %>
             </tbody>

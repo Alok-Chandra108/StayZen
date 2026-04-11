@@ -12,15 +12,16 @@
                         <div class="sz-verify-eyebrow">Intel Clearance Protocol</div>
                         <h1 class="sz-verify-title">Pass Verification</h1>
                         <div class="sz-verify-status-badge">
-                            <%= status.toUpperCase() %>
+                            VERIFIED
                         </div>
                     </div>
 
                     <!-- Body -->
                     <div class="sz-verify-body">
-                        <% if (status === 'Verified' && booking) { %>
+                        <% if (booking) { %>
                             
                             <div class="sz-verify-intel">
+
                                 <div class="row g-4">
                                     <div class="col-md-6">
                                         <div class="sz-intel-item">

@@ -33,8 +33,8 @@
             %>
             <div class="sz-pass-ticket__img-wrap">
               <img src="<%= pass.listing.image.url %>" alt="<%= pass.listing.title %>">
-              <div class="sz-pass-ticket__status <%= statusClass %>">
-                <%= pass.status ? pass.status.toUpperCase() : 'CONFIRMED' %>
+              <div class="sz-pass-ticket__status sz-pass-ticket__status--confirmed">
+                CONFIRMED
               </div>
             </div>
             
@@ -65,12 +65,11 @@
               <a href="/listings/<%= pass.listing._id %>" class="sz-pass-ticket__link">
                 VIEW INTEL <i class="fa-solid fa-arrow-right ms-2"></i>
               </a>
-              <% if(pass.status === 'Confirmed') { %>
-                <a href="/dashboard/bookings/<%= pass._id %>/pass" class="sz-btn sz-btn--action" style="font-size: 0.7rem; padding: 4px 10px;">
-                  <i class="fa-solid fa-download me-2"></i> DOWNLOAD PASS
-                </a>
-              <% } %>
+              <a href="/dashboard/bookings/<%= pass._id %>/pass" class="sz-btn sz-btn--action" style="font-size: 0.7rem; padding: 4px 10px;">
+                <i class="fa-solid fa-download me-2"></i> DOWNLOAD PASS
+              </a>
             </footer>
+
             
           </article>
         <% }) %>

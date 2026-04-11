@@ -89,8 +89,9 @@ module.exports.createBooking = async (req, res) => {
         // 4. Remove the lock upon success
         await BookingLock.findByIdAndDelete(lock._id);
 
-        req.flash("success", `Pass requested! Total with 18% tax: ₹${totalPrice.toLocaleString("en-IN")}. Host must accept.`);
+        req.flash("success", `Pass secured! Total with 18% tax: ₹${totalPrice.toLocaleString("en-IN")}. Your clearance is confirmed.`);
         res.redirect("/dashboard");
+
     } catch (err) {
         // Cleanup lock if error occurs
         await BookingLock.findByIdAndDelete(lock._id);
@@ -124,10 +125,11 @@ module.exports.downloadPass = async (req, res) => {
         return res.redirect("/dashboard");
     }
 
-    if (booking.status !== 'Confirmed') {
-        req.flash("failure", "Dossier incomplete: Pass only available for CONFIRMED status.");
+    if (!isGuest && !isHost) {
+        req.flash("failure", "Security Alert: Access to this dossier is restricted.");
         return res.redirect("/dashboard");
     }
+
 
     // Generate QR Code data (URL + Summary)
     const protocol = req.protocol;
@@ -256,13 +258,12 @@ module.exports.verifyPass = async (req, res) => {
         const booking = await Booking.findById(id).populate("listing").populate("user");
         
         let status = "Invalid";
-        if (booking && booking.status === "Confirmed") {
+        if (booking) {
             status = "Verified";
-        } else if (booking) {
-            status = booking.status; // e.g. Pending, Declined
         }
 
         res.render("users/verify.ejs", { booking, status });
+
     } catch (err) {
         // If ID is malformed or not found
         res.render("users/verify.ejs", { booking: null, status: "Access Denied" });

@@ -20,8 +20,9 @@ module.exports.index = async (req, res) => {
 
     const { startDate, endDate } = req.query;
     
-    // 1. Filtered Yield for the Summary Card and Tables
-    let filteredBookings = bookings.filter(b => !b.status || b.status === "Confirmed");
+    // 1. Yield for the Summary Card and Tables (All bookings are now auto-confirmed)
+    let filteredBookings = bookings;
+
     if (startDate && endDate) {
         const start = new Date(startDate);
         const end = new Date(endDate);
@@ -34,8 +35,9 @@ module.exports.index = async (req, res) => {
     }
     const totalEarnings = filteredBookings.reduce((sum, booking) => sum + booking.totalPrice, 0);
 
-    // 2. Historical Yield (Unfiltered Confirmed Bookings)
-    const confirmedBookings = bookings.filter(b => !b.status || b.status === "Confirmed");
+    // 2. Historical Yield (All bookings)
+    const confirmedBookings = bookings;
+
 
     // --- ANALYTICS AGGREGATION ---
     // 1. Monthly Yield (Last 6 Months - Always show full history)
@@ -102,18 +104,6 @@ module.exports.index = async (req, res) => {
         occupancyRate,
         searchQuery: req.query || {}
     });
+    });
 };
 
-module.exports.acceptBooking = async (req, res) => {
-    const { id } = req.params;
-    await Booking.findByIdAndUpdate(id, { status: 'Confirmed' });
-    req.flash("success", "Reservation Confirmed.");
-    res.redirect("/host-dashboard");
-};
-
-module.exports.declineBooking = async (req, res) => {
-    const { id } = req.params;
-    await Booking.findByIdAndUpdate(id, { status: 'Declined' });
-    req.flash("success", "Reservation Declined.");
-    res.redirect("/host-dashboard");
-};
