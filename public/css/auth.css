@@ -210,6 +210,57 @@
 }
 
 .sz-auth-switch a:hover { text-decoration: underline; }
+.sz-auth-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 1.5rem 0;
+  color: rgba(10,10,10,0.4);
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.sz-auth-divider::before,
+.sz-auth-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 2px dashed rgba(10,10,10,0.15);
+}
+
+.sz-auth-divider:not(:empty)::before { margin-right: 1.5rem; }
+.sz-auth-divider:not(:empty)::after { margin-left: 1.5rem; }
+
+.sz-auth-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 0.9rem;
+  background: var(--white);
+  color: var(--ink) !important;
+  border: 4px solid var(--ink);
+  text-decoration: none !important;
+  font-family: var(--font-p);
+  font-weight: 800;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 6px 6px 0 var(--lavender);
+  transition: all 0.12s;
+  cursor: pointer;
+}
+
+.sz-auth-google:hover {
+  transform: translate(3px, 3px);
+  box-shadow: 3px 3px 0 var(--lavender);
+  background: var(--cream);
+}
+
+.sz-auth-google i {
+  font-size: 1.1rem;
+}
 
 @media (max-width: 768px) {
   .sz-auth-page { grid-template-columns: 1fr; }

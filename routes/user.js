@@ -31,6 +31,19 @@ router.post("/resend-otp", wrapAsync(userController.resendOTP));
 
 router.get("/logout", userController.logout);
 
+// ✦ Google Auth Protocol (Initiate)
+router.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+
+// ✦ Google Auth Callback
+router.get("/auth/google/callback", 
+    passport.authenticate("google", { failureRedirect: "/login", failureFlash: true }), 
+    (req, res) => {
+        req.flash("success", `Welcome back, ${req.user.username}!`);
+        let redirectUrl = res.locals.redirectUrl || "/listings";
+        res.redirect(redirectUrl);
+    }
+);
+
 router.get("/verify/:id", isLoggedIn, wrapAsync(passController.verifyPass));
 
 module.exports = router;
