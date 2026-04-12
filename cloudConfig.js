@@ -11,7 +11,7 @@ const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
       folder: 'stayzen_Pro',
-      allowedFormats: ["png", "jpg", "jpeg"]
+      allowedFormats: ["png", "jpg", "jpeg", "webp"]
     },
   });
 

@@ -39,11 +39,11 @@
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
             <div>
               <label style="font-size: 0.7rem; font-weight: 900; text-transform: uppercase; display: block; margin-bottom: 0.4rem;">Start</label>
-              <input type="date" name="startDate" value="<%= q.startDate || '' %>" style="width: 100%; padding: 0.6rem; border: 2px solid var(--ink); font-family: inherit; font-weight: 700;">
+              <input type="date" name="startDate" id="startDate" value="<%= q.startDate || '' %>" style="width: 100%; padding: 0.6rem; border: 2px solid var(--ink); font-family: inherit; font-weight: 700;">
             </div>
             <div>
               <label style="font-size: 0.7rem; font-weight: 900; text-transform: uppercase; display: block; margin-bottom: 0.4rem;">End</label>
-              <input type="date" name="endDate" value="<%= q.endDate || '' %>" style="width: 100%; padding: 0.6rem; border: 2px solid var(--ink); font-family: inherit; font-weight: 700;">
+              <input type="date" name="endDate" id="endDate" value="<%= q.endDate || '' %>" style="width: 100%; padding: 0.6rem; border: 2px solid var(--ink); font-family: inherit; font-weight: 700;">
             </div>
           </div>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.5rem;">
@@ -240,8 +240,8 @@
 
 <div id="analytics-data" 
      style="display: none;" 
-     data-monthly='<%- JSON.stringify(monthlyYield) %>'
-     data-performance='<%- JSON.stringify(listingPerformance) %>'>
+     data-monthly='<%= JSON.stringify(monthlyYield) %>'
+     data-performance='<%= JSON.stringify(listingPerformance) %>'>
 </div>
 
 <script>

@@ -18,7 +18,7 @@
       location: listing.location,
       price: listing.price,
       bookings: typeof bookings !== 'undefined' ? bookings : []
-  });
+  }).replace(/</g, '\\u003c');
 %>
 <script id="listing-data" type="application/json"><%- listingDataJson %></script>
 <script>const listingData = JSON.parse(document.getElementById('listing-data').textContent);</script>
@@ -213,8 +213,8 @@
               <input type="hidden" id="hiddenCheckOut" name="checkOut" required>
               
               <div style="display: flex; gap: 10px;">
-                <input type="text" id="checkIn" class="sz-date-input" placeholder="CHECK-IN" readonly>
-                <input type="text" id="checkOut" class="sz-date-input" placeholder="CHECK-OUT" readonly>
+                <input type="text" id="checkIn" name="display-checkin" class="sz-date-input" placeholder="CHECK-IN" readonly>
+                <input type="text" id="checkOut" name="display-checkout" class="sz-date-input" placeholder="CHECK-OUT" readonly>
               </div>
 
               <div id="lock-status-container" style="display: none; margin-top: 1rem;">

@@ -4,7 +4,9 @@ if(process.env.NODE_ENV != "production"){
 
 const express = require("express");
 const app = express();
-app.set("trust proxy", 1);
+if (process.env.NODE_ENV === "production") {
+    app.set("trust proxy", 1);
+}
 
 const mongoose = require("mongoose");
 const path = require("path");
@@ -48,6 +50,7 @@ main();
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '1mb' }));
 app.use(methodOverride("_method"));
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, "/public")))
@@ -69,6 +72,7 @@ const styleSrcUrls = [
 ];
 const connectSrcUrls = [
     "https://unpkg.com",
+    "https://cdn.jsdelivr.net",
 ];
 const fontSrcUrls = [
     "https://fonts.gstatic.com",
@@ -116,6 +120,16 @@ app.use("/signup", authLimiter);
 app.use("/verify-otp", authLimiter);
 app.use("/resend-otp", authLimiter);
 
+// Security: API Rate Limiting
+const apiLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 200,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: "Too many API requests. Please try again later." },
+});
+app.use("/api", apiLimiter);
+
 
 const store  = MongoStore.create({
     mongoUrl: MONGO_URI,
@@ -125,15 +139,15 @@ const store  = MongoStore.create({
     touchAfter: 24 * 3600,
 });
 
-store.on("error", () => {
-    console.log("ERRROR in Mongo Sesssion Store", err);
+store.on("error", (err) => {
+    console.error("ERROR in Mongo Session Store:", err);
 })
 
 const sessionOptions = {
     store,
     secret: process.env.SECRET_VAL,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
         expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
         maxAge: 7 * 24 * 60 * 60 *1000,
@@ -183,6 +197,15 @@ app.use("/", userRouter);
 
 
 app.all("*", (req, res, next) => {
+    // Silently dismiss common browser auto-requests that flood the terminal
+    const noisyPaths = ["/favicon.ico", "/apple-touch-icon", "/.well-known"];
+    const isNoisy = noisyPaths.some(path => req.originalUrl.startsWith(path));
+
+    if (isNoisy) {
+        return res.status(204).end();
+    }
+
+    console.warn(`[404] Missing Resource: ${req.originalUrl}`);
     next(new ExpressError(404, "Page Not Found!!"));
 });
 

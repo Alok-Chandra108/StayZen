@@ -27,8 +27,12 @@
 }
 
 .sz-brand-logo {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(0,0,0,0.1));
   flex-shrink: 0;
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .navbar-brand:hover .sz-brand-logo { transform: rotate(15deg) scale(1.1); }

@@ -125,10 +125,6 @@ module.exports.downloadPass = async (req, res) => {
         return res.redirect("/dashboard");
     }
 
-    if (!isGuest && !isHost) {
-        req.flash("failure", "Security Alert: Access to this dossier is restricted.");
-        return res.redirect("/dashboard");
-    }
 
 
     // Generate QR Code data (URL ONLY for auto-redirection)

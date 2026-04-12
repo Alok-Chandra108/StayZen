@@ -72,14 +72,16 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // --- 4. STICKER WOBBLE (GLOBAL) ---
-        gsap.to(".nb-form-sticker", {
-            y: 10,
-            rotation: "+=2",
-            duration: 2,
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut"
-        });
+        if (document.querySelector(".nb-form-sticker")) {
+            gsap.to(".nb-form-sticker", {
+                y: 10,
+                rotation: "+=2",
+                duration: 2,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+        }
 
         // --- 5. LEGACY/REUSED COMPONENTS ---
         const cards = document.querySelectorAll('.listing-card');

@@ -3,38 +3,44 @@
         <div id="success-alert" class="brutal-alert brutal-alert-success" role="alert">
             <div class="d-flex align-items-center">
                 <i class="fa-solid fa-circle-check"></i>
-                <span><%= success %></span>
+                <span>
+                    <%= success %>
+                </span>
             </div>
             <button class="btn-close-brutal" onclick="dismissBrutalAlert('success-alert')">&times;</button>
         </div>
-    <% } %>
+        <% } %>
 
-    <% if(failure && failure.length) { %>
-        <div id="failure-alert" class="brutal-alert brutal-alert-danger" role="alert">
-            <div class="d-flex align-items-center">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-                <span><%= failure %></span>
-            </div>
-            <button class="btn-close-brutal" onclick="dismissBrutalAlert('failure-alert')">&times;</button>
-        </div>
-    <% } %>
+            <% if(failure && failure.length) { %>
+                <div id="failure-alert" class="brutal-alert brutal-alert-danger" role="alert">
+                    <div class="d-flex align-items-center">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <span>
+                            <%= failure %>
+                        </span>
+                    </div>
+                    <button class="btn-close-brutal" onclick="dismissBrutalAlert('failure-alert')">&times;</button>
+                </div>
+                <% } %>
 </div>
 
 <script>
     // Entry Animation
     document.addEventListener("DOMContentLoaded", () => {
-        gsap.from(".brutal-alert", {
-            y: -50,
-            opacity: 0,
-            duration: 0.5,
-            stagger: 0.2,
-            ease: "back.out(1.7)"
-        });
+        if (document.querySelector(".brutal-alert")) {
+            gsap.from(".brutal-alert", {
+                y: -50,
+                opacity: 0,
+                duration: 0.5,
+                stagger: 0.2,
+                ease: "back.out(1.7)"
+            });
+        }
     });
 
     const dismissBrutalAlert = (id) => {
         const el = document.getElementById(id);
-        if(!el) return;
+        if (!el) return;
         gsap.to(el, {
             y: -50,
             opacity: 0,

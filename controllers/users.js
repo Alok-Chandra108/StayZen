@@ -2,6 +2,10 @@ const User = require("../models/user.js");
 const { sendOTP } = require("../utils/email.js");
 const crypto = require("crypto");
 
+function hashOTP(otp) {
+    return crypto.createHash('sha256').update(otp).digest('hex');
+}
+
 module.exports.renderSignupForm = (req, res) => {
     res.render("users/signup.ejs");
 }
@@ -24,7 +28,7 @@ module.exports.signup = async(req, res) => {
         const newUser = new User({
             email, 
             username, 
-            otp, 
+            otp: hashOTP(otp), 
             otpExpires, 
             isVerified: false 
         });
@@ -34,8 +38,9 @@ module.exports.signup = async(req, res) => {
         // Send OTP via email
         await sendOTP(email, otp, username);
 
+        req.session.pendingEmail = email;
         req.flash("success", "A verification code has been sent to your email.");
-        res.redirect(`/verify-otp?email=${email}`);
+        res.redirect("/verify-otp");
         
     } catch (e) {
         console.log(e);
@@ -45,7 +50,7 @@ module.exports.signup = async(req, res) => {
 }
 
 module.exports.renderVerifyForm = (req, res) => {
-    const { email } = req.query;
+    const email = req.session.pendingEmail;
     if (!email) {
         req.flash("failure", "Invalid request.");
         return res.redirect("/signup");
@@ -53,7 +58,7 @@ module.exports.renderVerifyForm = (req, res) => {
     res.render("users/verify-otp.ejs", { email });
 }
 
-module.exports.verifyOTP = async (req, res) => {
+module.exports.verifyOTP = async (req, res, next) => {
     try {
         const { email, otp } = req.body;
         const user = await User.findOne({ email });
@@ -68,15 +73,19 @@ module.exports.verifyOTP = async (req, res) => {
             return res.redirect("/login");
         }
 
-        if (user.otp !== otp || user.otpExpires < Date.now()) {
+        if (user.otp !== hashOTP(otp) || user.otpExpires < Date.now()) {
             req.flash("failure", "Invalid or expired OTP.");
-            return res.redirect(`/verify-otp?email=${email}`);
+            req.session.pendingEmail = email;
+            return res.redirect("/verify-otp");
         }
 
         user.isVerified = true;
         user.otp = undefined;
         user.otpExpires = undefined;
         await user.save();
+
+        // Clean up session
+        delete req.session.pendingEmail;
 
         req.login(user, (err) => {
             if (err) return next(err);
@@ -101,14 +110,15 @@ module.exports.resendOTP = async (req, res) => {
         }
 
         const otp = crypto.randomInt(100000, 999999).toString();
-        user.otp = otp;
+        user.otp = hashOTP(otp);
         user.otpExpires = new Date(Date.now() + 10 * 60 * 1000);
         await user.save();
 
         await sendOTP(email, otp, user.username);
 
+        req.session.pendingEmail = email;
         req.flash("success", "A new verification code has been sent.");
-        res.redirect(`/verify-otp?email=${email}`);
+        res.redirect("/verify-otp");
 
     } catch (e) {
         req.flash("failure", "Could not resend OTP. Please try again.");
@@ -120,7 +130,7 @@ module.exports.renderLoginForm = (req, res) => {
     res.render("users/login.ejs")
 }
 
-module.exports.login = async(req, res) => {
+module.exports.login = async(req, res, next) => {
     // Check if user is verified
     if (!req.user.isVerified) {
         const email = req.user.email;

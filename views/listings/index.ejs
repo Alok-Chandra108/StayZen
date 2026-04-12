@@ -192,7 +192,7 @@
     <div class="sz-tax-toggle-box">
       <span class="sz-tax-label">Show total taxes</span>
       <label class="sz-switch">
-        <input type="checkbox" id="tax-toggle">
+        <input type="checkbox" id="tax-toggle" name="tax-toggle">
         <span class="sz-slider"></span>
       </label>
     </div>
@@ -201,9 +201,9 @@
   <div class="sz-date-filter-wrapper">
     <div class="sz-date-filter-box">
       <i class="fa-regular fa-calendar" aria-hidden="true"></i>
-      <input type="text" id="avail-checkin" class="sz-date-filter-input" placeholder="Check-in" readonly>
+      <input type="text" id="avail-checkin" name="checkin" class="sz-date-filter-input" placeholder="Check-in" readonly>
       <span class="sz-date-filter-arrow">→</span>
-      <input type="text" id="avail-checkout" class="sz-date-filter-input" placeholder="Check-out" readonly>
+      <input type="text" id="avail-checkout" name="checkout" class="sz-date-filter-input" placeholder="Check-out" readonly>
       <button type="button" id="avail-clear" class="sz-date-filter-clear" title="Clear dates" style="display:none;">
         <i class="fa-solid fa-xmark"></i>
       </button>

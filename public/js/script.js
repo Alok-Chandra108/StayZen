@@ -28,16 +28,18 @@
 })();
 
 // FIX: Safe check for password element to prevent errors on listing pages
-const passwordInput = document.getElementById('password');
-if (passwordInput) {
-    passwordInput.addEventListener('input', function () {
-        const input = this;
-        if (input.value.length >= 7) {
-            input.classList.add('is-valid');
-            input.classList.remove('is-invalid');
-        } else {
-            input.classList.remove('is-valid');
-            input.classList.add('is-invalid');
-        }
-    });
-}
+(function() {
+    const passwordInput = document.getElementById('password');
+    if (passwordInput) {
+        passwordInput.addEventListener('input', function () {
+            const input = this;
+            if (input.value.length >= 7) {
+                input.classList.add('is-valid');
+                input.classList.remove('is-invalid');
+            } else {
+                input.classList.remove('is-valid');
+                input.classList.add('is-invalid');
+            }
+        });
+    }
+})();
