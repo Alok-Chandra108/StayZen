@@ -1,43 +1,32 @@
 <% layout("/layouts/boilerplate") %>
 
 <!-- ================================================================
-     STAYZEN — LOGIN PAGE / NEU-BRUTALISM × AWWWARDS
+     STAYZEN — LOGIN PAGE (REDESIGNED)
      ================================================================ -->
 <div class="sz-auth-page">
 
-  <!-- Left Panel — Illustration (hidden on small) -->
+  <!-- Left Panel — Illustration -->
   <div class="sz-auth-left" aria-hidden="true">
-    <!-- Background SVG pattern -->
     <svg class="sz-auth-bg-svg" viewBox="0 0 400 600" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <pattern id="auth-dots" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
-          <circle cx="12" cy="12" r="2.5" fill="rgba(10,10,10,0.35)"/>
+        <pattern id="login-pattern" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
+          <circle cx="15" cy="15" r="1.5" fill="rgba(10,10,10,0.2)"/>
         </pattern>
       </defs>
-      <rect width="100%" height="100%" fill="url(#auth-dots)"/>
+      <rect width="100%" height="100%" fill="url(#login-pattern)"/>
 
-      <!-- Decorative shapes -->
-      <rect x="40" y="80" width="140" height="140" fill="#FFE500" stroke="#0A0A0A" stroke-width="5"/>
-      <rect x="55" y="95" width="140" height="140" fill="none" stroke="#0A0A0A" stroke-width="2" stroke-dasharray="10 6"/>
-      <text x="110" y="168" dominant-baseline="middle" text-anchor="middle" font-family="Space Grotesk" font-weight="900" font-size="52" fill="#0A0A0A">✦</text>
-
-      <circle cx="310" cy="200" r="80" fill="#C8FF00" stroke="#0A0A0A" stroke-width="5"/>
-      <circle cx="310" cy="200" r="55" fill="none" stroke="#0A0A0A" stroke-width="2"/>
-
-      <polygon points="80,340 160,260 240,340" fill="#FF4D2E" stroke="#0A0A0A" stroke-width="5"/>
-
-      <rect x="230" y="380" width="110" height="110" fill="#7C6AF7" stroke="#0A0A0A" stroke-width="5"/>
-      <line x1="230" y1="380" x2="340" y2="490" stroke="#0A0A0A" stroke-width="3"/>
-      <line x1="340" y1="380" x2="230" y2="490" stroke="#0A0A0A" stroke-width="3"/>
-
-      <text x="200" y="540" text-anchor="middle" font-family="Space Grotesk" font-weight="900" font-size="64" fill="#0A0A0A" opacity="0.06">LOGIN</text>
+      <!-- Brutalist geometry -->
+      <path d="M 0 400 L 400 600 L 400 300 Z" fill="#C8FF00" stroke="#0A0A0A" stroke-width="4" opacity="0.6"/>
+      <rect x="50" y="80" width="120" height="120" fill="#7C6AF7" stroke="#0A0A0A" stroke-width="5"/>
+      <rect x="70" y="100" width="120" height="120" fill="none" stroke="#0A0A0A" stroke-width="2"/>
+      
+      <text x="200" y="320" text-anchor="middle" font-family="Space Grotesk" font-weight="900" font-size="52" fill="#0A0A0A">WELCOME.</text>
     </svg>
 
-    <!-- Big text over illustration -->
     <div class="sz-auth-left__text">
-      <div class="sz-auth-left__eyebrow">Welcome Back</div>
-      <div class="sz-auth-left__big">STAY<br>ZEN</div>
-      <div class="sz-auth-left__small">Your next escape awaits.<br>Sign in to continue.</div>
+      <div class="sz-auth-left__eyebrow">Returning Guest</div>
+      <div class="sz-auth-left__big">STAY<br>ZEN.</div>
+      <div class="sz-auth-left__small">Your saved escapes are waiting. Authenticate with your secure email to continue.</div>
     </div>
   </div>
 
@@ -45,34 +34,33 @@
   <div class="sz-auth-right">
     <div class="sz-auth-form-card">
 
-      <!-- Form Header -->
-      <div class="sz-auth-form-card__header">
-        <div class="sz-auth-form-card__eyebrow">Member Login</div>
-        <h1 class="sz-auth-form-card__title">Access<br>Account</h1>
+      <div class="sz-auth-form-card__header" style="background: var(--yellow);">
+        <div class="sz-auth-form-card__eyebrow" style="color: var(--ink);">Secure Access</div>
+        <h1 class="sz-auth-form-card__title">Sign In<br>Portal</h1>
       </div>
 
-      <!-- Form Body -->
       <div class="sz-auth-form-card__body">
         <form action="/login" method="post" class="needs-validation" novalidate>
 
           <div class="sz-auth-field">
-            <label for="username" class="sz-auth-label">
-              <span class="sz-auth-step">1</span> Username
+            <label for="email" class="sz-auth-label">
+              <span class="sz-auth-step">1</span> Registered Email
             </label>
             <input
-              name="username"
-              id="username"
-              type="text"
+              name="email"
+              id="email"
+              type="email"
               class="sz-auth-input"
-              placeholder="Enter your username"
+              placeholder="Enter your email"
               required
-              autocomplete="username"
+              autocomplete="email"
             >
+            <div class="invalid-feedback">A registered email is required.</div>
           </div>
 
           <div class="sz-auth-field">
             <label for="password" class="sz-auth-label">
-              <span class="sz-auth-step">2</span> Password
+              <span class="sz-auth-step">2</span> Security Key
             </label>
             <input
               name="password"
@@ -83,17 +71,18 @@
               required
               autocomplete="current-password"
             >
+            <div class="invalid-feedback">Password is required.</div>
           </div>
 
           <button class="sz-auth-submit" type="submit">
-            <i class="fa-solid fa-right-to-bracket me-2" aria-hidden="true"></i>
-            Sign In
+            <span class="btn-text">Authenticate Access</span>
+            <i class="fa-solid fa-unlock-keyhole ms-2"></i>
           </button>
 
         </form>
 
         <div class="sz-auth-switch">
-          Don't have an account? <a href="/signup">Sign up for free →</a>
+          Not a member yet? <a href="/signup">Join Securely →</a>
         </div>
       </div>
 

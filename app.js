@@ -113,6 +113,8 @@ const authLimiter = rateLimit({
 });
 app.use("/login", authLimiter);
 app.use("/signup", authLimiter);
+app.use("/verify-otp", authLimiter);
+app.use("/resend-otp", authLimiter);
 
 
 const store  = MongoStore.create({
@@ -146,7 +148,7 @@ app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
+passport.use(new LocalStrategy({ usernameField: "email" }, User.authenticate()));
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
