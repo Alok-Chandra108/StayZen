@@ -20,17 +20,17 @@ StayZen is powered by a robust, server-side rendered engine:
 - **Core:** Node.js & Express.js
 - **Views:** EJS (Embedded JavaScript) with `ejs-mate` layouts
 - **Database:** MongoDB (via Mongoose)
-- **Auth:** Passport.js (Local Strategy)
+- **Auth:** Passport.js (Local & Google OAuth2 strategies)
 - **Geocoding:** Nominatim API for spatial coordinates
 - **Maps:** Leaflet.js with interactive markers
 - **Date Picker:** Flatpickr for booking calendars and availability filtering
-- **Security:** Helmet, express-mongo-sanitize, rate limiting
+- **Security:** Helmet, express-mongo-sanitize, rate limiting (Auth & API), XSS sanitization
 - **Staging/Production:** Fully optimized for Vercel deployment
 
 ---
 
 ## 🚀 KEY PROTOCOLS
-- **Authentication:** Secure user silos for listing management and interactions.
+- **Authentication:** Secure user silos via Email/OTP or instant **Google Sign-In** with smart account linking.
 - **CRUD Operations:** Total control over property listings with image persistence.
 - **Review System:** An unfiltered feedback loop with star ratings for every space.
 - **Interactive Maps:** Real-world orientation for every listing via Leaflet.
@@ -65,6 +65,8 @@ To fire up the engine locally:
    CLOUD_NAME=your_cloudinary_cloud_name
    CLOUD_API_KEY=your_cloudinary_api_key
    CLOUD_API_SECRET=your_cloudinary_api_secret
+   GOOGLE_CLIENT_ID=your_google_client_id
+   GOOGLE_CLIENT_SECRET=your_google_client_secret
    ```
 
 4. **Seed the database (optional):**
