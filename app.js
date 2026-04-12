@@ -1,4 +1,4 @@
-if(process.env.NODE_ENV != "production"){
+if (process.env.NODE_ENV != "production") {
     require('dotenv').config();
 }
 
@@ -95,7 +95,7 @@ app.use(
                 "'self'",
                 "blob:",
                 "data:",
-                "https://res.cloudinary.com/dos4ag6kt/", 
+                "https://res.cloudinary.com/dos4ag6kt/",
                 "https://images.unsplash.com/",
                 "https://unpkg.com/", // For Leaflet tiles
                 "https://tile.openstreetmap.org",
@@ -132,7 +132,7 @@ const apiLimiter = rateLimit({
 app.use("/api", apiLimiter);
 
 
-const store  = MongoStore.create({
+const store = MongoStore.create({
     mongoUrl: MONGO_URI,
     crypto: {
         secret: process.env.SECRET_VAL,
@@ -151,7 +151,7 @@ const sessionOptions = {
     saveUninitialized: false,
     cookie: {
         expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
-        maxAge: 7 * 24 * 60 * 60 *1000,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: 'lax'
@@ -169,50 +169,50 @@ passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: "/auth/google/callback"
-  },
-  async (accessToken, refreshToken, profile, done) => {
-    try {
-        // 1. Check if user already exists with this googleId
-        let user = await User.findOne({ googleId: profile.id });
-        
-        if (user) {
-            return done(null, user);
+},
+    async (accessToken, refreshToken, profile, done) => {
+        try {
+            // 1. Check if user already exists with this googleId
+            let user = await User.findOne({ googleId: profile.id });
+
+            if (user) {
+                return done(null, user);
+            }
+
+            // 2. If not, check if user exists with the same email
+            const email = profile.emails[0].value;
+            user = await User.findOne({ email: email });
+
+            if (user) {
+                // Link accounts: Add googleId and verify
+                user.googleId = profile.id;
+                user.isVerified = true;
+                await user.save();
+                return done(null, user);
+            }
+
+            // 3. Create new user
+            const newUser = new User({
+                googleId: profile.id,
+                username: profile.displayName || email.split('@')[0],
+                email: email,
+                isVerified: true
+            });
+
+            // For passport-local-mongoose, we need to register or just save if no password
+            // Using save() since they don't have a local password yet
+            await newUser.save();
+            return done(null, newUser);
+
+        } catch (err) {
+            return done(err, null);
         }
-
-        // 2. If not, check if user exists with the same email
-        const email = profile.emails[0].value;
-        user = await User.findOne({ email: email });
-
-        if (user) {
-            // Link accounts: Add googleId and verify
-            user.googleId = profile.id;
-            user.isVerified = true;
-            await user.save();
-            return done(null, user);
-        }
-
-        // 3. Create new user
-        const newUser = new User({
-            googleId: profile.id,
-            username: profile.displayName || email.split('@')[0],
-            email: email,
-            isVerified: true
-        });
-
-        // For passport-local-mongoose, we need to register or just save if no password
-        // Using save() since they don't have a local password yet
-        await newUser.save();
-        return done(null, newUser);
-
-    } catch (err) {
-        return done(err, null);
     }
-  }
 ));
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-  
+
 
 app.use((req, res, next) => {
     res.locals.success = req.flash("success");
@@ -273,4 +273,3 @@ if (require.main === module) {
 }
 
 module.exports = app;
-  
