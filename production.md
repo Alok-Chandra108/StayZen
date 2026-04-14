@@ -15,6 +15,8 @@ You must configure these in your **Vercel Project Settings > Environment Variabl
 | `CLOUD_API_SECRET` | `...` | Cloudinary API Secret. |
 | `EMAIL_USER` | `you@gmail.com` | Your Gmail address. |
 | `EMAIL_PASS` | `xxxx xxxx xxxx xxxx` | **Google App Password** (Not your account password). |
+| `GOOGLE_CLIENT_ID` | `533569...` | Google OAuth Client ID. |
+| `GOOGLE_CLIENT_SECRET` | `GOCSPX-...` | Google OAuth Client Secret. |
 
 ## 2. Hardening Check
 - [x] **Secure Cookies**: The app will now only send cookies over HTTPS in production.
