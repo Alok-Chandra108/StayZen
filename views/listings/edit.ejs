@@ -1,41 +1,16 @@
 <% layout("/layouts/boilerplate") %>
 
 <!-- =================== EDIT LISTING PAGE =================== -->
-<div class="nb-form-page nb-bg-dots">
-
-  <!-- Decorative stickers -->
-  <div class="nb-form-sticker" style="top: 100px; right: 25px; --rot: 6deg;">
-    <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="2" y="2" width="56" height="56" fill="#7E78FF" stroke="#0A0A0A" stroke-width="4"/>
-      <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-size="26" font-family="Space Grotesk" font-weight="900" fill="#FFFDF0">✎</text>
-    </svg>
-  </div>
-
-  <div class="nb-form-sticker" style="top: 200px; left: 18px; --rot: -10deg;">
-    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <polygon points="26,2 50,50 2,50" fill="#FFE500" stroke="#0A0A0A" stroke-width="4"/>
-    </svg>
-  </div>
+<div class="nb-form-page">
 
   <div class="nb-form-wrapper">
     <div class="nb-form-card">
 
       <!-- Banner Header -->
-      <div class="nb-form-card__banner" style="background: #1a0a3e;">
-        <div class="nb-form-card__banner-eyebrow" style="color: #C8FF00;">StayZen · Edit Mode</div>
+      <div class="nb-form-card__banner">
+        <div class="nb-form-card__banner-eyebrow">StayZen · Edit Mode</div>
         <h1 class="nb-form-card__banner-title">Edit Your<br>Listing</h1>
         <div class="nb-form-card__banner-sub">Update details for — <%= listing.title %></div>
-
-        <!-- Decorative crosshatch SVG in banner -->
-        <svg style="position:absolute; top:0; right:60px; opacity:0.07; z-index:0; pointer-events:none;" width="120" height="120" viewBox="0 0 120 120" fill="none">
-          <line x1="0" y1="0" x2="120" y2="120" stroke="white" stroke-width="3"/>
-          <line x1="30" y1="0" x2="120" y2="90" stroke="white" stroke-width="3"/>
-          <line x1="60" y1="0" x2="120" y2="60" stroke="white" stroke-width="3"/>
-          <line x1="90" y1="0" x2="120" y2="30" stroke="white" stroke-width="3"/>
-          <line x1="0" y1="30" x2="90" y2="120" stroke="white" stroke-width="3"/>
-          <line x1="0" y1="60" x2="60" y2="120" stroke="white" stroke-width="3"/>
-          <line x1="0" y1="90" x2="30" y2="120" stroke="white" stroke-width="3"/>
-        </svg>
       </div>
 
       <!-- Form -->
@@ -48,7 +23,7 @@
           <!-- Title -->
           <div class="nb-form-group">
             <label class="nb-label" for="nb-edit-title">
-              <span class="nb-step-number" style="background: #7E78FF;">1</span>
+              <span class="nb-step-number">1</span>
               Title
               <span class="nb-label__required"></span>
             </label>
@@ -66,7 +41,7 @@
           <!-- Description -->
           <div class="nb-form-group">
             <label class="nb-label" for="nb-edit-desc">
-              <span class="nb-step-number" style="background: #7E78FF;">2</span>
+              <span class="nb-step-number">2</span>
               Description
               <span class="nb-label__required"></span>
             </label>
@@ -91,7 +66,7 @@
           <!-- New Image Upload -->
           <div class="nb-form-group">
             <label class="nb-label" for="nb-edit-image">
-              <span class="nb-step-number" style="background: #7E78FF;">3</span>
+              <span class="nb-step-number">3</span>
               Replace Image (optional)
             </label>
             <input
@@ -109,7 +84,7 @@
             <!-- Price -->
             <div class="nb-form-group">
               <label class="nb-label" for="nb-edit-price">
-                <span class="nb-step-number" style="background: #7E78FF;">4</span>
+                <span class="nb-step-number">4</span>
                 Price / Night (₹)
                 <span class="nb-label__required"></span>
               </label>
@@ -127,7 +102,7 @@
             <!-- Country -->
             <div class="nb-form-group">
               <label class="nb-label" for="nb-edit-country">
-                <span class="nb-step-number" style="background: #7E78FF;">5</span>
+                <span class="nb-step-number">5</span>
                 Country
                 <span class="nb-label__required"></span>
               </label>
@@ -145,7 +120,7 @@
           <!-- Location -->
           <div class="nb-form-group">
             <label class="nb-label" for="nb-edit-location">
-              <span class="nb-step-number" style="background: #7E78FF;">6</span>
+              <span class="nb-step-number">6</span>
               Location / City
               <span class="nb-label__required"></span>
             </label>
@@ -164,7 +139,7 @@
 
           <div class="nb-form-group">
             <label class="nb-label">
-              <span class="nb-step-number" style="background: #7E78FF;">7</span>
+              <span class="nb-step-number">7</span>
               Update amenities
             </label>
             <div class="nb-amenity-form-grid">
@@ -198,7 +173,7 @@
 
           <div class="nb-form-group">
             <label class="nb-label">
-              <span class="nb-step-number" style="background: #7E78FF;">8</span>
+              <span class="nb-step-number">8</span>
               Update tags
             </label>
             <div class="nb-tags-form-group">
@@ -219,11 +194,11 @@
 
         <!-- Form Footer -->
         <div class="nb-form-footer">
-          <a href="/listings/<%= listing._id %>" class="sz-btn" style="background:#fff; color:var(--ink);">
+          <a href="/listings/<%= listing._id %>" class="sz-btn" style="border-radius: 12px;">
             <i class="fa-solid fa-arrow-left me-2"></i>
             Cancel
           </a>
-          <button class="sz-btn sz-btn--action" type="submit" style="width:auto; padding: 1rem 3rem;">
+          <button class="sz-btn sz-btn--action" type="submit" style="width:auto; padding: 0.8rem 2.5rem; border-radius: 12px;">
             <i class="fa-solid fa-floppy-disk me-2"></i>
             Save Changes
           </button>

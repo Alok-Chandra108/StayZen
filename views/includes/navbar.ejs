@@ -1,15 +1,13 @@
 <!-- ============================================================
-     STAYZEN NAVBAR — NEU-BRUTALISM × AWWWARDS
+     STAYZEN — HOTEL NAVIGATION BAR
      ============================================================ -->
 
-
-<!-- Main Navbar -->
 <nav class="nb-navbar" role="navigation" aria-label="Main navigation">
 
   <!-- Brand -->
   <a class="navbar-brand" href="/listings" aria-label="StayZen home">
     <img src="/assets/images/sz-logo.png" alt="StayZen" class="sz-brand-logo">
-    <span class="sz-brand-text">STAYZEN</span>
+    <span class="sz-brand-text">StayZen</span>
   </a>
 
   <!-- Search -->
@@ -20,53 +18,37 @@
         class="nb-search-input"
         name="search"
         type="search"
-        placeholder="Find your next stay..."
+        placeholder="Search destinations, properties..."
         aria-label="Search listings"
         autocomplete="off"
       />
       <button class="nb-search-btn" type="submit" aria-label="Submit search">
-        <i class="fa-solid fa-bolt" aria-hidden="true"></i>
+        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
       </button>
     </form>
   </div>
 
   <!-- Actions -->
   <div class="nb-nav-actions">
-    <a href="/listings/new" class="sz-btn sz-btn--action" style="padding: 0.6rem 1.2rem; font-size: 0.75rem;" id="nav-new-listing">
-      <i class="fa-solid fa-plus me-1" aria-hidden="true"></i> LIST SPACE
+    <a href="/listings/new" class="sz-btn" style="padding: 0.5rem 1.2rem; font-size: 0.8rem; border-radius: 9999px;" id="nav-new-listing">
+      <i class="fa-solid fa-plus" aria-hidden="true"></i> List Property
     </a>
 
     <% if (!currUser) { %>
-      <a href="/login" class="sz-btn" style="padding: 0.6rem 1.2rem; font-size: 0.75rem;" id="nav-login">
-        LOGIN
+      <a href="/login" class="sz-btn sz-btn--action" style="padding: 0.5rem 1.2rem; font-size: 0.8rem; border-radius: 9999px;" id="nav-login">
+        Sign In
       </a>
     <% } else { %>
-      <a href="/host-dashboard" class="sz-btn" style="padding: 0.6rem 1.2rem; font-size: 0.75rem; background: var(--lavender); color: var(--white);" id="nav-host">
-        HOST
+      <a href="/host-dashboard" class="sz-btn" style="padding: 0.5rem 1.2rem; font-size: 0.8rem; border-radius: 9999px;" id="nav-host">
+        <i class="fa-solid fa-chart-line me-1"></i> Host
       </a>
-      <a href="/dashboard" class="sz-btn sz-btn--warn" style="padding: 0.6rem 1.2rem; font-size: 0.75rem;" id="nav-passes">
-        MY PASSES
+      <a href="/dashboard" class="sz-btn sz-btn--warn" style="padding: 0.5rem 1.2rem; font-size: 0.8rem; border-radius: 9999px; color: #fff;" id="nav-passes">
+        My Bookings
       </a>
-      <a href="/logout" class="sz-btn sz-btn--danger" style="padding: 0.6rem 1.2rem; font-size: 0.75rem; border-width: 2px; box-shadow: 4px 4px 0 var(--ink);" id="nav-logout">
-        <i class="fa-solid fa-power-off"></i>
+      <a href="/logout" class="sz-btn sz-btn--danger" style="padding: 0.5rem 1rem; font-size: 0.8rem; border-radius: 9999px;" id="nav-logout">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>
       </a>
     <% } %>
   </div>
 
 </nav>
-
-<style>
-.nb-nav-user {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 0.5rem 1rem;
-  font-size: 0.78rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--cream);
-  border: 2px solid rgba(245,240,232,0.3);
-  background: rgba(245,240,232,0.08);
-}
-</style>

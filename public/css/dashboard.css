@@ -1,317 +1,298 @@
 /* ============================================================
-   STAYZEN DASHBOARD — BRUTAL LUXE 2.0
+   STAYZEN — HOTEL DASHBOARD STYLES
    ============================================================ */
 
 .sz-dashboard {
-  background: var(--cream);
-  min-height: 100vh;
-  padding: 4rem 2rem;
+  padding: 3rem 0 5rem;
+  background: var(--ivory, #FAF8F5);
+  min-height: 80vh;
 }
 
 .sz-dashboard__header {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: flex-end;
+  margin-bottom: 3rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color, #E5E7EB);
   flex-wrap: wrap;
-  gap: 2rem;
-  padding-bottom: 2rem;
-  border-bottom: 4px solid var(--ink);
-  margin-bottom: 4rem;
+  gap: 1rem;
 }
 
 .sz-dashboard__title {
-  font-family: var(--font-h);
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: -3px;
-  line-height: 0.9;
+  font-family: var(--font-h, 'Playfair Display', serif);
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 700;
+  color: var(--navy, #0F1B2D);
   margin: 0;
-  color: var(--ink);
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.3px;
+  text-transform: none;
 }
 
 .sz-dashboard__title i {
-  color: var(--coral);
+  color: var(--gold, #C9A96E);
+  font-size: 1.2rem;
 }
 
-/* ── TICKET GRID ── */
+.sz-dashboard__empty {
+  text-align: center;
+  padding: 5rem 2rem;
+  background: var(--white, #fff);
+  border: 1px solid var(--border-color, #E5E7EB);
+  border-radius: var(--radius-xl, 24px);
+}
+
+.sz-dashboard__empty i {
+  font-size: 3.5rem;
+  color: var(--text-muted, #9CA3AF);
+  margin-bottom: 1rem;
+  display: block;
+}
+
+/* ── Pass Grid ── */
 .sz-pass-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 3rem;
+  gap: 1.5rem;
 }
 
-/* ── BRUTAL PASS TICKET ── */
+/* ── Pass Ticket Card ── */
 .sz-pass-ticket {
-  background: var(--white);
-  border: 4px solid var(--ink);
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 12px 12px 0 var(--yellow);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  background: var(--white, #fff);
+  border: 1px solid var(--border-color, #E5E7EB);
+  border-radius: var(--radius-lg, 16px);
   overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
 }
 
 .sz-pass-ticket:hover {
-  transform: translate(-4px, -4px);
-  box-shadow: 16px 16px 0 var(--coral);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
 }
-
-/* Ticket Punches (Visual) */
-.sz-pass-ticket::before,
-.sz-pass-ticket::after {
-  content: '';
-  position: absolute;
-  top: 180px;
-  width: 32px;
-  height: 32px;
-  background: var(--cream);
-  border: 4px solid var(--ink);
-  border-radius: 50%;
-  z-index: 10;
-}
-
-.sz-pass-ticket::before { left: -20px; border-left: none; }
-.sz-pass-ticket::after { right: -20px; border-right: none; }
 
 .sz-pass-ticket__img-wrap {
-  height: 200px;
-  border-bottom: 3px dashed var(--ink);
-  overflow: hidden;
   position: relative;
+  height: 180px;
+  overflow: hidden;
 }
 
 .sz-pass-ticket__img-wrap img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: grayscale(0.2) contrast(1.1);
-  transition: transform 0.5s ease;
-}
-
-.sz-pass-ticket:hover .sz-pass-ticket__img-wrap img {
-  transform: scale(1.05);
 }
 
 .sz-pass-ticket__status {
   position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  background: var(--lime);
-  color: var(--ink);
-  padding: 0.4rem 1rem;
-  font-weight: 900;
-  font-size: 0.75rem;
-  border: 2px solid var(--ink);
-  box-shadow: 4px 4px 0 var(--ink);
-  letter-spacing: 1px;
+  top: 12px;
+  right: 12px;
+  padding: 4px 14px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border-radius: var(--radius-full, 9999px);
+  text-transform: uppercase;
 }
 
 .sz-pass-ticket__status--confirmed {
-  background: var(--lime);
-  color: var(--ink);
+  background: #ECFDF5;
+  color: #047857;
+  border: 1px solid #A7F3D0;
 }
 
 .sz-pass-ticket__status--pending {
-  background: var(--yellow);
-  color: var(--ink);
+  background: #FFFBEB;
+  color: #92400E;
+  border: 1px solid #FDE68A;
 }
 
 .sz-pass-ticket__status--declined {
-  background: var(--coral);
-  color: var(--white);
-}
-
-.sz-status-label {
-  padding: 4px 12px;
-  font-weight: 900;
-  font-size: 0.75rem;
-  border: 2px solid var(--ink);
-  text-transform: uppercase;
-  display: inline-block;
-}
-
-.sz-status-label--confirmed {
-  background: var(--lime);
-  color: var(--ink);
-}
-
-.sz-status-label--pending {
-  background: var(--yellow);
-  color: var(--ink);
-}
-
-.sz-status-label--declined {
-  background: var(--coral);
-  color: var(--white);
+  background: #FEF2F2;
+  color: #991B1B;
+  border: 1px solid #FECACA;
 }
 
 .sz-pass-ticket__content {
-  padding: 2.5rem 1.5rem 1.5rem;
-  flex: 1;
+  padding: 1.2rem 1.5rem;
 }
 
 .sz-pass-ticket__title {
-  font-family: var(--font-h);
-  font-size: 1.4rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: -0.5px;
-  margin-bottom: 0.8rem;
-  line-height: 1.1;
-  color: var(--ink);
+  font-family: var(--font-h, 'Playfair Display', serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--navy, #0F1B2D);
+  margin: 0 0 0.3rem;
+  text-transform: none;
 }
 
 .sz-pass-ticket__loc {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-weight: 800;
-  font-size: 0.8rem;
-  color: var(--coral);
-  text-transform: uppercase;
-  margin-bottom: 2rem;
+  gap: 5px;
+  font-size: 0.82rem;
+  color: var(--text-light, #6B7280);
+  margin-bottom: 1rem;
 }
 
+.sz-pass-ticket__loc i { color: var(--gold, #C9A96E); font-size: 0.85rem; }
+
 .sz-pass-ticket__data {
-  background: var(--cream);
-  padding: 1.2rem;
-  border: 2px solid var(--ink);
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  border-top: 1px solid var(--border-color, #E5E7EB);
+  padding-top: 1rem;
 }
 
 .sz-pass-ticket__row {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0.4rem 0;
 }
 
 .sz-pass-ticket__label {
-  font-size: 0.7rem;
-  font-weight: 800;
-  opacity: 0.5;
+  font-size: 0.72rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
+  color: var(--text-muted, #9CA3AF);
 }
 
 .sz-pass-ticket__val {
-  font-weight: 900;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text, #333);
 }
 
 .sz-pass-ticket__total {
   margin-top: 0.5rem;
-  padding-top: 1rem;
-  border-top: 2px dashed rgba(10,10,10,0.1);
+  padding-top: 0.8rem;
+  border-top: 1px dashed var(--border-color, #E5E7EB);
 }
 
-/* Ticket Footer (Stub) */
 .sz-pass-ticket__footer {
-  background: var(--ink);
-  padding: 0;
-  border-top: 4px solid var(--ink);
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--border-color, #E5E7EB);
+  background: var(--ivory, #FAF8F5);
 }
 
 .sz-pass-ticket__link {
-  display: block;
-  padding: 1.2rem;
-  color: var(--lime);
-  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--navy, #0F1B2D);
   text-decoration: none;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  font-size: 0.85rem;
-  transition: all 0.2s ease;
+  transition: color 0.2s;
+  text-transform: none;
+  letter-spacing: 0;
 }
 
 .sz-pass-ticket__link:hover {
-  background: var(--lavender);
-  color: var(--white);
+  color: var(--gold, #C9A96E);
 }
 
-/* Empty State */
-.sz-dashboard__empty {
-  text-align: center;
-  padding: 6rem 2rem;
-  background: var(--white);
-  border: 4px solid var(--ink);
-  box-shadow: 15px 15px 0 var(--coral);
-}
-
-.sz-dashboard__empty i {
-  font-size: 5rem;
-  margin-bottom: 2rem;
-  color: var(--ink);
-  opacity: 0.2;
-}
-
-@media (max-width: 640px) {
-  .sz-dashboard { padding: 2rem 1rem; }
-  .sz-dashboard__header { margin-bottom: 2rem; }
-  .sz-pass-grid { grid-template-columns: 1fr; gap: 2rem; }
-  .sz-pass-ticket::before, .sz-pass-ticket::after { top: 160px; }
-}
-
-/* ANALYTICS SECTION */
+/* ─── Analytics Grid ─── */
 .sz-analytics-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1.5fr 1fr;
   gap: 2rem;
   margin-bottom: 4rem;
 }
 
+.sz-analytics-card {
+  background: var(--white, #fff);
+  border: 1px solid var(--border-color, #E5E7EB);
+  border-radius: var(--radius-lg, 16px);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.sz-analytics-card__title {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted, #9CA3AF);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sz-analytics-card__title i { color: var(--gold, #C9A96E); }
+
+/* Occupancy circle */
+.sz-occupancy-circle {
+  width: 140px;
+  height: 140px;
+  border: 6px solid var(--border-color, #E5E7EB);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem auto;
+  position: relative;
+  background: var(--ivory, #FAF8F5);
+}
+
+.sz-occupancy-circle__val {
+  font-family: var(--font-h, 'Playfair Display', serif);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--navy, #0F1B2D);
+  line-height: 1;
+}
+
+.sz-occupancy-circle__label {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--text-muted, #9CA3AF);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 0.3rem;
+}
+
+/* Status Labels */
+.sz-status-label {
+  display: inline-block;
+  padding: 4px 14px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border-radius: var(--radius-full, 9999px);
+  text-transform: uppercase;
+}
+
+.sz-status-label--confirmed {
+  background: #ECFDF5;
+  color: #047857;
+  border: 1px solid #A7F3D0;
+}
+
+.sz-status-label--pending {
+  background: #FFFBEB;
+  color: #92400E;
+}
+
+.sz-status-label--declined {
+  background: #FEF2F2;
+  color: #991B1B;
+}
+
+/* ============================================================ RESPONSIVE ====== */
 @media (max-width: 992px) {
   .sz-analytics-grid {
     grid-template-columns: 1fr;
   }
 }
 
-.sz-analytics-card {
-  background: var(--white);
-  border: 4px solid var(--ink);
-  box-shadow: 10px 10px 0 var(--ink);
-  padding: 2rem;
-}
+@media (max-width: 768px) {
+  .sz-pass-grid {
+    grid-template-columns: 1fr;
+  }
 
-.sz-analytics-card__title {
-  font-family: var(--font-h);
-  font-size: 1.2rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  margin-bottom: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.sz-occupancy-circle {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  border: 8px solid var(--ink);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 1rem auto;
-  background: var(--lime);
-  box-shadow: 5px 5px 0 var(--ink);
-}
-
-.sz-occupancy-circle__val {
-  font-family: var(--font-h);
-  font-size: 2.5rem;
-  font-weight: 900;
-  line-height: 1;
-}
-
-.sz-occupancy-circle__label {
-  font-size: 0.65rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  .sz-dashboard {
+    padding: 2rem 0 3rem;
+  }
 }

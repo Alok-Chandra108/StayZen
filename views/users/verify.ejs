@@ -10,7 +10,7 @@
                     <!-- Header -->
                     <div class="sz-verify-header">
                         <div class="sz-verify-eyebrow">Booking Verification</div>
-                        <h1 class="sz-verify-title">Pass Verification</h1>
+                        <h1 class="sz-verify-title">Booking Confirmed</h1>
 
                         <div class="sz-verify-status-badge">
                             VERIFIED
@@ -26,40 +26,40 @@
                                 <div class="row g-4">
                                     <div class="col-md-6">
                                         <div class="sz-intel-item">
-                                            <label>Listing Name</label>
+                                            <label>Property</label>
                                             <div class="value"><%= booking.listing.title %></div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="sz-intel-item">
-                                            <label>Registered Guest</label>
+                                            <label>Guest</label>
                                             <div class="value"><%= booking.user.username %></div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="sz-intel-item">
-                                            <label>Check-In Date</label>
+                                            <label>Check-In</label>
                                             <div class="value"><%= booking.checkIn.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) %></div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="sz-intel-item">
-                                            <label>Check-Out Date</label>
+                                            <label>Check-Out</label>
                                             <div class="value"><%= booking.checkOut.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) %></div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="sz-intel-secondary mt-4">
-                                    <div class="sz-intel-sub">LISTING_ID: <%= booking.listing._id %></div>
-                                    <div class="sz-intel-sub">LOG_ID: <%= booking._id %></div>
+                                    <div class="sz-intel-sub">Listing ID: <%= booking.listing._id %></div>
+                                    <div class="sz-intel-sub">Booking ID: <%= booking._id %></div>
                                 </div>
                             </div>
 
                             <div class="sz-verify-footer mt-5">
                                 <div class="sz-access-alert">
-                                    <i class="fa-solid fa-shield-halved me-2"></i>
-                                    BOOKING VERIFIED
+                                    <i class="fa-solid fa-circle-check me-2"></i>
+                                    Booking Verified Successfully
                                 </div>
                             </div>
 
@@ -70,27 +70,26 @@
                                 <div class="sz-error-icon mb-4">
                                     <i class="fa-solid fa-triangle-exclamation"></i>
                                 </div>
-                                <h3>ACCESS DENIED</h3>
+                                <h3>Verification Failed</h3>
                                 <p>The scanned pass is either invalid, expired, or has not been confirmed by the host.</p>
                                 
                                 <% if (booking && booking.status !== 'Confirmed') { %>
                                     <div class="sz-status-note mt-3">
-                                        CURRENT STATUS: <strong><%= booking.status.toUpperCase() %></strong>
+                                        Current Status: <strong><%= booking.status.toUpperCase() %></strong>
                                     </div>
                                 <% } %>
 
                                 <div class="mt-5">
-                                    <a href="/" class="sz-btn sz-btn--action">Return to Base</a>
+                                    <a href="/" class="sz-btn sz-btn--action" style="border-radius: 12px;">Return Home</a>
                                 </div>
                             </div>
 
                         <% } %>
                     </div>
 
-                    <!-- Sidebar Decorations -->
-                    <div class="sz-verify-decoration" aria-hidden="true">
-                        <div class="sz-verify-tape">BOOKING STATUS ✦ CONFIRMED ✦ STAYZEN</div>
-                        <div class="sz-verify-barcode"></div>
+                    <!-- Bottom decoration bar -->
+                    <div class="sz-verify-decoration">
+                        <div class="sz-verify-tape">BOOKING CONFIRMED ✦ STAYZEN ✦ VERIFIED ✦ BOOKING CONFIRMED ✦ STAYZEN ✦ VERIFIED ✦</div>
                     </div>
 
 
@@ -103,7 +102,7 @@
 
 <style>
 .sz-verify-page {
-    background-color: var(--cream);
+    background-color: var(--ivory);
     min-height: 80vh;
     display: flex;
     align-items: center;
@@ -112,60 +111,62 @@
 
 .sz-verify-card {
     background: var(--white);
-    border: 5px solid var(--ink);
-    box-shadow: 20px 20px 0 var(--ink);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
     position: relative;
     overflow: hidden;
 }
 
-.sz-verify-card--success { border-color: var(--ink); }
-.sz-verify-card--danger { border-color: var(--coral); box-shadow: 20px 20px 0 var(--coral); }
+.sz-verify-card--success { }
+.sz-verify-card--danger { border-color: #FECACA; }
 
 .sz-verify-header {
-    background: var(--ink);
-    color: var(--cream);
+    background: var(--navy);
+    color: var(--white);
     padding: 3rem 2.5rem;
     position: relative;
 }
 
-.sz-verify-card--danger .sz-verify-header { background: var(--coral); }
+.sz-verify-card--danger .sz-verify-header { background: var(--danger); }
 
 .sz-verify-eyebrow {
-    font-size: 0.75rem;
-    font-weight: 800;
+    font-size: 0.72rem;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 2px;
-    opacity: 0.7;
+    color: var(--gold);
     margin-bottom: 0.5rem;
 }
 
 .sz-verify-title {
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    font-weight: 900;
-    letter-spacing: -2px;
+    font-family: var(--font-h);
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.5px;
     margin: 0;
-    text-transform: uppercase;
+    text-transform: none;
 }
 
 .sz-verify-status-badge {
     position: absolute;
     top: 50%;
     right: 2.5rem;
-    transform: translateY(-50%) rotate(-5deg);
-    padding: 0.8rem 1.5rem;
-    background: var(--lime);
-    color: var(--ink);
-    border: 3px solid var(--ink);
-    font-weight: 900;
-    font-size: 1.5rem;
-    box-shadow: 6px 6px 0 var(--white);
+    transform: translateY(-50%);
+    padding: 0.6rem 1.2rem;
+    background: #ECFDF5;
+    color: #047857;
+    border: 1px solid #A7F3D0;
+    font-weight: 700;
+    font-size: 0.85rem;
+    border-radius: var(--radius-full);
+    letter-spacing: 0.5px;
 }
 
 .sz-verify-card--danger .sz-verify-status-badge {
-    background: var(--white);
-    color: var(--coral);
-    border-color: var(--coral);
-    box-shadow: 6px 6px 0 var(--ink);
+    background: #FEF2F2;
+    color: #991B1B;
+    border-color: #FECACA;
 }
 
 .sz-verify-body {
@@ -174,69 +175,72 @@
 
 .sz-intel-item label {
     display: block;
-    font-size: 0.75rem;
-    font-weight: 800;
+    font-size: 0.72rem;
+    font-weight: 600;
     text-transform: uppercase;
-    color: rgba(10,10,10,0.5);
-    margin-bottom: 0.5rem;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 0.4rem;
 }
 
 .sz-intel-item .value {
-    font-size: 1.4rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    line-height: 1.2;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1.3;
 }
 
 .sz-intel-secondary {
-    border-top: 2px dashed rgba(10,10,10,0.1);
+    border-top: 1px solid var(--border-color);
     padding-top: 1.5rem;
 }
 
 .sz-intel-sub {
-    font-size: 0.7rem;
+    font-size: 0.72rem;
     font-family: monospace;
-    color: rgba(10,10,10,0.4);
+    color: var(--text-muted);
     margin-bottom: 0.2rem;
 }
 
 .sz-access-alert {
-    background: var(--lime);
-    color: var(--ink);
+    background: #ECFDF5;
+    color: #047857;
     padding: 1rem 1.5rem;
-    font-weight: 900;
+    font-weight: 600;
     text-align: center;
-    border: 3px solid var(--ink);
-    letter-spacing: 1px;
+    border: 1px solid #A7F3D0;
+    border-radius: var(--radius-md);
+    letter-spacing: 0.3px;
 }
 
 .sz-verify-error h3 {
-    font-weight: 900;
-    font-size: 2.5rem;
-    letter-spacing: -1px;
-    color: var(--coral);
+    font-family: var(--font-h);
+    font-weight: 700;
+    font-size: 2rem;
+    letter-spacing: -0.5px;
+    color: var(--danger);
 }
 
 .sz-error-icon {
-    font-size: 5rem;
-    color: var(--coral);
+    font-size: 4rem;
+    color: var(--danger);
 }
 
 .sz-verify-decoration {
     position: relative;
-    height: 40px;
-    background: var(--ink);
+    height: 36px;
+    background: var(--navy);
     overflow: hidden;
 }
 
 .sz-verify-tape {
-    color: var(--cream);
-    font-size: 0.7rem;
-    font-weight: 900;
+    color: var(--gold);
+    font-size: 0.68rem;
+    font-weight: 600;
     text-transform: uppercase;
     white-space: nowrap;
     padding-top: 10px;
-    letter-spacing: 5px;
+    letter-spacing: 3px;
     animation: tapeScroll 20s linear infinite;
 }
 
@@ -245,13 +249,5 @@
     to { transform: translateX(-50%); }
 }
 
-.sz-verify-barcode {
-    position: absolute;
-    bottom: 0;
-    right: 1rem;
-    width: 100px;
-    height: 100%;
-    background: repeating-linear-gradient(90deg, var(--cream), var(--cream) 2px, var(--ink) 2px, var(--ink) 6px);
-    opacity: 0.2;
-}
+.sz-verify-barcode { display: none; }
 </style>

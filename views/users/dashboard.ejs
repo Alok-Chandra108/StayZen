@@ -5,20 +5,20 @@
 
       <header class="sz-dashboard__header">
         <h1 class="sz-dashboard__title">
-          <i class="fa-solid fa-ticket me-3"></i>MY PASSES
+          <i class="fa-solid fa-suitcase-rolling me-3"></i>My Bookings
         </h1>
         <div class="sz-badge sz-badge--action">
-          <%= passes.length %> CONFIRMED
+          <%= passes.length %> Confirmed
         </div>
       </header>
 
       <% if(passes.length===0) { %>
         <div class="sz-dashboard__empty">
-          <i class="fa-solid fa-ghost"></i>
-          <h2 class="sz-dashboard__title" style="font-size: 2rem;">NO CONFIRMED PASSES</h2>
-          <p class="sz-hero__sub" style="margin: 2rem auto; border-left: none; padding: 0;">You haven't booked any stays yet. Explore the listings to find your next place.</p>
+          <i class="fa-solid fa-suitcase"></i>
+          <h2 class="sz-dashboard__title" style="font-size: 1.5rem; margin-top: 1rem;">No Bookings Yet</h2>
+          <p style="margin: 1.5rem auto; color: var(--text-light); max-width: 400px;">You haven't booked any stays yet. Explore our properties to find your perfect getaway.</p>
 
-          <a href="/listings" class="sz-btn sz-btn--action">EXPLORE LISTINGS</a>
+          <a href="/listings" class="sz-btn sz-btn--action" style="border-radius: 9999px;">Explore Properties</a>
 
         </div>
         <% } else { %>
@@ -31,7 +31,7 @@
                   <div class="sz-pass-ticket__img-wrap">
                     <img src="<%= pass.listing.image.url %>" alt="<%= pass.listing.title %>">
                     <div class="sz-pass-ticket__status sz-pass-ticket__status--confirmed">
-                      CONFIRMED
+                      Confirmed
                     </div>
                   </div>
 
@@ -46,7 +46,7 @@
 
                     <div class="sz-pass-ticket__data">
                       <div class="sz-pass-ticket__row">
-                        <span class="sz-pass-ticket__label">CHECK-IN</span>
+                        <span class="sz-pass-ticket__label">Check-in</span>
 
                         <span class="sz-pass-ticket__val">
                           <%= pass.checkIn.toLocaleDateString('en-GB', { day: '2-digit' , month: 'short' ,
@@ -54,7 +54,7 @@
                         </span>
                       </div>
                       <div class="sz-pass-ticket__row">
-                        <span class="sz-pass-ticket__label">CHECK-OUT</span>
+                        <span class="sz-pass-ticket__label">Check-out</span>
 
                         <span class="sz-pass-ticket__val">
                           <%= pass.checkOut.toLocaleDateString('en-GB', { day: '2-digit' , month: 'short' ,
@@ -62,9 +62,9 @@
                         </span>
                       </div>
                       <div class="sz-pass-ticket__row sz-pass-ticket__total">
-                        <span class="sz-pass-ticket__label" style="color: var(--coral);">TOTAL PRICE</span>
+                        <span class="sz-pass-ticket__label" style="color: var(--navy); font-weight: 700;">Total</span>
 
-                        <span class="sz-pass-ticket__val" style="color: var(--coral); font-size: 1.2rem;">₹<%=
+                        <span class="sz-pass-ticket__val" style="color: var(--navy); font-size: 1.1rem; font-weight: 700;">₹<%=
                             pass.totalPrice.toLocaleString("en-IN") %></span>
                       </div>
                     </div>
@@ -73,11 +73,11 @@
                   <footer class="sz-pass-ticket__footer"
                     style="display: flex; justify-content: space-between; align-items: center;">
                     <a href="/listings/<%= pass.listing._id %>" class="sz-pass-ticket__link">
-                      VIEW DETAILS <i class="fa-solid fa-arrow-right ms-2"></i>
+                      View Details <i class="fa-solid fa-arrow-right ms-2"></i>
                     </a>
                     <a href="/dashboard/bookings/<%= pass._id %>/pass" class="sz-btn sz-btn--action"
-                      style="font-size: 0.7rem; padding: 4px 10px;">
-                      <i class="fa-solid fa-download me-2"></i> DOWNLOAD PASS
+                      style="font-size: 0.75rem; padding: 6px 14px; border-radius: 9999px;">
+                      <i class="fa-solid fa-download me-1"></i> Download
                     </a>
                   </footer>
               </article>

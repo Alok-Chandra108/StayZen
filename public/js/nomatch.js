@@ -5,30 +5,28 @@ document.addEventListener("DOMContentLoaded", () => {
   const cards = document.querySelectorAll(".listing-card");
   const noMatchContainer = document.querySelector(".no-match-container");
 
-  // Only run on the index page (where listing cards exist)
   if (!cards.length) return;
 
-  // Prevent navbar search form from navigating
   if (searchForm) {
     searchForm.addEventListener("submit", (e) => {
       e.preventDefault();
     });
   }
 
-  let activeTag = null; // stores the data-tag string e.g. "Amazing Pools"
-  let unavailableIds = new Set(); // listing IDs unavailable for selected dates
+  let activeTag = null; 
+  let unavailableIds = new Set(); 
 
   // ── GLOBAL MAP INITIALIZATION ──
   const mapContainer = document.getElementById("global-map");
   let globalMap = null;
-  const markers = new Map(); // listingId -> L.marker
+  const markers = new Map(); 
   let allMarkerGroup = null;
 
   if (mapContainer && typeof L !== "undefined") {
       globalMap = L.map('global-map', {
           scrollWheelZoom: false,
           attributionControl: false
-      }).setView([20.5937, 78.9629], 5); // Fallback coordinates
+      }).setView([20.5937, 78.9629], 5); 
       
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 19
@@ -76,7 +74,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       
       setTimeout(() => globalMap.invalidateSize(), 500);
-      window.addEventListener('resize', () => { setTimeout(() => globalMap.invalidateSize(), 500); });
   }
 
   // ── DATE RANGE AVAILABILITY FILTER ──
@@ -93,15 +90,9 @@ document.addEventListener("DOMContentLoaded", () => {
       altFormat: "M j, Y",
       dateFormat: "Y-m-d",
       onValueUpdate: function(selectedDates, dateStr, instance) {
-        if (selectedDates.length >= 1) {
-          // Show only check-in date in the first input
-          setTimeout(() => {
-            if (instance.altInput) {
-              instance.altInput.value = instance.formatDate(selectedDates[0], "M j, Y");
-            }
-          }, 0);
+        if (selectedDates.length >= 1 && instance.altInput) {
+             instance.altInput.value = instance.formatDate(selectedDates[0], "M j, Y");
         }
-
         if (selectedDates.length === 2) {
           checkoutInput.value = instance.formatDate(selectedDates[1], "M j, Y");
           clearBtn.style.display = "flex";
@@ -111,25 +102,11 @@ document.addEventListener("DOMContentLoaded", () => {
           );
         } else {
           checkoutInput.value = "";
-          // Don't clear unavailableIds yet — wait for full range
-        }
-      },
-      onClose: function(selectedDates, dateStr, instance) {
-        if (selectedDates.length === 1) {
-          if (instance.altInput) {
-            instance.altInput.value = instance.formatDate(selectedDates[0], "M j, Y");
-          }
         }
       }
     });
 
-    // Clicking the checkout input opens the range picker
-    if (checkoutInput) {
-      checkoutInput.addEventListener("click", () => fp.open());
-      checkoutInput.readOnly = true;
-    }
-
-    // Clear button resets dates
+    if (checkoutInput) checkoutInput.addEventListener("click", () => fp.open());
     if (clearBtn) {
       clearBtn.addEventListener("click", () => {
         fp.clear();
@@ -144,7 +121,6 @@ document.addEventListener("DOMContentLoaded", () => {
   async function fetchAvailability(checkIn, checkOut) {
     try {
       const res = await fetch(`/api/listings/available?checkIn=${checkIn}&checkOut=${checkOut}`);
-      if (!res.ok) throw new Error("API error");
       const data = await res.json();
       unavailableIds = new Set(data.unavailableIds || []);
     } catch (err) {
@@ -157,6 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ── UNIFIED FILTER LOGIC ──
   function applyFilters(shouldUpdateBounds = false) {
     const searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : "";
+    const bounds = globalMap ? globalMap.getBounds() : null;
     let anyVisible = false;
     let cardsToShow = [];
     let cardsToHide = [];
@@ -166,25 +143,31 @@ document.addEventListener("DOMContentLoaded", () => {
       const title  = card.querySelector("b")?.textContent.toLowerCase() || "";
       const tags   = JSON.parse(card.getAttribute("data-tags") || "[]");
       const listingId = card.getAttribute("data-id") || "";
+      const lat = parseFloat(card.getAttribute("data-lat"));
+      const lng = parseFloat(card.getAttribute("data-lng"));
 
       const matchesSearch = title.includes(searchTerm);
-      // Compare data-tag value (e.g. "Amazing Pools") against the stored tags array
       const matchesFilter = activeTag
         ? tags.some(t => t.toLowerCase() === activeTag.toLowerCase())
         : true;
-      // Check date availability
-      const matchesAvailability = unavailableIds.size > 0
-        ? !unavailableIds.has(listingId)
-        : true;
+      const matchesAvailability = !unavailableIds.has(listingId);
+      
+      // Map Bounds Check
+      let matchesBounds = true;
+      if (bounds && !isNaN(lat) && !isNaN(lng)) {
+        matchesBounds = bounds.contains(L.latLng(lat, lng));
+      }
 
-      const shouldShow = matchesSearch && matchesFilter && matchesAvailability;
+      const shouldShow = matchesSearch && matchesFilter && matchesAvailability && matchesBounds;
       const cardLink = card.closest(".sz-card-link");
       
       if (globalMap && markers.has(listingId)) {
         const marker = markers.get(listingId);
-        if (shouldShow) {
+        // We keep markers on map if they match basic filters, even if hide card due to bounds
+        const matchesOthers = matchesSearch && matchesFilter && matchesAvailability;
+        if (matchesOthers) {
             if (!allMarkerGroup.hasLayer(marker)) allMarkerGroup.addLayer(marker);
-            visibleMarkers.push(marker);
+            if (shouldShow) visibleMarkers.push(marker);
         } else {
             if (allMarkerGroup.hasLayer(marker)) allMarkerGroup.removeLayer(marker);
         }
@@ -202,83 +185,77 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ── ANIMATED REVEAL WITH GSAP ──
     if (typeof gsap !== "undefined") {
-      // 1. Hide the ones that shouldn't match
+      // 1. Kill any pending animations on all cards to prevent race conditions
+      gsap.killTweensOf(cards);
+      
+      // 2. Hide out-of-bounds cards
       if (cardsToHide.length > 0) {
           gsap.to(cardsToHide, {
               duration: 0.2,
               opacity: 0,
-              scale: 0.95,
+              scale: 0.9,
+              overwrite: true,
               onComplete: () => {
+                  // Only hide if the card is still supposed to be hidden (extra safety)
                   cardsToHide.forEach(c => {
-                      c.style.display = "none";
+                      if (gsap.getProperty(c, "opacity") === 0) {
+                         c.style.display = "none";
+                      }
                   });
               }
           });
       }
 
-      // 2. Show the matching ones
+      // 3. Show in-bounds cards
       if (cardsToShow.length > 0) {
-          // Immediately set display block so they take space
           cardsToShow.forEach(c => {
-              if (c.style.display === "none" || c.style.display === "") {
+              if (window.getComputedStyle(c).display === "none") {
                   c.style.display = "block";
-                  // Animate them in newly
                   gsap.fromTo(c, 
-                      { opacity: 0, scale: 0.9 }, 
-                      { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.2)", delay: 0.1 }
+                      { opacity: 0, scale: 0.9, y: 15 }, 
+                      { opacity: 1, scale: 1, y: 0, duration: 0.4, ease: "back.out(1.2)", overwrite: true }
                   );
               } else {
-                  // Ensure they are fully visible if they were already showing
-                  gsap.to(c, { opacity: 1, scale: 1, duration: 0.2 });
+                  // If already visible, ensure it's fully opaque
+                  gsap.to(c, { opacity: 1, scale: 1, duration: 0.2, overwrite: true });
               }
           });
       }
       
-      // Handle the "No Match" graphic
       if (noMatchContainer) {
           if (anyVisible) {
               noMatchContainer.style.display = "none";
           } else {
               noMatchContainer.style.display = "block";
-              gsap.fromTo(noMatchContainer, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4 });
+              gsap.fromTo(noMatchContainer, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3 });
           }
       }
 
-      // Refresh ScrollTrigger after a slight delay to allow layout adjustments
-      setTimeout(() => {
-          if (typeof ScrollTrigger !== "undefined") {
-              ScrollTrigger.refresh();
-          }
-      }, 300);
-
+      setTimeout(() => { if (typeof ScrollTrigger !== "undefined") ScrollTrigger.refresh(); }, 400);
     } else {
-      // Fallback if GSAP is unavailable
+      // Fallback
       cardsToHide.forEach(c => c.style.display = "none");
       cardsToShow.forEach(c => c.style.display = "block");
-      if (noMatchContainer) {
-        noMatchContainer.style.display = anyVisible ? "none" : "block";
-      }
+      if (noMatchContainer) noMatchContainer.style.display = anyVisible ? "none" : "block";
     }
 
-    // Update map bounds smoothly
     if (globalMap && shouldUpdateBounds && visibleMarkers.length > 0) {
         const tempGroup = L.featureGroup(visibleMarkers);
-        globalMap.flyToBounds(tempGroup.getBounds(), { padding: [50, 50], maxZoom: 12, duration: 0.5 });
+        globalMap.flyToBounds(tempGroup.getBounds(), { padding: [50, 50], maxZoom: 12, duration: 0.6 });
     }
   }
 
-  // Real-time search
+  // ── LISTENERS ──
+  if (globalMap) {
+    globalMap.on("moveend", () => applyFilters(false));
+  }
   if (searchInput) {
     searchInput.addEventListener("input", () => applyFilters(false));
   }
-
-  // Category filter clicks — use data-tag, not the <p> text
   filters.forEach(filter => {
     filter.addEventListener("click", () => {
-      const tag = filter.dataset.tag; // e.g. "Amazing Pools"
-
+      const tag = filter.dataset.tag;
       if (activeTag === tag) {
-        // Clicking the same filter again deactivates it
         filter.classList.remove("active");
         activeTag = null;
       } else {
@@ -286,7 +263,6 @@ document.addEventListener("DOMContentLoaded", () => {
         filter.classList.add("active");
         activeTag = tag;
       }
-
       applyFilters(true);
     });
   });

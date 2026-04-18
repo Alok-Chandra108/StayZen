@@ -1,136 +1,177 @@
 /* ============================================================
-   STAYZEN NAVBAR — BRUTAL LUXE 2.0
+   STAYZEN — HOTEL NAVIGATION BAR
    ============================================================ */
 
-
-/* ── Main Nav ── */
 .nb-navbar {
   position: sticky;
   top: 0;
-  z-index: 1001;
-  background: var(--ink);
-  padding: 1.2rem 2.5rem;
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 2rem;
-  border-bottom: 3px solid var(--ink);
-  box-shadow: 0 4px 0 0 var(--lime);
+  padding: 0 2rem;
+  height: 72px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  gap: 1.5rem;
 }
 
+/* Brand */
 .navbar-brand {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
-  text-decoration: none !important;
-  color: var(--cream) !important;
+  gap: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
 }
 
 .sz-brand-logo {
-  width: 42px;
-  height: 42px;
-  object-fit: contain;
-  filter: drop-shadow(0 0 8px rgba(0,0,0,0.1));
-  flex-shrink: 0;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  height: 36px;
+  width: auto;
 }
-
-.navbar-brand:hover .sz-brand-logo { transform: rotate(15deg) scale(1.1); }
 
 .sz-brand-text {
-  font-family: var(--font-h);
-  font-weight: 900;
-  font-size: 1.6rem;
-  letter-spacing: -1.5px;
-  line-height: 1;
+  font-family: var(--font-h, 'Playfair Display', serif);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--navy, #0F1B2D);
+  letter-spacing: 0.5px;
 }
 
-/* Redesigned Search */
+/* Search */
 .nb-search-container {
   flex: 1;
   max-width: 480px;
+  margin: 0 1rem;
 }
 
 .nb-search-bar {
   display: flex;
-  background: var(--white);
-  border: 4px solid var(--ink);
-  box-shadow: 6px 6px 0 var(--lime);
-  transition: all 0.2s ease;
+  align-items: center;
+  background: var(--ivory, #FAF8F5);
+  border: 1px solid var(--border-color, #E5E7EB);
+  border-radius: 9999px;
+  padding: 0;
+  overflow: hidden;
+  transition: all 0.25s ease;
 }
 
 .nb-search-bar:focus-within {
-  transform: translate(-3px, -3px);
-  box-shadow: 10px 10px 0 var(--lime);
+  border-color: var(--gold, #C9A96E);
+  box-shadow: 0 0 0 3px rgba(201, 169, 110, 0.12);
+  background: var(--white, #fff);
 }
 
 .nb-search-input {
   flex: 1;
-  padding: 0.75rem 1.2rem;
-  border: none !important;
-  background: transparent !important;
-  color: var(--ink) !important;
-  font-weight: 600;
-  font-size: 0.9rem;
-  outline: none !important;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  background: transparent;
+  color: var(--text, #333);
+  font-family: var(--font-p, 'Inter', sans-serif);
+  font-size: 0.88rem;
+  font-weight: 400;
+  outline: none;
+}
+
+.nb-search-input::placeholder {
+  color: var(--text-muted, #9CA3AF);
 }
 
 .nb-search-btn {
-  background: var(--lime);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-right: 4px;
+  background: var(--navy, #0F1B2D);
+  color: var(--white, #fff);
   border: none;
-  border-left: 4px solid var(--ink);
-  padding: 0 1.5rem;
-  font-weight: 900;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--ink);
+  border-radius: 50%;
+  font-size: 0.82rem;
+  cursor: pointer !important;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
-/* Navigation Links */
+.nb-search-btn:hover {
+  background: var(--gold, #C9A96E);
+  transform: scale(1.05);
+}
+
+/* Actions */
 .nb-nav-actions {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.6rem;
+  flex-shrink: 0;
 }
 
 .nb-nav-user {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  color: var(--cream);
-  font-size: 0.72rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
+  gap: 6px;
   padding: 0.5rem 1rem;
-  border: 2px solid rgba(245,240,232,0.2);
-  background: rgba(245,240,232,0.05);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--text, #333);
+  border: 1px solid var(--border-color, #E5E7EB);
+  border-radius: var(--radius-full, 9999px);
+  background: var(--white, #fff);
 }
 
 /* ── Back Bar ── */
 .nb-back-bar {
-  background: var(--ink);
-  padding: 1.2rem 2.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 4px solid var(--coral);
+  padding: 0 2rem;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .nb-back-brand {
-  font-family: var(--font-h);
-  font-weight: 900;
-  color: var(--cream);
-  font-size: 1.4rem;
-  letter-spacing: -1px;
+  font-family: var(--font-h, 'Playfair Display', serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--navy, #0F1B2D);
+  letter-spacing: 0.5px;
 }
 
-@media (max-width: 991px) {
-  .nb-navbar { padding: 1.2rem 1.5rem; }
-  .nb-search-container { order: 3; flex: 1 1 100%; max-width: none; }
-}
+/* ============================================================ RESPONSIVE ====== */
+@media (max-width: 768px) {
+  .nb-navbar {
+    padding: 0 1rem;
+    height: 64px;
+    gap: 0.8rem;
+  }
 
-@media (max-width: 600px) {
   .sz-brand-text { display: none; }
+
+  .nb-search-container {
+    max-width: 200px;
+    margin: 0 0.5rem;
+  }
+
+  .nb-nav-actions { gap: 0.3rem; }
+
+  .nb-nav-actions .sz-btn {
+    padding: 0.4rem 0.8rem !important;
+    font-size: 0.68rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .nb-search-container { display: none; }
 }

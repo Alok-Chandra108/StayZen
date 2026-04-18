@@ -23,38 +23,24 @@
 <script id="listing-data" type="application/json"><%- listingDataJson %></script>
 <script>const listingData = JSON.parse(document.getElementById('listing-data').textContent);</script>
 
-<!-- ===================== NEW BRUTALIST SHOW LAYOUT ===================== -->
+<!-- ===================== HOTEL SHOW LAYOUT ===================== -->
 <div class="sz-view-wrapper">
-
-  <!-- Top Marquee -->
-  <div class="sz-view-marquee sz-view-marquee--top">
-    <div class="sz-view-marquee-track">
-      <span><%= listing.title.toUpperCase() %> ✦ <%= listing.location.toUpperCase() %> ✦ </span>
-      <span><%= listing.title.toUpperCase() %> ✦ <%= listing.location.toUpperCase() %> ✦ </span>
-      <span><%= listing.title.toUpperCase() %> ✦ <%= listing.location.toUpperCase() %> ✦ </span>
-      <span><%= listing.title.toUpperCase() %> ✦ <%= listing.location.toUpperCase() %> ✦ </span>
-    </div>
-  </div>
 
   <!-- Hero Section -->
   <div class="sz-view-hero">
-    <!-- Offset decorative blocks -->
-    <div class="sz-view-hero__bg-block sz-view-hero__bg-block--1"></div>
-    <div class="sz-view-hero__bg-block sz-view-hero__bg-block--2"></div>
-
     <div class="sz-view-hero__content">
       <div class="sz-view-hero__image-box">
-        <img src="<%= listing.image.url %>" alt="<%= listing.title %>">
+        <img src="<%= listing.image.url %>" alt="<%= listing.title %>" data-flip-id="img-<%= listing._id %>">
         <!-- Floating Price Stamp -->
         <div class="sz-stamp">
           <div class="sz-stamp-val">₹<%= listing.price.toLocaleString("en-IN") %></div>
-          <div class="sz-stamp-unit">/NIGHT</div>
+          <div class="sz-stamp-unit">per night</div>
         </div>
       </div>
       <div class="sz-view-hero__title-box">
         <h1 class="sz-view-hero__title"><%= listing.title %></h1>
         <div class="sz-view-hero__meta">
-          <span class="sz-view-badge sz-view-badge--owner"><i class="fa-solid fa-user me-2"></i>HOST: <%= listing.owner.username %></span>
+          <span class="sz-view-badge sz-view-badge--owner"><i class="fa-solid fa-user me-2"></i>Host: <%= listing.owner.username %></span>
           <span class="sz-view-badge sz-view-badge--loc"><i class="fa-solid fa-location-dot me-2"></i><%= listing.location %>, <%= listing.country %></span>
         </div>
       </div>
@@ -67,14 +53,14 @@
       
       <!-- Description Section -->
       <section class="sz-view-section sz-view-desc-box">
-        <h2 class="sz-view-section-title"><i class="fa-solid fa-bolt"></i> THE RUNDOWN</h2>
+        <h2 class="sz-view-section-title"><i class="fa-solid fa-info-circle"></i> About This Property</h2>
         <div class="sz-view-desc-text"><%= listing.description %></div>
       </section>
 
       <!-- Amenities Section -->
       <% if (listing.amenities && listing.amenities.length > 0) { %>
       <section class="sz-view-section sz-view-amenities-box">
-        <h2 class="sz-view-section-title"><i class="fa-solid fa-list-check"></i> AMENITIES</h2>
+        <h2 class="sz-view-section-title"><i class="fa-solid fa-concierge-bell"></i> Amenities</h2>
         <div class="sz-view-amenities">
            <% listing.amenities.forEach((amenity) => {
                 const icon = amenityIcons[amenity] || "fa-check";
@@ -101,7 +87,7 @@
 
       <!-- Map Section -->
       <section class="sz-view-section sz-view-map-box mt-4">
-        <h2 class="sz-view-section-title"><i class="fa-solid fa-compass"></i> LOCATION</h2>
+        <h2 class="sz-view-section-title"><i class="fa-solid fa-map-location-dot"></i> Location</h2>
 
         <div class="sz-view-map-container mt-2">
           <div id="map" class="sz-view-map"></div>
@@ -110,16 +96,16 @@
 
       <!-- Reviews Section -->
       <section class="sz-view-section sz-view-reviews-box mb-5">
-        <h2 class="sz-view-section-title"><i class="fa-solid fa-star"></i> REVIEWS [<%= listing.reviews.length %>]</h2>
+        <h2 class="sz-view-section-title"><i class="fa-solid fa-star"></i> Reviews (<%= listing.reviews.length %>)</h2>
 
         
         <% if(currUser) { %>
           <div class="sz-view-review-form">
-            <h3 class="sz-view-review-form__header">LEAVE YOUR MARK</h3>
+            <h3 class="sz-view-review-form__header">Write a Review</h3>
             <div class="sz-view-review-form__body">
               <form action="/listings/<%= listing.id %>/reviews" method="post" novalidate class="needs-validation">
                   <div class="sz-view-review-rating">
-                    <label class="d-block mb-2 font-weight-bold" style="font-weight: 900; letter-spacing: 1px;">RATING:</label>
+                    <label class="d-block mb-2" style="font-weight: 600; font-size: 0.85rem; color: var(--text);">Your Rating</label>
                     <fieldset class="starability-slot sz-view-stars">
                       <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0" checked aria-label="No rating." />
                       <input type="radio" id="first-rate1" name="review[rating]" value="1" />
@@ -135,17 +121,17 @@
                     </fieldset>
                   </div>
                   
-                  <textarea name="review[comment]" cols="30" rows="3" class="sz-view-textarea form-control" required placeholder="Type your unfiltered thoughts..."></textarea>
-                  <div class="invalid-feedback">Comment required. Don't leave it blank.</div>
+                  <textarea name="review[comment]" cols="30" rows="3" class="sz-view-textarea form-control" required placeholder="Share your experience..."></textarea>
+                  <div class="invalid-feedback">Please write a review before submitting.</div>
 
 
-                  <button class="sz-btn sz-btn--action w-100 mt-3" type="submit"><i class="fa-solid fa-bullhorn me-2"></i>DROP REVIEW</button>
+                  <button class="sz-btn sz-btn--action w-100 mt-3" type="submit" style="border-radius: 12px;"><i class="fa-solid fa-paper-plane me-2"></i>Submit Review</button>
               </form>
             </div>
           </div>
         <% } else { %>
-          <div class="sz-alert-box mb-4 p-3 border border-dark rounded-0 bg-warning" style="font-weight:800; border-width: 3px !important; box-shadow: 4px 4px 0 #000;">
-            You must be logged in to leave a review. <a href="/login" style="color:var(--ink);">Log in here →</a>
+          <div class="sz-alert-box mb-4 p-3">
+            You must be logged in to leave a review. <a href="/login">Sign in here →</a>
           </div>
         <% } %>
 
@@ -154,7 +140,7 @@
             <% for (let review of listing.reviews) { %>
               <div class="sz-view-review-card">
                  <div class="sz-view-review-card__top">
-                    <span class="sz-view-review-author"><i class="fa-solid fa-user-ninja me-2"></i><%= review.author.username %></span>
+                    <span class="sz-view-review-author"><i class="fa-solid fa-user-circle me-2"></i><%= review.author.username %></span>
                     <span class="sz-view-review-rating">
                       <% for (let i = 1; i <= 5; i++) { %>
                         <% if (i <= review.rating) { %> ★ <% } else { %> ☆ <% } %>
@@ -180,60 +166,58 @@
     <!-- RIGHT FIXED ACTION SIDEBAR -->
     <div class="sz-view-sidebar">
       <div class="sz-view-ticket">
-        <div class="sz-view-ticket__punch sz-view-ticket__punch--left"></div>
-        <div class="sz-view-ticket__punch sz-view-ticket__punch--right"></div>
         
         <div class="sz-view-ticket__header">
-          <div class="sz-view-ticket__eyebrow">BOOKING PASS</div>
+          <div class="sz-view-ticket__eyebrow">Book Your Stay</div>
           <div class="sz-view-ticket__price">₹<%= listing.price.toLocaleString("en-IN") %></div>
 
-          <div class="sz-view-ticket__per">PER NIGHT</div>
+          <div class="sz-view-ticket__per">per night</div>
         </div>
         
         <div class="sz-view-ticket__body">
           <div class="sz-view-ticket__row">
-            <span>LOC.</span>
+            <span>Location</span>
             <strong><%= listing.location %></strong>
           </div>
           <div class="sz-view-ticket__row">
-            <span>HOST</span>
+            <span>Host</span>
             <strong><%= listing.owner.username %></strong>
           </div>
           <div class="sz-view-ticket__row">
-            <span>STATUS</span>
-            <strong><%= listing.reviews.length > 0 ? listing.reviews.length + ' REVIEWS' : 'NEW LISTING' %></strong>
+            <span>Reviews</span>
+            <strong><%= listing.reviews.length > 0 ? listing.reviews.length + ' Reviews' : 'New Listing' %></strong>
           </div>
 
 
           <% if (!currUser || !currUser._id.equals(listing.owner._id)) { %>
             <form action="/listings/<%= listing.id %>/bookings" method="POST" id="booking-form" class="mt-4">
-              <label style="font-size: 0.8rem; font-weight: 800; display:block; margin-bottom: 5px;">SELECT DATES</label>
+              <label style="font-size: 0.78rem; font-weight: 600; display:block; margin-bottom: 8px; color: var(--text-light);">SELECT DATES</label>
               
               <input type="hidden" id="hiddenCheckIn" name="checkIn" required>
               <input type="hidden" id="hiddenCheckOut" name="checkOut" required>
               
               <div style="display: flex; gap: 10px;">
-                <input type="text" id="checkIn" name="display-checkin" class="sz-date-input" placeholder="CHECK-IN" readonly>
-                <input type="text" id="checkOut" name="display-checkout" class="sz-date-input" placeholder="CHECK-OUT" readonly>
+                <input type="text" id="checkIn" name="display-checkin" class="sz-date-input" placeholder="Check-in" readonly>
+                <input type="text" id="checkOut" name="display-checkout" class="sz-date-input" placeholder="Check-out" readonly>
               </div>
 
               <div id="lock-status-container" style="display: none; margin-top: 1rem;">
                 <!-- Locked status will be injected here -->
               </div>
 
-              <div id="brutal-total-box" style="display: none; flex-direction: column; gap: 4px; padding: 1rem; border-top: 3px dashed var(--ink); margin-top: 1rem;">
-                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 800;">
-                  <span>PRICE FOR (<span id="brutal-nights">0</span> NIGHTS)</span>
+              <div id="brutal-total-box" style="display: none; flex-direction: column; gap: 6px; padding: 1.2rem; border-top: 1px solid var(--border-color); margin-top: 1rem; border-radius: 12px; background: var(--ivory);">
+                <div style="display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 500; color: var(--text);">
+                  <span>Price for (<span id="brutal-nights">0</span> nights)</span>
                   <span id="brutal-subtotal">₹0</span>
                 </div>
-                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 800; color: var(--coral);">
-                  <span>GOVERNMENT TAX (18%)</span>
+                <div style="display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 500; color: var(--text-light);">
+                  <span>Government Tax (18%)</span>
                   <span id="brutal-tax">₹0</span>
                 </div>
 
-                <div style="display: flex; justify-content: space-between; margin-top: 8px; border-top: 2px solid var(--ink); padding-top: 8px;">
-                  <span style="font-weight: 900; font-size: 0.85rem;">GRAND TOTAL</span>
-                  <strong id="brutal-grand-total" style="font-size: 1.2rem; font-weight: 900;">₹0</strong>
+                <div style="display: flex; justify-content: space-between; margin-top: 8px; border-top: 1px solid var(--border-color); padding-top: 10px;">
+                  <span style="font-weight: 700; font-size: 0.9rem; color: var(--navy);">Total</span>
+                  <strong id="brutal-grand-total" style="font-size: 1.15rem; font-weight: 700; color: var(--navy);">₹0</strong>
                 </div>
               </div>
             </form>
@@ -242,12 +226,12 @@
         
         <div class="sz-view-ticket__footer">
           <% if (currUser && currUser._id.equals(listing.owner._id)) { %>
-             <a href="/listings/<%= listing._id %>/edit" class="sz-btn sz-btn--warn w-100 mb-2"><i class="fa-solid fa-pen-ruler me-2"></i>EDIT LISTING</a>
+             <a href="/listings/<%= listing._id %>/edit" class="sz-btn sz-btn--warn w-100 mb-2" style="border-radius: 12px;"><i class="fa-solid fa-pen me-2"></i>Edit Listing</a>
              <form method="Post" action="/listings/<%= listing._id %>?_method=DELETE" class="w-100">
-                <button class="sz-btn sz-btn--danger w-100"><i class="fa-solid fa-trash-can me-2"></i>DELETE LISTING</button>
+                <button class="sz-btn sz-btn--danger w-100" style="border-radius: 12px;"><i class="fa-solid fa-trash-can me-2"></i>Delete Listing</button>
              </form>
           <% } else { %>
-             <button type="submit" form="booking-form" class="sz-btn sz-btn--action w-100"><i class="fa-solid fa-bolt me-2"></i>BOOK NOW</button>
+             <button type="submit" form="booking-form" class="sz-btn sz-btn--action w-100" style="border-radius: 12px; padding: 0.9rem;"><i class="fa-solid fa-calendar-check me-2"></i>Reserve Now</button>
           <% } %>
         </div>
 
@@ -374,10 +358,10 @@
             const data = await response.json();
             if (data.locked) {
                 lockContainer.innerHTML = `
-                    <div style="background: var(--yellow); border: 3px solid var(--ink); padding: 1rem; box-shadow: 4px 4px 0 var(--ink); display: flex; align-items: center; gap: 10px;">
-                        <i class="fa-solid fa-triangle-exclamation" style="font-size: 1.5rem;"></i>
-                        <div style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase;">
-                            WARNING: Dates currently being selected by another user.
+                    <div style="background: #FFFBEB; border: 1px solid #FDE68A; padding: 1rem; border-radius: 12px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fa-solid fa-triangle-exclamation" style="font-size: 1.2rem; color: #F59E0B;"></i>
+                        <div style="font-size: 0.82rem; font-weight: 500; color: #92400E;">
+                            These dates are currently being selected by another user.
                         </div>
                     </div>
 

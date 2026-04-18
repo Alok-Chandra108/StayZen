@@ -6,10 +6,10 @@
     
     <header class="sz-dashboard__header">
       <h1 class="sz-dashboard__title" style="flex: 1;">
-        <i class="fa-solid fa-chess-rook me-3"></i>HOST DASHBOARD
+        <i class="fa-solid fa-chart-pie me-3"></i>Host Dashboard
       </h1>
-      <div class="sz-badge sz-badge--action" style="background: var(--lime); color: var(--ink);">
-        <%= listings.length %> LISTINGS
+      <div class="sz-badge sz-badge--action">
+        <%= listings.length %> Properties
       </div>
     </header>
 
@@ -20,35 +20,35 @@
     %>
 
     <!-- SUMMARY METRICS & FILTERS -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 4rem; align-items: start;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; align-items: start;">
       
       <!-- Earnings Card -->
-      <div style="background: var(--coral); color: var(--white); padding: 2.5rem; border: 4px solid var(--ink); box-shadow: 10px 10px 0 var(--ink); position: relative; overflow: hidden;">
-        <div style="font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem; opacity: 0.9;">Total Simulated Yield</div>
-        <div style="font-family: var(--font-h); font-size: 3.5rem; font-weight: 900; line-height: 1;">₹<%= totalEarnings.toLocaleString("en-IN") %></div>
+      <div style="background: linear-gradient(135deg, var(--navy) 0%, #1a3050 100%); color: var(--white); padding: 2.5rem; border-radius: 20px; position: relative; overflow: hidden; box-shadow: var(--shadow-lg);">
+        <div style="font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem; color: var(--gold);">Total Revenue</div>
+        <div style="font-family: var(--font-h); font-size: 3rem; font-weight: 700; line-height: 1;">₹<%= totalEarnings.toLocaleString("en-IN") %></div>
         <% if(q.startDate || q.endDate) { %>
-          <div style="margin-top: 1rem; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; background: rgba(0,0,0,0.2); display: inline-block; padding: 2px 8px;">Filtered View</div>
+          <div style="margin-top: 1rem; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; background: rgba(201,169,110,0.2); display: inline-block; padding: 4px 12px; border-radius: 9999px; color: var(--gold);">Filtered Range</div>
         <% } %>
-        <i class="fa-solid fa-chart-line" style="position: absolute; bottom: -10px; right: -10px; font-size: 6rem; opacity: 0.1;"></i>
+        <i class="fa-solid fa-chart-line" style="position: absolute; bottom: -10px; right: -10px; font-size: 5rem; opacity: 0.06;"></i>
       </div>
 
       <!-- Date Filter Form -->
-      <div style="background: var(--white); padding: 2rem; border: 4px solid var(--ink); box-shadow: 10px 10px 0 var(--yellow);">
-        <h3 style="font-family: var(--font-h); font-size: 1.2rem; font-weight: 900; margin-bottom: 1.5rem; text-transform: uppercase;">Filter Yield</h3>
+      <div style="background: var(--white); padding: 2rem; border: 1px solid var(--border-color); border-radius: 20px; box-shadow: var(--shadow-sm);">
+        <h3 style="font-family: var(--font-h); font-size: 1.1rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--navy);">Filter by Date</h3>
         <form action="/host-dashboard" method="GET" style="display: flex; flex-direction: column; gap: 1rem;">
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
             <div>
-              <label style="font-size: 0.7rem; font-weight: 900; text-transform: uppercase; display: block; margin-bottom: 0.4rem;">Start</label>
-              <input type="date" name="startDate" id="startDate" value="<%= q.startDate || '' %>" style="width: 100%; padding: 0.6rem; border: 2px solid var(--ink); font-family: inherit; font-weight: 700;">
+              <label style="font-size: 0.72rem; font-weight: 600; text-transform: uppercase; display: block; margin-bottom: 0.4rem; color: var(--text-muted);">Start</label>
+              <input type="date" name="startDate" id="startDate" value="<%= q.startDate || '' %>" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-color); border-radius: 12px; font-family: inherit; font-weight: 500; background: var(--ivory);">
             </div>
             <div>
-              <label style="font-size: 0.7rem; font-weight: 900; text-transform: uppercase; display: block; margin-bottom: 0.4rem;">End</label>
-              <input type="date" name="endDate" id="endDate" value="<%= q.endDate || '' %>" style="width: 100%; padding: 0.6rem; border: 2px solid var(--ink); font-family: inherit; font-weight: 700;">
+              <label style="font-size: 0.72rem; font-weight: 600; text-transform: uppercase; display: block; margin-bottom: 0.4rem; color: var(--text-muted);">End</label>
+              <input type="date" name="endDate" id="endDate" value="<%= q.endDate || '' %>" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border-color); border-radius: 12px; font-family: inherit; font-weight: 500; background: var(--ivory);">
             </div>
           </div>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.5rem;">
-            <button type="submit" class="sz-btn sz-btn--action" style="padding: 0.8rem; font-size: 0.8rem;">APPLY FILTER</button>
-            <a href="/host-dashboard" class="sz-btn" style="padding: 0.8rem; font-size: 0.8rem; text-align: center; background: var(--lavender); color: var(--white);">RESET</a>
+            <button type="submit" class="sz-btn sz-btn--action" style="padding: 0.7rem; font-size: 0.82rem; border-radius: 12px;">Apply</button>
+            <a href="/host-dashboard" class="sz-btn" style="padding: 0.7rem; font-size: 0.82rem; text-align: center; border-radius: 12px;">Reset</a>
           </div>
         </form>
       </div>
@@ -62,7 +62,7 @@
       <!-- Yield Trend Chart -->
       <div class="sz-analytics-card">
         <h3 class="sz-analytics-card__title">
-          <i class="fa-solid fa-chart-line"></i> YIELD PROJECTION (6M)
+          <i class="fa-solid fa-chart-line"></i> Revenue Trend (6 Months)
         </h3>
         <div style="height: 300px; position: relative;">
           <canvas id="yieldChart"></canvas>
@@ -71,21 +71,21 @@
 
       <!-- Occupancy & Performance -->
 
-      <div style="display: flex; flex-direction: column; gap: 2rem;">
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
         
         <!-- Occupancy Circle -->
-        <div class="sz-analytics-card" style="text-align: center; border-color: var(--ink); border-style: double; border-width: 6px;">
-          <h3 class="sz-analytics-card__title" style="justify-content: center; font-size: 0.9rem;">DENSITY_LEVEL</h3>
+        <div class="sz-analytics-card" style="text-align: center;">
+          <h3 class="sz-analytics-card__title" style="justify-content: center;">Occupancy Rate</h3>
           <div class="sz-occupancy-circle">
             <span class="sz-occupancy-circle__val"><%= occupancyRate %>%</span>
             <span class="sz-occupancy-circle__label">Occupancy</span>
           </div>
-          <p style="font-size: 0.65rem; font-weight: 800; color: var(--coral); margin-top: 1rem; text-transform: uppercase;">Current Month Utilization</p>
+          <p style="font-size: 0.72rem; font-weight: 500; color: var(--text-muted); margin-top: 1rem;">Current Month</p>
         </div>
 
         <!-- Asset Performance Bar -->
-        <div class="sz-analytics-card" style="box-shadow: 10px 10px 0 var(--lime);">
-          <h3 class="sz-analytics-card__title" style="font-size: 0.9rem;">PERFORMANCE_RANKING</h3>
+        <div class="sz-analytics-card">
+          <h3 class="sz-analytics-card__title">Property Performance</h3>
 
           <div style="height: 180px; position: relative;">
             <canvas id="assetChart"></canvas>
@@ -97,60 +97,49 @@
     </div>
 
     <!-- UPCOMING RESERVATIONS -->
-    <section style="margin-bottom: 5rem;">
-      <h2 style="font-family: var(--font-h); font-size: 2rem; font-weight: 900; text-transform: uppercase; border-bottom: 4px solid var(--ink); padding-bottom: 1rem; margin-bottom: 2rem; display: flex; align-items: center; justify-content: space-between;">
+    <section style="margin-bottom: 4rem;">
+      <h2 style="font-family: var(--font-h); font-size: 1.6rem; font-weight: 700; color: var(--navy); border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 2rem; display: flex; align-items: center; justify-content: space-between;">
         <span>Upcoming Bookings</span>
-        <span style="font-size: 0.9rem; background: var(--ink); color: var(--lime); padding: 4px 12px; letter-spacing: 1px;"><%= upcomingBookings.length %> ACTIVE</span>
+        <span class="sz-badge sz-badge--action"><%= upcomingBookings.length %> Active</span>
       </h2>
 
       
       <% if(upcomingBookings.length === 0) { %>
-        <div class="sz-dashboard__empty" style="background: var(--white); padding: 3rem;">
-          <i class="fa-solid fa-calendar-day" style="font-size: 3rem; opacity: 0.2;"></i>
-          <h2 style="font-family: var(--font-h); font-size: 1.5rem; margin-top: 1rem;">NO UPCOMING GUESTS</h2>
+        <div class="sz-dashboard__empty" style="padding: 3rem;">
+          <i class="fa-solid fa-calendar-day" style="font-size: 2.5rem;"></i>
+          <h2 style="font-family: var(--font-h); font-size: 1.3rem; margin-top: 1rem; color: var(--navy);">No upcoming guests</h2>
         </div>
       <% } else { %>
-        <div style="border: 4px solid var(--ink); background: var(--white); box-shadow: 12px 12px 0 var(--lavender); overflow-x: auto;">
+        <div style="border: 1px solid var(--border-color); background: var(--white); border-radius: 16px; box-shadow: var(--shadow-sm); overflow-x: auto;">
           <table style="width: 100%; border-collapse: collapse; text-align: left; min-width: 800px;">
             <thead>
-              <tr style="background: var(--ink); color: var(--cream); font-weight: 900; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">
-                <th style="padding: 1.2rem; border-right: 2px dashed rgba(245,240,232,0.2);">Listing</th>
-                <th style="padding: 1.2rem; border-right: 2px dashed rgba(245,240,232,0.2);">Guest</th>
-                <th style="padding: 1.2rem; border-right: 2px dashed rgba(245,240,232,0.2);">Timeline</th>
+              <tr style="background: var(--navy); color: rgba(255,255,255,0.85); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.5px;">
+                <th style="padding: 1rem 1.2rem;">Property</th>
+                <th style="padding: 1rem 1.2rem;">Guest</th>
+                <th style="padding: 1rem 1.2rem;">Dates</th>
 
-                <th style="padding: 1.2rem; border-right: 2px dashed rgba(245,240,232,0.2);">Payout</th>
-                <th style="padding: 1.2rem; text-align: center;">Status</th>
+                <th style="padding: 1rem 1.2rem;">Total</th>
+                <th style="padding: 1rem 1.2rem; text-align: center;">Status</th>
               </tr>
 
             </thead>
             <tbody>
               <% upcomingBookings.forEach((booking) => { %>
-                <% 
-                  let statusBg = 'var(--yellow)';
-                  let statusColor = 'var(--ink)';
-                  if (booking.status === 'Confirmed') {
-                    statusBg = 'var(--lime)';
-                    statusColor = 'var(--ink)';
-                  } else if (booking.status === 'Declined') {
-                    statusBg = 'var(--coral)';
-                    statusColor = 'var(--white)';
-                  }
-                %>
-                <tr style="border-bottom: 3px dashed var(--ink);">
-                  <td style="padding: 1.2rem; font-weight: 800; border-right: 2px dashed rgba(10,10,10,0.1);">
-                    <a href="/listings/<%= booking.listing._id %>" style="color: var(--coral); text-decoration: none;"><%= booking.listing.title %></a>
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                  <td style="padding: 1rem 1.2rem; font-weight: 600;">
+                    <a href="/listings/<%= booking.listing._id %>" style="color: var(--navy); text-decoration: none;"><%= booking.listing.title %></a>
                   </td>
-                  <td style="padding: 1.2rem; border-right: 2px dashed rgba(10,10,10,0.1);">
-                    <div style="font-weight: 900; color: var(--ink);"><%= booking.user.username %></div>
-                    <div style="font-size: 0.75rem; font-weight: 700; opacity: 0.6;"><%= booking.user.email %></div>
+                  <td style="padding: 1rem 1.2rem;">
+                    <div style="font-weight: 600; color: var(--navy);"><%= booking.user.username %></div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);"><%= booking.user.email %></div>
                   </td>
-                  <td style="padding: 1.2rem; border-right: 2px dashed rgba(10,10,10,0.1);">
-                    <div style="font-weight: 800; font-size: 0.85rem;"><%= booking.checkIn.toLocaleDateString('en-GB') %> → <%= booking.checkOut.toLocaleDateString('en-GB') %></div>
+                  <td style="padding: 1rem 1.2rem;">
+                    <div style="font-weight: 500; font-size: 0.85rem;"><%= booking.checkIn.toLocaleDateString('en-GB') %> → <%= booking.checkOut.toLocaleDateString('en-GB') %></div>
                   </td>
-                  <td style="padding: 1.2rem; font-weight: 900; border-right: 2px dashed rgba(10,10,10,0.1);">₹<%= booking.totalPrice.toLocaleString("en-IN") %></td>
-                  <td style="padding: 1.2rem; text-align: center;">
+                  <td style="padding: 1rem 1.2rem; font-weight: 700;">₹<%= booking.totalPrice.toLocaleString("en-IN") %></td>
+                  <td style="padding: 1rem 1.2rem; text-align: center;">
                     <span class="sz-status-label sz-status-label--confirmed">
-                      CONFIRMED
+                      Confirmed
                     </span>
                   </td>
 
@@ -163,33 +152,33 @@
     </section>
 
     <!-- PAST RESERVATIONS -->
-    <section style="margin-bottom: 5rem;">
-      <h2 style="font-family: var(--font-h); font-size: 2rem; font-weight: 900; text-transform: uppercase; border-bottom: 4px solid var(--ink); padding-bottom: 1rem; margin-bottom: 2rem;">Past Bookings</h2>
+    <section style="margin-bottom: 4rem;">
+      <h2 style="font-family: var(--font-h); font-size: 1.6rem; font-weight: 700; color: var(--navy); border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 2rem;">Past Bookings</h2>
 
       
       <% if(pastBookings.length === 0) { %>
-        <div style="padding: 2rem; border: 4px dashed var(--ink); text-align: center; opacity: 0.5;">
-          <p style="font-weight: 800; margin: 0;">NO COMPLETED BOOKINGS</p>
+        <div style="padding: 2rem; border: 1px dashed var(--border-color); text-align: center; border-radius: 16px; color: var(--text-muted);">
+          <p style="font-weight: 500; margin: 0;">No completed bookings yet</p>
 
         </div>
       <% } else { %>
-        <div style="border: 4px solid var(--ink); background: var(--white); box-shadow: 8px 8px 0 var(--ink); overflow-x: auto; opacity: 0.85;">
+        <div style="border: 1px solid var(--border-color); background: var(--white); border-radius: 16px; box-shadow: var(--shadow-xs); overflow-x: auto;">
           <table style="width: 100%; border-collapse: collapse; text-align: left; min-width: 800px;">
             <thead>
-              <tr style="background: #eee; color: var(--ink); font-weight: 900; text-transform: uppercase; font-size: 0.75rem;">
-                <th style="padding: 1rem; border-right: 1px solid #ccc;">Territory</th>
-                <th style="padding: 1rem; border-right: 1px solid #ccc;">Guest</th>
-                <th style="padding: 1rem; border-right: 1px solid #ccc;">Dates</th>
-                <th style="padding: 1rem; text-align: right;">Yield</th>
+              <tr style="background: var(--ivory); color: var(--text); font-weight: 600; font-size: 0.75rem; text-transform: uppercase;">
+                <th style="padding: 1rem 1.2rem;">Property</th>
+                <th style="padding: 1rem 1.2rem;">Guest</th>
+                <th style="padding: 1rem 1.2rem;">Dates</th>
+                <th style="padding: 1rem 1.2rem; text-align: right;">Amount</th>
               </tr>
             </thead>
             <tbody>
               <% pastBookings.forEach((booking) => { %>
-                <tr style="border-bottom: 1px solid #eee;">
-                  <td style="padding: 1rem; border-right: 1px solid #eee; font-weight: 700;"><%= booking.listing.title %></td>
-                  <td style="padding: 1rem; border-right: 1px solid #eee; font-weight: 700;"><%= booking.user.username %></td>
-                  <td style="padding: 1rem; border-right: 1px solid #eee; font-size: 0.85rem;"><%= booking.checkIn.toLocaleDateString('en-GB') %> - <%= booking.checkOut.toLocaleDateString('en-GB') %></td>
-                  <td style="padding: 1rem; text-align: right; font-weight: 900;">₹<%= booking.totalPrice.toLocaleString("en-IN") %></td>
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                  <td style="padding: 1rem 1.2rem; font-weight: 600;"><%= booking.listing.title %></td>
+                  <td style="padding: 1rem 1.2rem; font-weight: 500;"><%= booking.user.username %></td>
+                  <td style="padding: 1rem 1.2rem; font-size: 0.85rem;"><%= booking.checkIn.toLocaleDateString('en-GB') %> - <%= booking.checkOut.toLocaleDateString('en-GB') %></td>
+                  <td style="padding: 1rem 1.2rem; text-align: right; font-weight: 700;">₹<%= booking.totalPrice.toLocaleString("en-IN") %></td>
                 </tr>
               <% }) %>
             </tbody>
@@ -198,33 +187,33 @@
       <% } %>
     </section>
 
-    <!-- OWNED ASSETS -->
+    <!-- OWNED PROPERTIES -->
     <section>
-      <h2 style="font-family: var(--font-h); font-size: 2rem; font-weight: 900; text-transform: uppercase; border-bottom: 4px solid var(--ink); padding-bottom: 1rem; margin-bottom: 2rem;">My Listings</h2>
+      <h2 style="font-family: var(--font-h); font-size: 1.6rem; font-weight: 700; color: var(--navy); border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 2rem;">My Properties</h2>
 
       
       <% if(listings.length === 0) { %>
-        <div class="sz-dashboard__empty" style="background: var(--white);">
-          <i class="fa-solid fa-house-flag"></i>
-          <h2 style="font-family: var(--font-h); font-size: 2rem;">NO LISTINGS</h2>
-          <a href="/listings/new" class="sz-btn sz-btn--action" style="margin-top: 1rem;">LIST NEW PROPERTY</a>
+        <div class="sz-dashboard__empty">
+          <i class="fa-solid fa-building"></i>
+          <h2 style="font-family: var(--font-h); font-size: 1.5rem; margin-top: 1rem; color: var(--navy);">No Properties Listed</h2>
+          <a href="/listings/new" class="sz-btn sz-btn--action" style="margin-top: 1.5rem; border-radius: 9999px;">List Your First Property</a>
 
         </div>
       <% } else { %>
-        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;">
           <% listings.forEach((listing) => { %>
-            <div style="background: var(--white); border: 4px solid var(--ink); box-shadow: 8px 8px 0 var(--yellow); display: flex; flex-direction: column;">
-              <div style="height: 150px; border-bottom: 3px dashed var(--ink); overflow: hidden;">
-                <img src="<%= listing.image.url %>" alt="<%= listing.title %>" style="width: 100%; height: 100%; object-fit: cover; filter: grayscale(0.2);">
+            <div style="background: var(--white); border: 1px solid var(--border-color); border-radius: 16px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; overflow: hidden; transition: all 0.3s ease;">
+              <div style="height: 160px; overflow: hidden;">
+                <img src="<%= listing.image.url %>" alt="<%= listing.title %>" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;">
               </div>
               <div style="padding: 1.2rem; flex: 1;">
-                <h3 style="font-family: var(--font-h); font-size: 1.1rem; font-weight: 900; margin-bottom: 0.4rem; color: var(--ink); text-transform: uppercase;"><%= listing.title %></h3>
-                <div style="font-weight: 800; font-size: 0.75rem; color: var(--coral); text-transform: uppercase;">
-                  <i class="fa-solid fa-location-dot"></i> <%= listing.location %>
+                <h3 style="font-family: var(--font-h); font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; color: var(--navy);"><%= listing.title %></h3>
+                <div style="font-weight: 500; font-size: 0.78rem; color: var(--text-light);">
+                  <i class="fa-solid fa-location-dot" style="color: var(--gold);"></i> <%= listing.location %>
                 </div>
               </div>
-              <a href="/listings/<%= listing._id %>" style="display: block; padding: 0.8rem; text-align: center; background: var(--ink); color: var(--lime); font-weight: 900; text-transform: uppercase; text-decoration: none; border-top: 4px solid var(--ink); font-size: 0.8rem;">
-                VIEW DETAILS
+              <a href="/listings/<%= listing._id %>" style="display: block; padding: 0.8rem; text-align: center; background: var(--navy); color: var(--gold); font-weight: 600; text-decoration: none; font-size: 0.82rem; transition: background 0.2s;">
+                View Details
               </a>
 
             </div>
@@ -250,27 +239,28 @@
   const monthlyYieldData = JSON.parse(dataShell.getAttribute('data-monthly'));
   const performanceDataRaw = JSON.parse(dataShell.getAttribute('data-performance'));
 
-  // --- CHART.JS CONFIGURATION (BRUTALIST STYLE) ---
+  // --- CHART.JS CONFIGURATION (Hotel Theme) ---
   const yieldCtx = document.getElementById('yieldChart').getContext('2d');
   const assetCtx = document.getElementById('assetChart').getContext('2d');
 
-  // 1. Yield Trend Chart
+  // 1. Revenue Trend Chart
   new Chart(yieldCtx, {
     type: 'line',
     data: {
       labels: monthlyYieldData.map(y => y.month),
       datasets: [{
-        label: 'YIELD (INR)',
+        label: 'Revenue (INR)',
         data: monthlyYieldData.map(y => y.total),
-        borderColor: '#0A0A0A',
-        backgroundColor: 'rgba(10, 10, 10, 0.05)',
-        borderWidth: 4,
+        borderColor: '#0F1B2D',
+        backgroundColor: 'rgba(15, 27, 45, 0.04)',
+        borderWidth: 2.5,
         fill: true,
-        tension: 0,
-        pointBackgroundColor: '#FF4500',
-        pointBorderColor: '#0A0A0A',
+        tension: 0.4,
+        pointBackgroundColor: '#C9A96E',
+        pointBorderColor: '#0F1B2D',
         pointBorderWidth: 2,
-        pointRadius: 6
+        pointRadius: 5,
+        pointHoverRadius: 7
       }]
     },
     options: {
@@ -279,12 +269,12 @@
       scales: {
         y: {
           beginAtZero: true,
-          grid: { color: 'rgba(0,0,0,0.1)', borderDash: [5, 5] },
-          ticks: { font: { weight: '900', size: 10 } }
+          grid: { color: 'rgba(0,0,0,0.04)', drawBorder: false },
+          ticks: { font: { weight: '500', size: 11, family: 'Inter' } }
         },
         x: {
           grid: { display: false },
-          ticks: { font: { weight: '900', size: 10 } }
+          ticks: { font: { weight: '500', size: 11, family: 'Inter' } }
         }
       },
       plugins: {
@@ -293,17 +283,18 @@
     }
   });
 
-  // 2. Asset Performance Chart
+  // 2. Property Performance Chart
   new Chart(assetCtx, {
     type: 'bar',
     data: {
       labels: performanceDataRaw.map(p => p.title.length > 15 ? p.title.substring(0,12)+'...' : p.title ),
       datasets: [{
-        label: 'TOTAL_YIELD',
+        label: 'Revenue',
         data: performanceDataRaw.map(p => p.yield),
-        backgroundColor: '#CCFF00',
-        borderColor: '#0A0A0A',
-        borderWidth: 3
+        backgroundColor: '#C9A96E',
+        borderColor: '#0F1B2D',
+        borderWidth: 1,
+        borderRadius: 6
       }]
     },
     options: {
@@ -313,7 +304,7 @@
       scales: {
         y: { 
           grid: { display: false },
-          ticks: { font: { weight: '900', size: 9 } }
+          ticks: { font: { weight: '500', size: 10, family: 'Inter' } }
         },
         x: { 
           display: false 

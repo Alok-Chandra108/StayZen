@@ -1,22 +1,7 @@
 <% layout("/layouts/boilerplate") %>
 
 <!-- =================== NEW LISTING PAGE =================== -->
-<div class="nb-form-page nb-bg-stripes">
-
-  <!-- Decorative floating SVG stickers -->
-  <div class="nb-form-sticker" style="top: 80px; right: 30px; --rot: 8deg;">
-    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="2" y="2" width="60" height="60" fill="#C8FF00" stroke="#0A0A0A" stroke-width="4"/>
-      <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-size="28" font-family="Space Grotesk" font-weight="900" fill="#0A0A0A">✦</text>
-    </svg>
-  </div>
-
-  <div class="nb-form-sticker" style="top: 160px; left: 20px; --rot: -12deg;">
-    <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="28" cy="28" r="26" fill="#FF5722" stroke="#0A0A0A" stroke-width="4"/>
-      <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-size="22" font-family="Space Grotesk" font-weight="900" fill="#FFFDF0">★</text>
-    </svg>
-  </div>
+<div class="nb-form-page">
 
   <div class="nb-form-wrapper">
     <div class="nb-form-card">
@@ -24,16 +9,8 @@
       <!-- Banner Header -->
       <div class="nb-form-card__banner">
         <div class="nb-form-card__banner-eyebrow">StayZen · New Listing</div>
-        <h1 class="nb-form-card__banner-title">Create a<br>New Listing</h1>
+        <h1 class="nb-form-card__banner-title">List Your<br>Property</h1>
         <div class="nb-form-card__banner-sub">Fill in the details below to publish your property.</div>
-
-        <!-- Decorative SVG in banner -->
-        <svg style="position:absolute; bottom:0; left:40px; opacity:0.08; z-index:0;" width="140" height="80" viewBox="0 0 140 80" fill="none">
-          <rect x="0" y="40" width="140" height="5" fill="#fff"/>
-          <rect x="40" y="0" width="5" height="80" fill="#fff"/>
-          <rect x="80" y="20" width="5" height="60" fill="#fff"/>
-          <rect x="110" y="10" width="5" height="70" fill="#fff"/>
-        </svg>
       </div>
 
       <!-- Form Body -->
@@ -41,7 +18,7 @@
         <div class="nb-form-card__body">
 
           <!-- SECTION: Basic Info -->
-          <div class="nb-form-section-divider nb-form-section-divider--accent">Basic info</div>
+          <div class="nb-form-section-divider nb-form-section-divider--accent">Basic Info</div>
 
           <!-- Title -->
           <div class="nb-form-group">
@@ -85,7 +62,7 @@
           <div class="nb-form-group">
             <label class="nb-label" for="nb-image">
               <span class="nb-step-number">3</span>
-              Upload image
+              Upload Image
               <span class="nb-label__required"></span>
             </label>
             <input
@@ -212,8 +189,8 @@
           <span class="nb-form-footer__note">
             <strong>*</strong> Required fields
           </span>
-          <button class="sz-btn sz-btn--action" type="submit" style="width:auto; padding: 1rem 3rem;">
-            <i class="fa-solid fa-rocket me-2"></i>
+          <button class="sz-btn sz-btn--action" type="submit" style="width:auto; padding: 0.8rem 2.5rem; border-radius: 12px;">
+            <i class="fa-solid fa-paper-plane me-2"></i>
             Publish Listing
           </button>
         </div>
