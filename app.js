@@ -51,7 +51,6 @@ const helmet = require("helmet");
 const mongoSanitize = require('express-mongo-sanitize');
 const rateLimit = require('express-rate-limit');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const moment = require('moment-timezone');
 
 
 
@@ -126,22 +125,8 @@ app.use((req, res, next) => {
     next();
 });
 
-// Enhanced helmet security headers
+// Enhanced helmet security headers (CSP handled separately below)
 app.use(helmet({
-    contentSecurityPolicy: {
-        directives: {
-            defaultSrc: ["'none'"],
-            scriptSrc: ["'self'"],
-            styleSrc: ["'self'"],
-            imgSrc: ["'self'", "data:", "https://res.cloudinary.com", "https://images.unsplash.com"],
-            fontSrc: ["'self'"],
-            connectSrc: ["'self'", "https://api.leaflet.org", "https://tile.openstreetmap.org", "https://nominatim.openstreetmap.org"],
-            frameAncestors: ["'none'"],
-            baseUri: ["'self'"],
-            formAction: ["'self'"],
-            upgradeInsecureRequests: [],
-        },
-    },
     crossOriginEmbedderPolicy: false,
     crossOriginResourcePolicy: { policy: "same-site" },
     dnsPrefetchControl: { allow: false },
@@ -164,7 +149,8 @@ app.use(helmet({
     },
     referrerPolicy: { policy: "strict-origin-when-cross-origin" },
     xssFilter: true,
-    contentTypeOptions: true
+    contentTypeOptions: true,
+    contentSecurityPolicy: false
 }));
 
 // Enhanced Rate Limiting - Multiple tiers for different endpoints
@@ -269,31 +255,8 @@ app.use((req, res, next) => {
     next();
 });
 
-const MAX_FAILED_ATTEMPTS = 5;
-const LOCKOUT_TIME_MINUTES = 30;
-
-app.use((req, res, next) => {
-    res.locals.csrfToken = req.csrfToken();
-    next();
-});
-
-// Reset failed attempts on logout
-app.use((req, res, next) => {
-    if (req.path === '/logout' && req.session && req.session.passport && req.session.passport.user) {
-        User.findByIdAndUpdate(req.session.passport.user, {
-            failedLoginAttempts: 0,
-            lockUntil: undefined
-        }).catch(err => console.error('Error resetting lock after logout:', err));
-    }
-    next();
-});
-
-const failedLoginAttempt = require('./controllers/users').failedLoginAttempt;
 app.use(passport.initialize());
 app.use(passport.session());
-
-// Apply failed login tracking middleware to login route only
-app.use('/login', failedLoginAttempt);
 passport.use(new LocalStrategy({ usernameField: "email" }, User.authenticate()));
 
 // Google OAuth Strategy (only if credentials are configured)
