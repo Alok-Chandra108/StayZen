@@ -25,9 +25,20 @@ const userSchema = new Schema({
     },
     googleId: {
         type: String
+    },
+    failedLoginAttempts: {
+        type: Number,
+        default: 0
+    },
+    lockUntil: {
+        type: Date
     }
 });
 
 userSchema.plugin(passportLocalMongoose, { usernameField: "email" });
+
+userSchema.virtual('isLockedOut').get(function() {
+    return !!(this.lockUntil && this.lockUntil > Date.now());
+});
 
 module.exports = mongoose.model("User", userSchema);

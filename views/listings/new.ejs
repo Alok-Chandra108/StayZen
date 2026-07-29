@@ -15,6 +15,7 @@
 
       <!-- Form Body -->
       <form method="POST" action="/listings" class="needs-validation" enctype="multipart/form-data" novalidate>
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <div class="nb-form-card__body">
 
           <!-- SECTION: Basic Info -->

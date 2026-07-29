@@ -25,6 +25,7 @@
 
       <div class="sz-auth-form-card__body">
         <form action="/signup" method="post" class="needs-validation" novalidate>
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
           <div class="sz-auth-field">
             <label for="username" class="sz-auth-label">

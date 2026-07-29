@@ -21,7 +21,7 @@
   }).replace(/</g, '\\u003c');
 %>
 <script id="listing-data" type="application/json"><%- listingDataJson %></script>
-<script>const listingData = JSON.parse(document.getElementById('listing-data').textContent);</script>
+<script nonce="<%= cspNonce %>">const listingData = JSON.parse(document.getElementById('listing-data').textContent);</script>
 
 <!-- ===================== HOTEL SHOW LAYOUT ===================== -->
 <div class="sz-view-wrapper">
@@ -104,6 +104,7 @@
             <h3 class="sz-view-review-form__header">Write a Review</h3>
             <div class="sz-view-review-form__body">
               <form action="/listings/<%= listing.id %>/reviews" method="post" novalidate class="needs-validation">
+                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                   <div class="sz-view-review-rating">
                     <label class="d-block mb-2" style="font-weight: 600; font-size: 0.85rem; color: var(--text);">Your Rating</label>
                     <fieldset class="starability-slot sz-view-stars">
@@ -151,6 +152,7 @@
                  
                  <% if (currUser && currUser._id.toString() === review.author._id.toString()) { %>
                   <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <button class="sz-view-btn-delete" title="Delete Review"><i class="fa-solid fa-trash-can"></i></button>
                   </form>
 
@@ -191,6 +193,7 @@
 
           <% if (!currUser || !currUser._id.equals(listing.owner._id)) { %>
             <form action="/listings/<%= listing.id %>/bookings" method="POST" id="booking-form" class="mt-4">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
               <label style="font-size: 0.78rem; font-weight: 600; display:block; margin-bottom: 8px; color: var(--text-light);">SELECT DATES</label>
               
               <input type="hidden" id="hiddenCheckIn" name="checkIn" required>
@@ -228,6 +231,7 @@
           <% if (currUser && currUser._id.equals(listing.owner._id)) { %>
              <a href="/listings/<%= listing._id %>/edit" class="sz-btn sz-btn--warn w-100 mb-2" style="border-radius: 12px;"><i class="fa-solid fa-pen me-2"></i>Edit Listing</a>
              <form method="Post" action="/listings/<%= listing._id %>?_method=DELETE" class="w-100">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <button class="sz-btn sz-btn--danger w-100" style="border-radius: 12px;"><i class="fa-solid fa-trash-can me-2"></i>Delete Listing</button>
              </form>
           <% } else { %>
@@ -241,8 +245,8 @@
   </div><!-- /sz-view-grid -->
 </div><!-- /sz-view-wrapper -->
 
-<script src="/js/map.js"></script>
-<script>
+<script nonce="<%= cspNonce %>" src="/js/map.js"></script>
+<script nonce="<%= cspNonce %>">
   document.addEventListener('DOMContentLoaded', function() {
     const checkInInput = document.getElementById('checkIn');
     const checkOutInput = document.getElementById('checkOut');

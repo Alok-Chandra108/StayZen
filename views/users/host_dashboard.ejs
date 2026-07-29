@@ -233,7 +233,7 @@
      data-performance='<%= JSON.stringify(listingPerformance) %>'>
 </div>
 
-<script>
+<script nonce="<%= cspNonce %>">
   // --- DATA EXTRACTION ---
   const dataShell = document.getElementById('analytics-data');
   const monthlyYieldData = JSON.parse(dataShell.getAttribute('data-monthly'));

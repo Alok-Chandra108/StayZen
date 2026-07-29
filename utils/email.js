@@ -13,10 +13,7 @@ const transporter = nodemailer.createTransport({
 module.exports.sendOTP = async (email, otp, username) => {
     try {
         const isProduction = process.env.NODE_ENV === "production";
-        const hasCredentials = process.env.EMAIL_USER && 
-                             process.env.EMAIL_PASS && 
-                             !process.env.EMAIL_USER.includes("your-email") &&
-                             !process.env.EMAIL_PASS.includes("your-app-password");
+        const hasCredentials = process.env.EMAIL_ENABLED && process.env.EMAIL_ENABLED === 'true';
 
         // Fallback to console log ONLY in development
         if (!hasCredentials && !isProduction) {
@@ -28,7 +25,7 @@ module.exports.sendOTP = async (email, otp, username) => {
 
         // In production, we strictly require valid credentials
         if (!hasCredentials && isProduction) {
-            throw new Error("SMTP credentials missing in Production environment.");
+            throw new Error("Email service not enabled in Production environment. Check EMAIL_ENABLED flag.");
         }
 
         const templatePath = path.join(__dirname, "../views/emails/otpTemplate.ejs");

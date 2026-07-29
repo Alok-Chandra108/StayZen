@@ -23,11 +23,10 @@ const bookingLockSchema = new Schema({
     createdAt: {
         type: Date,
         default: Date.now,
-        expires: 300 // 5 minutes TTL
     }
 });
 
-// Compound index for faster overlap checks
 bookingLockSchema.index({ listing: 1, checkIn: 1, checkOut: 1 });
+bookingLockSchema.index({ createdAt: 1 }, { expireAfterSeconds: 300 });
 
 module.exports = mongoose.model("BookingLock", bookingLockSchema);

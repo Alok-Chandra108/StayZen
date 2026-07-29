@@ -2,11 +2,31 @@ if (process.env.NODE_ENV != "production") {
     require('dotenv').config();
 }
 
+// Validate SECRET_VAL at startup
+if (!process.env.SECRET_VAL) {
+    console.error("FATAL ERROR: SECRET_VAL environment variable is not set!");
+    process.exit(1);
+}
+if (process.env.SECRET_VAL.length < 32) {
+    console.error("FATAL ERROR: SECRET_VAL must be at least 32 characters long!");
+    process.exit(1);
+}
+
 const express = require("express");
 const app = express();
 if (process.env.NODE_ENV === "production") {
     app.set("trust proxy", 1);
 }
+
+// HSTS for production
+if (process.env.NODE_ENV === "production") {
+    app.use((req, res, next) => {
+        res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
+        next();
+    });
+}
+
+const crypto = require("crypto");
 
 const mongoose = require("mongoose");
 const path = require("path");
@@ -31,6 +51,7 @@ const helmet = require("helmet");
 const mongoSanitize = require('express-mongo-sanitize');
 const rateLimit = require('express-rate-limit');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const moment = require('moment-timezone');
 
 
 
@@ -56,10 +77,17 @@ app.use(methodOverride("_method"));
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, "/public")))
 
+// Generate CSP nonce for each request
+app.use((req, res, next) => {
+    const crypto = require("crypto");
+    res.locals.nonce = crypto.randomBytes(16).toString("base64");
+    next();
+});
+
 // Security: NoSQL Injection Protection
 app.use(mongoSanitize());
 
-// Security: Helmet for HTTP Headers
+// Security: Custom CSP with nonce support
 const scriptSrcUrls = [
     "https://cdn.jsdelivr.net",
     "https://unpkg.com",
@@ -81,32 +109,28 @@ const fontSrcUrls = [
     "https://cdn.jsdelivr.net",
 ];
 
+app.use((req, res, next) => {
+    const nonce = res.locals.nonce;
+    res.locals.cspNonce = nonce;
+    const csp = [
+        "default-src 'none'",
+        `script-src 'nonce-${nonce}' 'self' ${scriptSrcUrls.join(" ")}`,
+        `style-src 'nonce-${nonce}' 'self' ${styleSrcUrls.join(" ")}`,
+        `connect-src 'self' ${connectSrcUrls.join(" ")}`,
+        "worker-src 'self' blob:",
+        "object-src 'none'",
+        `img-src 'self' blob: data: https://res.cloudinary.com/dos4ag6kt/ https://images.unsplash.com/ https://unpkg.com/ https://tile.openstreetmap.org https://a.tile.openstreetmap.org https://b.tile.openstreetmap.org https://c.tile.openstreetmap.org`,
+        `font-src 'self' ${fontSrcUrls.join(" ")}`,
+    ].join("; ");
+    res.setHeader("Content-Security-Policy", csp);
+    next();
+});
 
-app.use(
-    helmet.contentSecurityPolicy({
-        directives: {
-            defaultSrc: [],
-            connectSrc: ["'self'", ...connectSrcUrls],
-            scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
-            styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
-            workerSrc: ["'self'", "blob:"],
-            objectSrc: [],
-            imgSrc: [
-                "'self'",
-                "blob:",
-                "data:",
-                "https://res.cloudinary.com/dos4ag6kt/",
-                "https://images.unsplash.com/",
-                "https://unpkg.com/", // For Leaflet tiles
-                "https://tile.openstreetmap.org",
-                "https://a.tile.openstreetmap.org",
-                "https://b.tile.openstreetmap.org",
-                "https://c.tile.openstreetmap.org",
-            ],
-            fontSrc: ["'self'", ...fontSrcUrls],
-        },
-    })
-);
+// Security: Helmet for other HTTP Headers (except CSP)
+app.use(helmet({
+    contentSecurityPolicy: false,
+    crossOriginEmbedderPolicy: false,
+}));
 
 // Security: Rate Limiting
 const authLimiter = rateLimit({
@@ -158,11 +182,45 @@ const sessionOptions = {
     }
 };
 
+const csrf = require("csurf");
+
 app.use(session(sessionOptions));
 app.use(flash());
 
+// CSRF Protection (after session, before routes)
+const csrfProtection = csrf({ cookie: false });
+app.use(csrfProtection);
+
+app.use((req, res, next) => {
+    res.locals.csrfToken = req.csrfToken();
+    next();
+});
+
+const MAX_FAILED_ATTEMPTS = 5;
+const LOCKOUT_TIME_MINUTES = 30;
+
+app.use((req, res, next) => {
+    res.locals.csrfToken = req.csrfToken();
+    next();
+});
+
+// Reset failed attempts on logout
+app.use((req, res, next) => {
+    if (req.path === '/logout' && req.session && req.session.passport && req.session.passport.user) {
+        User.findByIdAndUpdate(req.session.passport.user, {
+            failedLoginAttempts: 0,
+            lockUntil: undefined
+        }).catch(err => console.error('Error resetting lock after logout:', err));
+    }
+    next();
+});
+
+const failedLoginAttempt = require('./controllers/users').failedLoginAttempt;
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Apply failed login tracking middleware to login route only
+app.use('/login', failedLoginAttempt);
 passport.use(new LocalStrategy({ usernameField: "email" }, User.authenticate()));
 
 // Google OAuth Strategy (only if credentials are configured)

@@ -27,6 +27,7 @@
         <p class="mb-4" style="color: var(--text-light); font-size: 0.9rem;">A verification code was sent to <strong style="color: var(--navy);"><%= email %></strong></p>
 
         <form action="/verify-otp" method="post" class="needs-validation" novalidate>
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <input type="hidden" name="email" value="<%= email %>">
 
           <div class="sz-auth-field">
@@ -57,6 +58,7 @@
         <div class="sz-auth-switch mt-4">
           Didn't receive a code? 
           <form action="/resend-otp" method="post" class="d-inline">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <input type="hidden" name="email" value="<%= email %>">
             <button type="submit" class="btn btn-link p-0 text-decoration-none" style="font-weight: 600; color: var(--navy);">Resend Code</button>
           </form>
