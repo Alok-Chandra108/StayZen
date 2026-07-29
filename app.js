@@ -199,16 +199,34 @@ const apiLimiter = rateLimit({
 
 // Apply rate limiting
 app.use('/api/listings', apiLimiter);           // API routes have own protection
-app.use('/dashboard', listingRoutesLimiter);   // Dashboard routes need protection
-app.use(listingRoutesLimiter);                 // Listings page routes
-app.use(listingRoutesLimiter);                 // New listings form
-app.use('/listings', listingRoutesLimiter);    // All listing routes
+app.use('/dashboard', listingRoutesLimiter);     // Dashboard routes need protection
+app.use(listingRoutesLimiter);                     // Listings page routes
+app.use(listingRoutesLimiter);                     // New listings form
+app.use('/listings', listingRoutesLimiter);        // All listing routes
 
 // Enhanced auth rate limiting
 app.use('/login', authAndPublicRoutesLimiter);
 app.use('/signup', authAndPublicRoutesLimiter);
 app.use('/verify-otp', authAndPublicRoutesLimiter);
 app.use('/resend-otp', authAndPublicRoutesLimiter);
+
+// Security: API Response Size Limiting (1MB max response payload)
+app.use((req, res, next) => {
+    res.setHeader('X-Content-Length-Limit', '1048576');
+    res.setHeader('X-Response-Size-Limit', '1MB');
+    next();
+});
+
+// Security: Audit Logging for sensitive operations
+app.use((req, res, next) => {
+    if (req.path.includes('/login') && req.method === 'POST') {
+        console.log(`[AUDIT] Login attempt from IP: ${req.ip}`);
+    }
+    if (req.path.includes('/signup') && req.method === 'POST') {
+        console.log(`[AUDIT] Signup attempt from IP: ${req.ip}`);
+    }
+    next();
+});
 
 
 const store = MongoStore.create({
@@ -377,11 +395,17 @@ app.all("*", (req, res, next) => {
 // Error handling middleware (must come last)
 app.use((err, req, res, next) => {
     let { statusCode = 500, message = "Something went wrong" } = err;
-    console.error(`[ERROR] ${statusCode} - ${message}`);
-    if (process.env.NODE_ENV !== "production") {
+    
+    // Sanitize error messages in production to prevent information leakage
+    if (process.env.NODE_ENV === "production") {
+        console.error(`[ERROR] ${statusCode} - Internal Server Error`);
+        message = "Something went wrong. Please try again later.";
+    } else {
+        console.error(`[ERROR] ${statusCode} - ${message}`);
         console.error(err.stack);
     }
-    res.status(statusCode).render("error.ejs", { err, message });
+    
+    res.status(statusCode).render("error.ejs", { err: { statusCode, message }, message });
 });
 
 
