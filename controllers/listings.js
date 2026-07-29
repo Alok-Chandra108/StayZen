@@ -1,6 +1,7 @@
 const Listing = require("../models/listing");
 const Booking = require("../models/booking");
 const axios = require("axios");
+const { sanitizeText } = require("../utils/sanitize.js");
 
 module.exports.index = async (req, res) => {
     const allListings = await Listing.find({});
@@ -28,9 +29,10 @@ module.exports.createListing = async (req, res, next) => {
         let url = req.file.path;
         let filename = req.file.filename;
 
-        const newListing = new Listing(req.body.listing);
-        newListing.owner = req.user._id;
-        newListing.image = { url, filename };
+const newListing = new Listing(req.body.listing);
+newListing.owner = req.user._id;
+newListing.image = { url, filename };
+newListing.description = sanitizeText(newListing.description);
 
         // Geocoding: get location from user input with validation
         const locationInput = `${req.body.listing.location}, ${req.body.listing.country}`;
@@ -105,19 +107,38 @@ module.exports.editListing = async (req, res) => {
 module.exports.updateListing = async (req, res, next) => {
     try {
         let { id } = req.params;
-        let listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing }, { new: true });
+let listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing }, { new: true });
 
-        // Update image if a new file is uploaded
+// Sanitize description field
+if (listing.description) {
+    listing.description = sanitizeText(listing.description);
+}
+
+// Update image if a new file is uploaded
         if (typeof req.file !== "undefined") {
             let url = req.file.path;
             let filename = req.file.filename;
             listing.image = { url, filename };
         }
 
-        // Update geolocation if location/country is changed
-        const locationInput = `${req.body.listing.location}, ${req.body.listing.country}`;
-        const encodedLocation = encodeURIComponent(locationInput);
-        const geoUrl = `https://nominatim.openstreetmap.org/search?q=${encodedLocation}&format=json&limit=1`;
+// Update geolocation if location/country is changed
+const locationInput = `${req.body.listing.location}, ${req.body.listing.country}`;
+        
+if (!locationInput || typeof locationInput !== 'string') {
+    req.flash("failure", "Invalid location format.");
+    await listing.save();
+    return res.redirect(`/listings/${id}`);
+}
+
+const trimmedLocation = locationInput.trim();
+if (trimmedLocation.length < 3 || trimmedLocation.length > 200) {
+    req.flash("failure", "Location input must be between 3 and 200 characters.");
+    await listing.save();
+    return res.redirect(`/listings/${id}`);
+}
+
+const encodedLocation = encodeURIComponent(trimmedLocation);
+const geoUrl = `https://nominatim.openstreetmap.org/search?q=${encodedLocation}&format=json&limit=1&addressdetails=1`;
 
         let geoData;
         try {
