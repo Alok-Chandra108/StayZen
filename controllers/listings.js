@@ -32,10 +32,23 @@ module.exports.createListing = async (req, res, next) => {
         newListing.owner = req.user._id;
         newListing.image = { url, filename };
 
-        // Geocoding: get location from user input
+        // Geocoding: get location from user input with validation
         const locationInput = `${req.body.listing.location}, ${req.body.listing.country}`;
-        const encodedLocation = encodeURIComponent(locationInput);
-        const geoUrl = `https://nominatim.openstreetmap.org/search?q=${encodedLocation}&format=json&limit=1`;
+        
+        // Input validation
+        if (!locationInput || typeof locationInput !== 'string') {
+            req.flash("failure", "Invalid location format.");
+            return res.redirect("/listings/new");
+        }
+        
+        const trimmedLocation = locationInput.trim();
+        if (trimmedLocation.length < 3 || trimmedLocation.length > 200) {
+            req.flash("failure", "Location input must be between 3 and 200 characters.");
+            return res.redirect("/listings/new");
+        }
+        
+        const encodedLocation = encodeURIComponent(trimmedLocation);
+        const geoUrl = `https://nominatim.openstreetmap.org/search?q=${encodedLocation}&format=json&limit=1&addressdetails=1`;
 
         let geoData;
         try {

@@ -126,34 +126,89 @@ app.use((req, res, next) => {
     next();
 });
 
-// Security: Helmet for other HTTP Headers (except CSP)
+// Enhanced helmet security headers
 app.use(helmet({
-    contentSecurityPolicy: false,
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'none'"],
+            scriptSrc: ["'self'"],
+            styleSrc: ["'self'"],
+            imgSrc: ["'self'", "data:", "https://res.cloudinary.com", "https://images.unsplash.com"],
+            fontSrc: ["'self'"],
+            connectSrc: ["'self'", "https://api.leaflet.org", "https://tile.openstreetmap.org", "https://nominatim.openstreetmap.org"],
+            frameAncestors: ["'none'"],
+            baseUri: ["'self'"],
+            formAction: ["'self'"],
+            upgradeInsecureRequests: [],
+        },
+    },
     crossOriginEmbedderPolicy: false,
+    crossOriginResourcePolicy: { policy: "same-site" },
+    dnsPrefetchControl: { allow: false },
+    hidePoweredBy: true,
+    hsts: {
+        maxAge: 31536000,
+        includeSubDomains: true,
+        preload: true
+    },
+    noSniff: true,
+    originAgentCluster: false,
+    permissionsPolicy: {
+        features: {
+            camera: ["none"],
+            microphone: ["none"],
+            geolocation: ["self"],
+            payment: ["none"],
+            usb: ["none"]
+        }
+    },
+    referrerPolicy: { policy: "strict-origin-when-cross-origin" },
+    xssFilter: true,
+    contentTypeOptions: true
 }));
 
-// Security: Rate Limiting
-const authLimiter = rateLimit({
+// Enhanced Rate Limiting - Multiple tiers for different endpoints
+const authAndPublicRoutesLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
-    standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-    message: "Too many login/signup attempts from this IP, please try again after 15 minutes",
+    max: 100, // 100 requests per IP
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: "Too many requests from this IP. Please try again later." },
+    keyGenerator: (req) => req.ip + (req.query.listingId || ''), // per-endpoint
+    skip: (req) => req.path.startsWith('/api/listings/'), // API has its own limiter
 });
-app.use("/login", authLimiter);
-app.use("/signup", authLimiter);
-app.use("/verify-otp", authLimiter);
-app.use("/resend-otp", authLimiter);
 
-// Security: API Rate Limiting
+// Listing endpoints specific rate limiting
+const listingRoutesLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 200, // Listings are more critical endpoint
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: "Too many requests for listings. Please try again later." }
+});
+
+// API rate limiting with per-IP tracking
 const apiLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 200,
+    max: 200, // More requests for API flexibility
     standardHeaders: true,
     legacyHeaders: false,
     message: { error: "Too many API requests. Please try again later." },
+    keyGenerator: (req) => req.ip
 });
-app.use("/api", apiLimiter);
+
+// Apply rate limiting
+app.use('/api/listings', apiLimiter);           // API routes have own protection
+app.use('/dashboard', listingRoutesLimiter);   // Dashboard routes need protection
+app.use(listingRoutesLimiter);                 // Listings page routes
+app.use(listingRoutesLimiter);                 // New listings form
+app.use('/listings', listingRoutesLimiter);    // All listing routes
+
+// Enhanced auth rate limiting
+app.use('/login', authAndPublicRoutesLimiter);
+app.use('/signup', authAndPublicRoutesLimiter);
+app.use('/verify-otp', authAndPublicRoutesLimiter);
+app.use('/resend-otp', authAndPublicRoutesLimiter);
 
 
 const store = MongoStore.create({
