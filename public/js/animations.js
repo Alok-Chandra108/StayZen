@@ -60,48 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ── Filter click functionality ──
-  filters.forEach(filter => {
-    filter.addEventListener('click', function() {
-      const tag = this.dataset.tag;
-      const isActive = this.classList.contains('active');
-      
-      // Toggle active state
-      filters.forEach(f => f.classList.remove('active'));
-      if (!isActive) {
-        this.classList.add('active');
-      }
-      
-      // Filter cards
-      const cards = document.querySelectorAll('.sz-listing-card');
-      const noMatch = document.querySelector('.no-match-container');
-      let visibleCount = 0;
-
-      cards.forEach(card => {
-        const cardLink = card.closest('.sz-card-link') || card.closest('.list-link');
-        if (!cardLink) return;
-
-        if (isActive) {
-          // Show all
-          cardLink.style.display = '';
-          visibleCount++;
-        } else {
-          const tags = JSON.parse(card.dataset.tags || '[]');
-          if (tags.includes(tag)) {
-            cardLink.style.display = '';
-            visibleCount++;
-          } else {
-            cardLink.style.display = 'none';
-          }
-        }
-      });
-
-      if (noMatch) {
-        noMatch.style.display = visibleCount === 0 ? 'flex' : 'none';
-      }
-    });
-  });
-
   // ── Show page sections — Fade in ──
   const viewSections = document.querySelectorAll('.sz-view-section');
   if (viewSections.length > 0 && typeof ScrollTrigger !== 'undefined') {

@@ -185,8 +185,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ── ANIMATED REVEAL WITH GSAP ──
     if (typeof gsap !== "undefined") {
-      // 1. Kill any pending animations on all cards to prevent race conditions
-      gsap.killTweensOf(cards);
+      // 1. Kill any pending animations on all card links to prevent race conditions
+      gsap.killTweensOf([...cardsToShow, ...cardsToHide]);
       
       // 2. Hide out-of-bounds cards
       if (cardsToHide.length > 0) {
@@ -271,6 +271,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (resetBtn) {
     resetBtn.addEventListener("click", () => {
       activeTag = null;
+      unavailableIds = new Set();
       filters.forEach(f => f.classList.remove("active"));
       const ci = document.getElementById("avail-checkin");
       const co = document.getElementById("avail-checkout");
@@ -279,6 +280,15 @@ document.addEventListener("DOMContentLoaded", () => {
       if (co) co.value = "";
       if (clr) clr.style.display = "none";
       if (searchInput) searchInput.value = "";
+      const cardLinks = document.querySelectorAll(".sz-card-link");
+      if (typeof gsap !== "undefined") {
+        gsap.killTweensOf(cardLinks);
+        cardLinks.forEach(link => {
+          link.style.opacity = "1";
+          link.style.transform = "";
+          link.style.display = "";
+        });
+      }
       applyFilters(true);
     });
   }
