@@ -50,6 +50,7 @@ const LocalStrategy = require("passport-local");
 const helmet = require("helmet");
 const mongoSanitize = require('express-mongo-sanitize');
 const rateLimit = require('express-rate-limit');
+const { ipKeyGenerator } = require('express-rate-limit');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 
@@ -91,12 +92,14 @@ const scriptSrcUrls = [
     "https://cdn.jsdelivr.net",
     "https://unpkg.com",
     "https://cdnjs.cloudflare.com",
+    "https://cdn.tailwindcss.com",
 ];
 const styleSrcUrls = [
     "https://cdn.jsdelivr.net",
     "https://unpkg.com",
     "https://fonts.googleapis.com",
     "https://cdnjs.cloudflare.com",
+    "https://cdn.tailwindcss.com",
 ];
 const connectSrcUrls = [
     "https://unpkg.com",
@@ -160,7 +163,7 @@ const authAndPublicRoutesLimiter = rateLimit({
     standardHeaders: true,
     legacyHeaders: false,
     message: { error: "Too many requests from this IP. Please try again later." },
-    keyGenerator: (req) => req.ip + (req.query.listingId || ''), // per-endpoint
+    keyGenerator: (req) => ipKeyGenerator(req) + (req.query.listingId || ''), // per-endpoint
     skip: (req) => req.path.startsWith('/api/listings/'), // API has its own limiter
 });
 
@@ -180,7 +183,7 @@ const apiLimiter = rateLimit({
     standardHeaders: true,
     legacyHeaders: false,
     message: { error: "Too many API requests. Please try again later." },
-    keyGenerator: (req) => req.ip
+    keyGenerator: (req) => ipKeyGenerator(req)
 });
 
 // Apply rate limiting

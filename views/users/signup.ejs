@@ -1,99 +1,914 @@
 <% layout("/layouts/boilerplate") %>
 
+<!-- Tailwind CDN (nonce handled by CSP) -->
+<script src="https://cdn.tailwindcss.com" nonce="<%= cspNonce %>"></script>
+<script nonce="<%= cspNonce %>">
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          'lug-leather': '#8B4513',
+          'lug-leather-dark': '#5D2E0C',
+          'lug-leather-light': '#A0522D',
+          'lug-cream': '#FFF8E7',
+          'lug-tag': '#F5E6C8',
+          'lug-string': '#C9A96E',
+          'lug-red': '#C0392B',
+          'lug-blue': '#2C3E50',
+          'lug-green:': '#27AE60',
+        },
+        fontFamily: {
+          display: ['"Space Grotesk"', 'sans-serif'],
+          mono: ['"JetBrains Mono"', 'monospace'],
+          body: ['"Inter"', 'sans-serif'],
+          ticket: ['"Share Tech Mono"', '"Courier New"', 'monospace'],
+        },
+      }
+    }
+  }
+</script>
+
+<style nonce="<%= cspNonce %>">
+  /* ── LUGGAGE TAG THEME ── */
+  * { box-sizing: border-box; }
+
+  .lug-page {
+    min-height: 100vh;
+    display: flex;
+    font-family: 'Space Grotesk', sans-serif;
+    background: #00838F;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Subtle sky gradient */
+  .lug-page::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 80%, rgba(0,0,0,0.1) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  /* ── LEFT PANEL ── */
+  .lug-left {
+    flex: 1;
+    background: linear-gradient(145deg, #00695C 0%, #00838F 50%, #006064 100%);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem 3rem;
+    overflow: hidden;
+  }
+
+  /* White stitching border effect */
+  .lug-left::after {
+    content: '';
+    position: absolute;
+    inset: 20px;
+    border: 2px dashed rgba(255,255,255,0.15);
+    pointer-events: none;
+  }
+
+  /* Giant luggage tag silhouette */
+  .lug-left__tag {
+    position: absolute;
+    width: 340px;
+    height: 200px;
+    border: 3px solid rgba(255,255,255,0.08);
+    border-radius: 12px 12px 12px 12px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-5deg);
+  }
+
+  .lug-left__tag::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(255,255,255,0.08);
+    border-radius: 50%;
+  }
+
+  /* String/strap from tag */
+  .lug-left__strap {
+    position: absolute;
+    top: calc(50% - 120px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 60px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.25), rgba(255,255,255,0.05));
+    border-radius: 2px;
+  }
+
+  .lug-left__strap::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,0.15);
+    border-radius: 50%;
+  }
+
+  /* Vintage stickers */
+  .lug-sticker {
+    position: absolute;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.5rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0.4rem 0.8rem;
+    border: 2px solid;
+    z-index: 3;
+  }
+
+  .lug-sticker--paris {
+    top: 18%;
+    right: 15%;
+    color: #D32F2F;
+    border-color: rgba(211,47,47,0.5);
+    transform: rotate(-12deg);
+    opacity: 0.7;
+    background: rgba(255,255,255,0.1);
+  }
+
+  .lug-sticker--tokyo {
+    bottom: 25%;
+    left: 10%;
+    color: #1A237E;
+    border-color: rgba(26,35,126,0.5);
+    transform: rotate(8deg);
+    opacity: 0.6;
+    background: rgba(255,255,255,0.1);
+  }
+
+  .lug-sticker--first {
+    top: 65%;
+    right: 8%;
+    color: #FFB300;
+    border-color: rgba(255,179,0,0.5);
+    transform: rotate(-5deg);
+    opacity: 0.6;
+    background: rgba(255,255,255,0.1);
+  }
+
+  .lug-sticker--vip {
+    top: 12%;
+    left: 15%;
+    color: #FAFAFA;
+    border-color: rgba(255,255,255,0.4);
+    transform: rotate(15deg);
+    opacity: 0.5;
+    background: rgba(255,255,255,0.08);
+  }
+
+  /* Left content */
+  .lug-left__content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 340px;
+  }
+
+  .lug-left__eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #FFB300;
+    margin-bottom: 1.5rem;
+  }
+
+  .lug-left__heading {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2.2rem, 5vw, 3rem);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+    color: #FAFAFA;
+    margin: 0 0 1rem 0;
+  }
+
+  .lug-left__heading span {
+    color: #D32F2F;
+  }
+
+  .lug-left__desc {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.55);
+    margin: 0 0 1.5rem 0;
+  }
+
+  .lug-left__barcode {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+    margin-top: 1rem;
+  }
+
+  .lug-left__bar {
+    height: 35px;
+    background: rgba(255,255,255,0.12);
+  }
+
+  /* ── RIGHT PANEL ── */
+  .lug-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: #006064;
+    position: relative;
+  }
+
+  /* ── LUGGAGE TAG CARD ── */
+  .lug-card {
+    width: 100%;
+    max-width: 440px;
+    background: linear-gradient(160deg, #FAFAFA 0%, #F5F5F5 50%, #FAFAFA 100%);
+    border-radius: 12px;
+    overflow: visible;
+    position: relative;
+    border: 2px solid #1A237E;
+    box-shadow:
+      0 8px 32px rgba(0,0,0,0.3),
+      6px 6px 0 #1A237E;
+  }
+
+  /* Subtle paper texture */
+  .lug-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(0,131,143,0.03) 0%, transparent 40%),
+      radial-gradient(ellipse at 70% 80%, rgba(0,131,143,0.02) 0%, transparent 40%);
+    pointer-events: none;
+  }
+
+  /* Hole at top */
+  .lug-card__hole {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 28px;
+    height: 28px;
+    background: #FAFAFA;
+    border-radius: 50%;
+    border: 3px solid #1A237E;
+    z-index: 10;
+  }
+
+  .lug-card__hole::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    background: #006064;
+    border-radius: 50%;
+  }
+
+  /* String going up from hole */
+  .lug-card__string {
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 40px;
+    background: linear-gradient(to bottom, #D32F2F, rgba(211,47,47,0.3));
+    border-radius: 2px;
+    z-index: 5;
+  }
+
+  .lug-card__string::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14px;
+    height: 14px;
+    border: 3px solid #D32F2F;
+    border-radius: 50%;
+  }
+
+  /* Card header */
+  .lug-card__header {
+    padding: 2.5rem 2rem 1.5rem;
+    border-bottom: 2px dashed rgba(26,35,126,0.2);
+    position: relative;
+  }
+
+  .lug-card__destination {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 0.5rem;
+  }
+
+  .lug-card__dest-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #1A237E;
+  }
+
+  .lug-card__dest-value {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1A237E;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    line-height: 1;
+  }
+
+  .lug-card__eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #D32F2F;
+    margin-bottom: 0.3rem;
+  }
+
+  .lug-card__title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1A237E;
+    line-height: 1.0;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* Card body */
+  .lug-card__body {
+    padding: 1.5rem 2rem 2rem;
+  }
+
+  /* ── FIELDS ── */
+  .lug-field {
+    margin-bottom: 1.1rem;
+  }
+
+  .lug-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: #1A237E;
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .lug-label::before {
+    content: 'DESTINATION:';
+    font-size: 0.5rem;
+    color: rgba(26,35,126,0.5);
+  }
+
+  .lug-step {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: #D32F2F;
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  .lug-input {
+    width: 100%;
+    padding: 0.8rem 0.9rem;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    background: #fff;
+    color: #1A237E;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    outline: none;
+    transition: all 0.15s ease;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
+  }
+
+  .lug-input:focus {
+    border-color: #D32F2F;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.06), 0 0 0 3px rgba(211,47,47,0.15);
+  }
+
+  .lug-input::placeholder {
+    color: #999;
+    font-weight: 400;
+  }
+
+  .lug-input.is-valid {
+    border-color: #2E7D32;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.06), 0 0 0 3px rgba(46,125,50,0.15);
+  }
+
+  .lug-input.is-invalid {
+    border-color: #D32F2F;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.06), 0 0 0 3px rgba(211,47,47,0.15);
+  }
+
+  .lug-feedback {
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-top: 0.3rem;
+    display: none;
+    color: #D32F2F;
+  }
+
+  .lug-input.is-invalid ~ .lug-feedback,
+  .lug-input:invalid:not(:placeholder-shown) ~ .lug-feedback {
+    display: block;
+  }
+
+  /* ── SUBMIT ── */
+  .lug-submit {
+    width: 100%;
+    padding: 0.85rem 1.5rem;
+    background: #D32F2F;
+    color: #fff;
+    border: 2px solid #B71C1C;
+    border-radius: 6px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    box-shadow: 3px 3px 0 #1A237E;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .lug-submit:hover {
+    box-shadow: 1px 1px 0 #1A237E;
+    transform: translate(2px, 2px);
+    background: #B71C1C;
+  }
+
+  .lug-submit:active {
+    box-shadow: 0px 0px 0 #1A237E;
+    transform: translate(3px, 3px);
+  }
+
+  /* ── DIVIDER ── */
+  .lug-divider {
+    display: flex;
+    align-items: center;
+    margin: 1rem 0;
+    gap: 0.8rem;
+  }
+
+  .lug-divider::before,
+  .lug-divider::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: #ccc;
+  }
+
+  .lug-divider span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: #1A237E;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+  }
+
+  /* ── GOOGLE ── */
+  .lug-google {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 0.75rem;
+    background: #fff;
+    border: 2px solid #1A237E;
+    border-radius: 6px;
+    color: #1A237E;
+    text-decoration: none;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.15s ease;
+    box-shadow: 2px 2px 0 #1A237E;
+  }
+
+  .lug-google:hover {
+    box-shadow: 0px 0px 0 #1A237E;
+    transform: translate(2px, 2px);
+    background: #F5F5F5;
+  }
+
+  .lug-google i {
+    font-size: 1.1rem;
+    color: #4285F4;
+  }
+
+  /* ── SWITCH ── */
+  .lug-switch {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    color: #666;
+    font-weight: 600;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  .lug-switch a {
+    color: #D32F2F;
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 2px solid #1A237E;
+    transition: all 0.15s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .lug-switch a:hover {
+    color: #1A237E;
+    border-color: #D32F2F;
+  }
+
+  /* ── CARD FOOTER ── */
+  .lug-card__footer {
+    padding: 0.8rem 2rem;
+    border-top: 2px dashed rgba(26,35,126,0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .lug-card__footer-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #999;
+  }
+
+  /* ── STICKERS ON CARD ── */
+  .lug-card__sticker {
+    position: absolute;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.45rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0.3rem 0.6rem;
+    border: 2px solid;
+    z-index: 10;
+  }
+
+  .lug-card__sticker--fragile {
+    bottom: 80px;
+    right: -10px;
+    color: #D32F2F;
+    border-color: #D32F2F;
+    transform: rotate(5deg);
+    background: #FAFAFA;
+  }
+
+  .lug-card__sticker--priority {
+    top: 90px;
+    left: -8px;
+    color: #1A237E;
+    border-color: #1A237E;
+    transform: rotate(-8deg);
+    background: #FAFAFA;
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    .lug-page { flex-direction: column; }
+
+    .lug-left {
+      flex: none;
+      min-height: 260px;
+      padding: 2rem;
+    }
+
+    .lug-left__tag, .lug-left__strap { display: none; }
+    .lug-sticker { display: none; }
+    .lug-left__barcode { display: none; }
+
+    .lug-right { padding: 1.5rem; }
+
+    .lug-card {
+      border-radius: 10px;
+    }
+
+    .lug-card__hole, .lug-card__string { display: none; }
+    .lug-card__sticker { display: none; }
+  }
+</style>
+
 <!-- ================================================================
-     STAYZEN — SIGNUP PAGE
+     STAYZEN — LUGGAGE TAG SIGNUP PAGE
      ================================================================ -->
-<div class="sz-auth-page">
+<div class="lug-page">
 
   <!-- Left Panel -->
-  <div class="sz-auth-left" aria-hidden="true">
-    <div class="sz-auth-left__text">
-      <div class="sz-auth-left__eyebrow">Join StayZen</div>
-      <div class="sz-auth-left__big">Create<br>Account.</div>
-      <div class="sz-auth-left__small">Your next getaway starts here. Create your account to discover premium stays worldwide.</div>
+  <div class="lug-left" aria-hidden="true">
+    <!-- Giant tag silhouette -->
+    <div class="lug-left__tag"></div>
+    <div class="lug-left__strap"></div>
+
+    <!-- Vintage stickers -->
+    <div class="lug-sticker lug-sticker--paris">Paris CDG</div>
+    <div class="lug-sticker lug-sticker--tokyo">Tokyo NRT</div>
+    <div class="lug-sticker lug-sticker--first">First Class</div>
+    <div class="lug-sticker lug-sticker--vip">VIP Access</div>
+
+    <!-- Content -->
+    <div class="lug-left__content">
+      <div class="lug-left__eyebrow">StayZen // 2026</div>
+      <h1 class="lug-left__heading">
+        PACK YOUR<br><span>BAGS.</span>
+      </h1>
+      <p class="lug-left__desc">
+        Tag your account and unlock premium stays across the globe.
+      </p>
+      <!-- Barcode -->
+      <div class="lug-left__barcode">
+        <div class="lug-left__bar" style="width:2px"></div>
+        <div class="lug-left__bar" style="width:1px"></div>
+        <div class="lug-left__bar" style="width:3px"></div>
+        <div class="lug-left__bar" style="width:1px"></div>
+        <div class="lug-left__bar" style="width:2px"></div>
+        <div class="lug-left__bar" style="width:1px"></div>
+        <div class="lug-left__bar" style="width:4px"></div>
+        <div class="lug-left__bar" style="width:1px"></div>
+        <div class="lug-left__bar" style="width:2px"></div>
+        <div class="lug-left__bar" style="width:1px"></div>
+        <div class="lug-left__bar" style="width:3px"></div>
+        <div class="lug-left__bar" style="width:1px"></div>
+        <div class="lug-left__bar" style="width:2px"></div>
+        <div class="lug-left__bar" style="width:1px"></div>
+        <div class="lug-left__bar" style="width:4px"></div>
+        <div class="lug-left__bar" style="width:1px"></div>
+        <div class="lug-left__bar" style="width:2px"></div>
+        <div class="lug-left__bar" style="width:1px"></div>
+        <div class="lug-left__bar" style="width:3px"></div>
+        <div class="lug-left__bar" style="width:1px"></div>
+        <div class="lug-left__bar" style="width:2px"></div>
+        <div class="lug-left__bar" style="width:1px"></div>
+        <div class="lug-left__bar" style="width:4px"></div>
+      </div>
     </div>
   </div>
 
   <!-- Right Panel — Form -->
-  <div class="sz-auth-right">
-    <div class="sz-auth-form-card">
+  <div class="lug-right">
+    <div class="lug-card" id="signupCard">
+      <!-- String/strap -->
+      <div class="lug-card__string"></div>
+      <!-- Hole -->
+      <div class="lug-card__hole"></div>
 
-      <div class="sz-auth-form-card__header">
-        <div class="sz-auth-form-card__eyebrow">Get Started</div>
-        <h1 class="sz-auth-form-card__title">Create<br>Account</h1>
+      <!-- Stickers -->
+      <div class="lug-card__sticker lug-card__sticker--fragile">Handle With Care</div>
+      <div class="lug-card__sticker lug-card__sticker--priority">Priority</div>
+
+      <!-- Header -->
+      <div class="lug-card__header">
+        <div class="lug-card__eyebrow">Baggage Claim</div>
+        <div class="lug-card__destination">
+          <span class="lug-card__dest-label">Destination:</span>
+        </div>
+        <div class="lug-card__dest-value">WORLDWIDE</div>
+        <h1 class="lug-card__title">Create Account</h1>
       </div>
 
-      <div class="sz-auth-form-card__body">
-        <form action="/signup" method="post" class="needs-validation" novalidate>
+      <!-- Body -->
+      <div class="lug-card__body">
+        <form action="/signup" method="post" class="needs-validation" novalidate id="signupForm">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-          <div class="sz-auth-field">
-            <label for="username" class="sz-auth-label">
-              <span class="sz-auth-step">1</span> Full Name
+          <!-- Field 1: Username -->
+          <div class="lug-field">
+            <label for="username" class="lug-label">
+              <span class="lug-step">1</span> Full Name
             </label>
             <input
               name="username"
               id="username"
               type="text"
-              class="sz-auth-input"
-              placeholder="How should we call you?"
+              class="lug-input"
+              placeholder="Passenger name"
               required
               autocomplete="username"
             >
-            <div class="invalid-feedback">Please choose a display name.</div>
+            <div class="lug-feedback">Please choose a display name.</div>
           </div>
 
-          <div class="sz-auth-field">
-            <label for="email" class="sz-auth-label">
-              <span class="sz-auth-step">2</span> Email Address
+          <!-- Field 2: Email -->
+          <div class="lug-field">
+            <label for="email" class="lug-label">
+              <span class="lug-step">2</span> Email Address
             </label>
             <input
               name="email"
               id="email"
               type="email"
-              class="sz-auth-input"
+              class="lug-input"
               placeholder="you@domain.com"
               required
               autocomplete="email"
             >
-            <div class="invalid-feedback">A valid email is required.</div>
+            <div class="lug-feedback">A valid email is required.</div>
           </div>
 
-          <div class="sz-auth-field">
-            <label for="password" class="sz-auth-label">
-              <span class="sz-auth-step">3</span> Password
+          <!-- Field 3: Password -->
+          <div class="lug-field">
+            <label for="password" class="lug-label">
+              <span class="lug-step">3</span> Password
             </label>
             <input
               name="password"
               id="password"
               type="password"
-              class="sz-auth-input"
+              class="lug-input"
               placeholder="Minimum 8 characters"
               required
               autocomplete="new-password"
             >
-            <div class="invalid-feedback">Password is required.</div>
+            <div class="lug-feedback">Password is required.</div>
           </div>
 
-          <button class="sz-auth-submit sz-auth-submit--signup" type="submit">
+          <!-- Submit -->
+          <button class="lug-submit" type="submit">
             <span class="btn-text">Send Verification Code</span>
-            <i class="fa-solid fa-arrow-right ms-2"></i>
+            <i class="fa-solid fa-arrow-right"></i>
           </button>
-
-          <div class="sz-auth-divider">
-            <span>OR</span>
-          </div>
-
-          <a href="/auth/google" class="sz-auth-google">
-            <i class="fa-brands fa-google"></i>
-            <span>Sign up with Google</span>
-          </a>
         </form>
 
-        <div class="sz-auth-switch">
-          Already have an account? <a href="/login">Sign In →</a>
+        <!-- Divider -->
+        <div class="lug-divider">
+          <span>OR</span>
         </div>
+
+        <!-- Google -->
+        <a href="/auth/google" class="lug-google">
+          <i class="fa-brands fa-google"></i>
+          <span>Sign up with Google</span>
+        </a>
+
+        <!-- Switch -->
+        <div class="lug-switch">
+          Already have an account? <a href="/login">Sign In &rarr;</a>
+        </div>
+      </div>
+
+      <!-- Card footer -->
+      <div class="lug-card__footer">
+        <span class="lug-card__footer-text">SZ-2026-001</span>
+        <span class="lug-card__footer-text">StayZen Airways</span>
       </div>
     </div>
   </div>
 </div>
+
+<!-- GSAP Animations -->
+<script nonce="<%= cspNonce %>">
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof gsap === 'undefined') return;
+
+  // Card entrance
+  gsap.from('#signupCard', {
+    y: 40,
+    rotation: 2,
+    opacity: 0,
+    duration: 0.8,
+    ease: 'power3.out',
+    delay: 0.2
+  });
+
+  // String dangle
+  gsap.from('.lug-card__string', {
+    scaleY: 0,
+    transformOrigin: 'top',
+    duration: 0.5,
+    ease: 'elastic.out(1, 0.5)',
+    delay: 0.6
+  });
+
+  // Hole pop
+  gsap.from('.lug-card__hole', {
+    scale: 0,
+    opacity: 0,
+    duration: 0.4,
+    ease: 'back.out(1.7)',
+    delay: 0.5
+  });
+
+  // Stickers slap on
+  gsap.from('.lug-card__sticker', {
+    scale: 0,
+    rotation: 20,
+    opacity: 0,
+    duration: 0.4,
+    stagger: 0.15,
+    ease: 'back.out(1.7)',
+    delay: 0.9
+  });
+
+  // Vintage stickers float
+  gsap.from('.lug-sticker', {
+    scale: 0,
+    opacity: 0,
+    duration: 0.5,
+    stagger: 0.1,
+    ease: 'back.out(1.7)',
+    delay: 0.8
+  });
+
+  // Fields stagger
+  gsap.from('.lug-field', {
+    y: 15,
+    opacity: 0,
+    duration: 0.4,
+    stagger: 0.1,
+    ease: 'power2.out',
+    delay: 0.6
+  });
+
+  // Left content
+  gsap.from('.lug-left__content > *', {
+    y: 20,
+    opacity: 0,
+    duration: 0.6,
+    stagger: 0.1,
+    ease: 'power2.out',
+    delay: 0.3
+  });
+
+  // Floating vintage stickers
+  gsap.to('.lug-sticker--paris', {
+    y: -5,
+    rotation: -14,
+    duration: 3,
+    repeat: -1,
+    yoyo: true,
+    ease: 'sine.inOut'
+  });
+
+  gsap.to('.lug-sticker--tokyo', {
+    y: 5,
+    rotation: 10,
+    duration: 3.5,
+    repeat: -1,
+    yoyo: true,
+    ease: 'sine.inOut'
+  });
+});
+</script>
