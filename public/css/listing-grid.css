@@ -507,12 +507,17 @@
 
 .sz-filter-label {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.82rem;
+  font-size: 0.74rem;
   font-weight: 700;
-  color: var(--navy);
+  color: #fff;
   white-space: nowrap;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
+  background: var(--navy);
+  border: 2px solid var(--navy);
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  box-shadow: 3px 3px 0 var(--gold);
 }
 
 /* Tax toggle */
@@ -715,10 +720,125 @@
 }
 
 /* ============================================================
-   NO MATCH
+   NO MATCH — Luggage Tag Empty State
    ============================================================ */
 .no-match-container {
-  padding: 4rem 2rem;
+  padding: 2rem 2rem 3rem;
+  display: flex;
+  justify-content: center;
+}
+
+.sz-nomatch {
+  position: relative;
+  width: min(440px, 100%);
+  background: var(--cream);
+  border: 3px solid var(--navy);
+  border-radius: 20px;
+  box-shadow: 8px 8px 0 var(--red);
+  padding: 2.4rem 2rem 1.8rem;
+  text-align: center;
+}
+
+.sz-nomatch__hole {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--cream);
+  border: 3px solid var(--navy);
+}
+
+.sz-nomatch__string {
+  position: absolute;
+  top: 6px;
+  left: 24px;
+  width: 3px;
+  height: 28px;
+  background: var(--navy);
+  transform: rotate(28deg);
+  opacity: 0.7;
+}
+
+.sz-nomatch__icon {
+  width: 84px;
+  height: 84px;
+  margin: 0 auto 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid var(--navy);
+  color: var(--red);
+  box-shadow: 4px 4px 0 var(--teal);
+}
+
+.sz-nomatch__label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--teal);
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+
+.sz-nomatch__title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 0 0 0.4rem;
+  text-transform: uppercase;
+}
+
+.sz-nomatch__sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  color: #4a4a5e;
+  line-height: 1.6;
+  margin: 0 auto 1.2rem;
+  max-width: 320px;
+}
+
+.sz-nomatch__btn {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #fff;
+  background: var(--red);
+  border: 3px solid var(--navy);
+  border-radius: 6px;
+  padding: 0.6rem 1.4rem;
+  cursor: pointer !important;
+  box-shadow: 3px 3px 0 var(--navy);
+  transition: all 0.2s ease;
+}
+
+.sz-nomatch__btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 var(--navy);
+  background: var(--gold);
+  color: var(--navy);
+}
+
+.sz-nomatch__barcode {
+  margin-top: 1.4rem;
+  height: 28px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--navy) 0, var(--navy) 2px,
+    transparent 2px, transparent 4px,
+    var(--navy) 4px, var(--navy) 5px,
+    transparent 5px, transparent 9px,
+    var(--navy) 9px, var(--navy) 12px,
+    transparent 12px, transparent 14px
+  );
+  opacity: 0.85;
 }
 
 /* ============================================================ RESPONSIVE ====== */

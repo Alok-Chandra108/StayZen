@@ -138,11 +138,18 @@
 </div>
 
 <!-- ── NO MATCH ── -->
-<div class="no-match-container text-center mt-5 pt-5 position-relative" style="display: none; min-height: 200px;">
-  <div style="position: relative; z-index: 2;">
-    <div style="font-size: 3rem; margin-bottom: 1rem;">🔍</div>
-    <h4 style="font-weight: 700; color: var(--navy);">No matches found</h4>
-    <p style="color: var(--text-light); font-weight: 400;">Try a different keyword or filter.</p>
+<div class="no-match-container" style="display: none;">
+  <div class="sz-nomatch">
+    <div class="sz-nomatch__hole" aria-hidden="true"></div>
+    <div class="sz-nomatch__string" aria-hidden="true"></div>
+    <div class="sz-nomatch__icon" aria-hidden="true">
+      <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
+    </div>
+    <div class="sz-nomatch__label">DESTINATION NOT FOUND</div>
+    <h4 class="sz-nomatch__title">No matches found</h4>
+    <p class="sz-nomatch__sub">Try a different keyword or filter to keep your journey on track.</p>
+    <button type="button" class="sz-nomatch__btn" id="no-match-reset">Reset Filters</button>
+    <div class="sz-nomatch__barcode" aria-hidden="true"></div>
   </div>
 </div>
 

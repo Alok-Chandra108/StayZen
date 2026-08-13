@@ -226,7 +226,7 @@ document.addEventListener("DOMContentLoaded", () => {
           if (anyVisible) {
               noMatchContainer.style.display = "none";
           } else {
-              noMatchContainer.style.display = "block";
+              noMatchContainer.style.display = "flex";
               gsap.fromTo(noMatchContainer, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3 });
           }
       }
@@ -236,7 +236,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Fallback
       cardsToHide.forEach(c => c.style.display = "none");
       cardsToShow.forEach(c => c.style.display = "block");
-      if (noMatchContainer) noMatchContainer.style.display = anyVisible ? "none" : "block";
+      if (noMatchContainer) noMatchContainer.style.display = anyVisible ? "none" : "flex";
     }
 
     if (globalMap && shouldUpdateBounds && visibleMarkers.length > 0) {
@@ -266,4 +266,20 @@ document.addEventListener("DOMContentLoaded", () => {
       applyFilters(true);
     });
   });
+
+  const resetBtn = document.getElementById("no-match-reset");
+  if (resetBtn) {
+    resetBtn.addEventListener("click", () => {
+      activeTag = null;
+      filters.forEach(f => f.classList.remove("active"));
+      const ci = document.getElementById("avail-checkin");
+      const co = document.getElementById("avail-checkout");
+      const clr = document.getElementById("avail-clear");
+      if (ci) ci.value = "";
+      if (co) co.value = "";
+      if (clr) clr.style.display = "none";
+      if (searchInput) searchInput.value = "";
+      applyFilters(true);
+    });
+  }
 });

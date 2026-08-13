@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       if (noMatch) {
-        noMatch.style.display = visibleCount === 0 ? 'block' : 'none';
+        noMatch.style.display = visibleCount === 0 ? 'flex' : 'none';
       }
     });
   });
