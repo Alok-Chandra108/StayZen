@@ -1,51 +1,54 @@
 <!-- ============================================================
-     STAYZEN — HOTEL NAVIGATION BAR
+     STAYZEN — RETRO PAN AM NAVIGATION BAR
      ============================================================ -->
 
-<nav class="nb-navbar" role="navigation" aria-label="Main navigation">
+<nav class="lug-navbar" role="navigation" aria-label="Main navigation">
 
-  <!-- Brand -->
-  <a class="navbar-brand" href="/listings" aria-label="StayZen home">
-    <img src="/assets/images/sz-logo.png" alt="StayZen" class="sz-brand-logo">
-    <span class="sz-brand-text">StayZen</span>
-  </a>
+  <!-- Brand — Luggage tag style -->
+  <div class="lug-navbar__brand-wrapper">
+    <a class="lug-navbar__brand" href="/listings" aria-label="StayZen home">
+      <img src="/assets/images/sz-logo.png" alt="StayZen" class="lug-navbar__logo">
+      <span class="lug-navbar__text">STAYZEN</span>
+      <span class="lug-navbar__dest">DESTINATION: GLOBAL</span>
+    </a>
+  </div>
 
-  <!-- Search -->
-  <div class="nb-search-container">
-    <form class="nb-search-bar" action="/listings" method="GET" role="search">
+  <!-- Search — Tag-shaped -->
+  <div class="lug-navbar__search-container">
+    <form class="lug-search-bar" action="/listings" method="GET" role="search">
       <input
-        id="nb-search-input"
-        class="nb-search-input"
+        id="lug-search-input"
+        class="lug-search-input"
         name="search"
         type="search"
-        placeholder="Search destinations, properties..."
+        placeholder="Search destinations..."
         aria-label="Search listings"
         autocomplete="off"
       />
-      <button class="nb-search-btn" type="submit" aria-label="Submit search">
+      <button class="lug-search-btn" type="submit" aria-label="Submit search">
         <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
       </button>
     </form>
   </div>
 
   <!-- Actions -->
-  <div class="nb-nav-actions">
-    <a href="/listings/new" class="sz-btn" style="padding: 0.5rem 1.2rem; font-size: 0.8rem; border-radius: 9999px;" id="nav-new-listing">
+  <div class="lug-navbar__actions">
+    <a href="/listings/new" class="lug-btn lug-btn--primary" id="nav-new-listing">
       <i class="fa-solid fa-plus" aria-hidden="true"></i> List Property
     </a>
 
     <% if (!currUser) { %>
-      <a href="/login" class="sz-btn sz-btn--action" style="padding: 0.5rem 1.2rem; font-size: 0.8rem; border-radius: 9999px;" id="nav-login">
+      <a href="/login" class="lug-btn lug-btn--secondary" id="nav-login">
         Sign In
       </a>
     <% } else { %>
-      <a href="/host-dashboard" class="sz-btn" style="padding: 0.5rem 1.2rem; font-size: 0.8rem; border-radius: 9999px;" id="nav-host">
+      <a href="/host-dashboard" class="lug-btn lug-btn--secondary" id="nav-host">
         <i class="fa-solid fa-chart-line me-1"></i> Host
       </a>
-      <a href="/dashboard" class="sz-btn sz-btn--warn" style="padding: 0.5rem 1.2rem; font-size: 0.8rem; border-radius: 9999px; color: #fff;" id="nav-passes">
+      <a href="/dashboard" class="lug-btn lug-btn--warn" id="nav-passes">
         My Bookings
       </a>
-      <a href="/logout" class="sz-btn sz-btn--danger" style="padding: 0.5rem 1rem; font-size: 0.8rem; border-radius: 9999px;" id="nav-logout">
+      <a href="/logout" class="lug-btn lug-btn--danger" id="nav-logout">
         <i class="fa-solid fa-arrow-right-from-bracket"></i>
       </a>
     <% } %>
