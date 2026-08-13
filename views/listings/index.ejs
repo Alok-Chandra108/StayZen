@@ -2,18 +2,22 @@
 
 <!-- ================================================================
      STAYZEN — LISTINGS INDEX PAGE
+     RETRO PAN AM LUGGAGE TAG THEME
      ================================================================ -->
 
 <!-- ── HERO SECTION ── -->
 <section class="sz-hero" aria-label="Hero banner">
 
+  <!-- Decorative luggage string -->
+  <div class="sz-hero__string" aria-hidden="true"></div>
+
   <!-- Left — text block -->
   <div class="sz-hero__left">
 
-    <!-- Eyebrow label -->
+    <!-- Eyebrow tag -->
     <div class="sz-hero__eyebrow">
       <span class="sz-hero__eyebrow-dot"></span>
-      Premium Stays & Unique Properties
+      First Class Stays &amp; Unique Properties
     </div>
 
     <!-- Main headline -->
@@ -23,7 +27,7 @@
 
     <!-- Sub copy -->
     <p class="sz-hero__sub">
-      Handpicked properties, exceptional experiences. Find your ideal getaway from boutique villas to mountain retreats.
+      Board the StayZen line and explore handpicked properties worldwide — from boutique villas to mountain retreats. Your next destination awaits.
     </p>
 
     <!-- CTA row -->
@@ -54,6 +58,19 @@
         <span class="sz-stat__num">10k+</span>
         <span class="sz-stat__label">Happy Guests</span>
       </div>
+    </div>
+  </div>
+
+  <!-- Right — luggage tag prop -->
+  <div class="sz-hero__right" aria-hidden="true">
+    <div class="sz-hero__tag">
+      <div class="sz-hero__tag-hole"></div>
+      <div class="sz-hero__tag-string"></div>
+      <div class="sz-hero__tag-head">STAYZEN</div>
+      <div class="sz-hero__tag-sub">BOARDING PASS</div>
+      <div class="sz-hero__tag-row"><span>DESTINATION</span><b>GLOBAL</b></div>
+      <div class="sz-hero__tag-row"><span>CLASS</span><b>FIRST</b></div>
+      <div class="sz-hero__tag-barcode"></div>
     </div>
   </div>
 
@@ -140,7 +157,7 @@
 
 <!-- ── GLOBAL INTERACTIVE MAP ── -->
 <div class="sz-global-map-container my-4" style="padding: 0 2rem;">
-  <div id="global-map" style="height: 450px; width: 100%; border: 1px solid var(--border-color); border-radius: 16px; position: relative; z-index: 1; box-shadow: 0 4px 16px rgba(0,0,0,0.08);"></div>
+  <div id="global-map" style="height: 450px; width: 100%; border: 3px solid var(--navy); border-radius: 0; position: relative; z-index: 1; box-shadow: 8px 8px 0 var(--red);"></div>
 </div>
 
 <!-- ── LISTING GRID ── -->
@@ -149,34 +166,37 @@
     <a href="/listings/<%= listing._id %>" class="list-link sz-card-link">
       <article class="listing-card sz-listing-card" data-id="<%= listing._id %>" data-tags='<%= JSON.stringify(listing.tags || []) %>' data-lat="<%= (listing.geometry && listing.geometry.coordinates) ? listing.geometry.coordinates[1] : 0 %>" data-lng="<%= (listing.geometry && listing.geometry.coordinates) ? listing.geometry.coordinates[0] : 0 %>" data-price="<%= listing.price %>" data-title="<%= listing.title %>" data-url="/listings/<%= listing._id %>">
 
+        <!-- Luggage tag hole + string -->
+        <div class="sz-card__hole" aria-hidden="true"></div>
+        <div class="sz-card__string" aria-hidden="true"></div>
+
         <!-- Image section -->
         <div class="image-wrapper sz-card__img-wrap">
           <img src="<%= listing.image.url %>" class="card-img-top" alt="<%= listing.title %>" data-flip-id="img-<%= listing._id %>">
+          <!-- Corner stamp -->
+          <% if (listing.tags && listing.tags.length > 0) { %>
+            <div class="sz-card__stamp"><%= listing.tags[0] %></div>
+          <% } %>
           <!-- Hover overlay -->
           <div class="sz-card__overlay">
             <span class="sz-card__overlay-text">View Details →</span>
           </div>
-          <!-- Corner badge -->
-          <% if (listing.tags && listing.tags.length > 0) { %>
-            <div class="sz-card__tag-badge"><%= listing.tags[0] %></div>
-          <% } %>
         </div>
 
         <!-- Body -->
         <div class="card-body sz-card__body">
+          <div class="sz-card__destination-label">DESTINATION</div>
           <p class="card-text">
             <b><%= listing.title %></b>
+            <span class="sz-card__route"><%= listing.location %><span class="sz-card__arrow">→</span><%= listing.country %></span>
             <span class="card-price-tag">
               ₹ <%= listing.price.toLocaleString("en-IN") %> / night
               <span class="tax-info" style="display: none;"> &nbsp; +18% GST (₹ <%= (listing.price * 0.18).toLocaleString("en-IN") %>)</span>
             </span>
             <span class="description-clamp"><%= listing.description %></span>
           </p>
-          <!-- Location -->
-          <div class="sz-card__location">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-            <%= listing.location %>, <%= listing.country %>
-          </div>
+          <!-- Barcode footer -->
+          <div class="sz-card__barcode" aria-hidden="true"></div>
         </div>
 
       </article>
