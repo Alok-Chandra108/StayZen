@@ -280,20 +280,31 @@ document.addEventListener("DOMContentLoaded", () => {
       if (co) co.value = "";
       if (clr) clr.style.display = "none";
       if (searchInput) searchInput.value = "";
+
       if (noMatchContainer) {
         noMatchContainer.style.display = "none";
         if (typeof gsap !== "undefined") gsap.killTweensOf(noMatchContainer);
       }
-      const cardLinks = document.querySelectorAll(".sz-card-link");
+
       if (typeof gsap !== "undefined") {
-        gsap.killTweensOf(cardLinks);
-        cardLinks.forEach(link => {
+        gsap.killTweensOf(document.querySelectorAll(".sz-card-link"));
+      }
+
+      cards.forEach(card => {
+        const link = card.closest(".sz-card-link");
+        if (link) {
+          link.style.display = "";
           link.style.opacity = "1";
           link.style.transform = "";
-          link.style.display = "";
-        });
+        }
+      });
+
+      if (globalMap && allMarkerGroup && markers.size > 0) {
+        const allBounds = allMarkerGroup.getBounds();
+        if (allBounds.isValid()) {
+          globalMap.flyToBounds(allBounds, { padding: [50, 50], duration: 0.6 });
+        }
       }
-      applyFilters(true);
     });
   }
 });
