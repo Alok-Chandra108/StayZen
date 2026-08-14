@@ -318,6 +318,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
 
+      // Fly map to show all markers (but DON'T call applyFilters - direct class manipulation handles visibility)
       if (globalMap && allMarkerGroup && markers.size > 0) {
         const allBounds = allMarkerGroup.getBounds();
         if (allBounds.isValid()) {
