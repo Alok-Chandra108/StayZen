@@ -280,6 +280,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (co) co.value = "";
       if (clr) clr.style.display = "none";
       if (searchInput) searchInput.value = "";
+      if (noMatchContainer) {
+        noMatchContainer.style.display = "none";
+        if (typeof gsap !== "undefined") gsap.killTweensOf(noMatchContainer);
+      }
       const cardLinks = document.querySelectorAll(".sz-card-link");
       if (typeof gsap !== "undefined") {
         gsap.killTweensOf(cardLinks);
