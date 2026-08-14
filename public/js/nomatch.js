@@ -13,8 +13,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  let activeTag = null; 
-  let unavailableIds = new Set(); 
+let activeTag = null; 
+let unavailableIds = new Set(); 
+let skipApplyNoMatch = false;
 
   // ── GLOBAL MAP INITIALIZATION ──
   const mapContainer = document.getElementById("global-map");
@@ -289,6 +290,7 @@ document.addEventListener("DOMContentLoaded", () => {
     resetBtn.addEventListener("click", () => {
       activeTag = null;
       unavailableIds = new Set();
+      skipApplyNoMatch = true;
       filters.forEach(f => f.classList.remove("active"));
       const ci = document.getElementById("avail-checkin");
       const co = document.getElementById("avail-checkout");

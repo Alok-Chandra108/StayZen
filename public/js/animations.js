@@ -45,19 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ── Filter pills — entrance ──
-  const filterPills = document.querySelectorAll('.filter');
-  if (filterPills.length > 0) {
-    gsap.from(filterPills, {
-      y: 15,
-      opacity: 0,
-      duration: 0.4,
-      stagger: 0.04,
-      ease: 'power2.out',
-      delay: 0.3
-    });
-  }
-
   // ── Show page sections — Fade in ──
   const viewSections = document.querySelectorAll('.sz-view-section');
   if (viewSections.length > 0 && typeof ScrollTrigger !== 'undefined') {
