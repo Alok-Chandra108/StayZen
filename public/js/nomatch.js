@@ -93,16 +93,15 @@ document.addEventListener("DOMContentLoaded", () => {
         if (selectedDates.length >= 1 && instance.altInput) {
              instance.altInput.value = instance.formatDate(selectedDates[0], "M j, Y");
         }
-        if (selectedDates.length === 2) {
-          checkoutInput.value = instance.formatDate(selectedDates[1], "M j, Y");
-          clearBtn.style.display = "flex";
-          fetchAvailability(
-            instance.formatDate(selectedDates[0], "Y-m-d"),
-            instance.formatDate(selectedDates[1], "Y-m-d")
-          );
-        } else {
-          checkoutInput.value = "";
-        }
+            if (selectedDates.length === 2) {
+              checkoutInput.value = instance.formatDate(selectedDates[1], "M j, Y");
+              clearBtn.classList.remove("sz-hidden");
+              clearBtn.classList.add("sz-flex");
+              fetchAvailability(
+                instance.formatDate(selectedDates[0], "M j, Y"),
+                instance.formatDate(selectedDates[1], "M j, Y")
+              );
+            }
       }
     });
 
@@ -111,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
       clearBtn.addEventListener("click", () => {
         fp.clear();
         checkoutInput.value = "";
-        clearBtn.style.display = "none";
+        clearBtn.classList.add("sz-hidden");
         unavailableIds = new Set();
         applyFilters(true);
       });
@@ -199,18 +198,20 @@ document.addEventListener("DOMContentLoaded", () => {
                   // Only hide if the card is still supposed to be hidden (extra safety)
                   cardsToHide.forEach(c => {
                       if (gsap.getProperty(c, "opacity") === 0) {
-                         c.style.display = "none";
+                         c.classList.add("sz-hidden");
+                         c.classList.remove("sz-flex");
                       }
                   });
               }
           });
       }
-
+      
       // 3. Show in-bounds cards
       if (cardsToShow.length > 0) {
           cardsToShow.forEach(c => {
               if (window.getComputedStyle(c).display === "none") {
-                  c.style.display = "block";
+                  c.classList.remove("sz-hidden");
+                  c.classList.add("sz-flex");
                   gsap.fromTo(c, 
                       { opacity: 0, scale: 0.9, y: 15 }, 
                       { opacity: 1, scale: 1, y: 0, duration: 0.4, ease: "back.out(1.2)", overwrite: true }
@@ -224,9 +225,11 @@ document.addEventListener("DOMContentLoaded", () => {
       
       if (noMatchContainer) {
           if (anyVisible) {
-              noMatchContainer.style.display = "none";
+              noMatchContainer.classList.add("sz-hidden");
+              noMatchContainer.classList.remove("sz-flex");
           } else {
-              noMatchContainer.style.display = "flex";
+              noMatchContainer.classList.remove("sz-hidden");
+              noMatchContainer.classList.add("sz-flex");
               gsap.fromTo(noMatchContainer, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3 });
           }
       }
@@ -234,9 +237,23 @@ document.addEventListener("DOMContentLoaded", () => {
       setTimeout(() => { if (typeof ScrollTrigger !== "undefined") ScrollTrigger.refresh(); }, 400);
     } else {
       // Fallback
-      cardsToHide.forEach(c => c.style.display = "none");
-      cardsToShow.forEach(c => c.style.display = "block");
-      if (noMatchContainer) noMatchContainer.style.display = anyVisible ? "none" : "flex";
+      cardsToHide.forEach(c => {
+          c.classList.add("sz-hidden");
+          c.classList.remove("sz-flex");
+      });
+      cardsToShow.forEach(c => {
+          c.classList.remove("sz-hidden");
+          c.classList.add("sz-flex");
+      });
+      if (noMatchContainer) {
+          if (anyVisible) {
+              noMatchContainer.classList.add("sz-hidden");
+              noMatchContainer.classList.remove("sz-flex");
+          } else {
+              noMatchContainer.classList.remove("sz-hidden");
+              noMatchContainer.classList.add("sz-flex");
+          }
+      }
     }
 
     if (globalMap && shouldUpdateBounds && visibleMarkers.length > 0) {
@@ -278,11 +295,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const clr = document.getElementById("avail-clear");
       if (ci) ci.value = "";
       if (co) co.value = "";
-      if (clr) clr.style.display = "none";
+      if (clr) clr.classList.add("sz-hidden");
       if (searchInput) searchInput.value = "";
 
       if (noMatchContainer) {
-        noMatchContainer.style.display = "none";
+        noMatchContainer.classList.add("sz-hidden");
+        noMatchContainer.classList.remove("sz-flex");
         if (typeof gsap !== "undefined") gsap.killTweensOf(noMatchContainer);
       }
 
@@ -293,9 +311,10 @@ document.addEventListener("DOMContentLoaded", () => {
       cards.forEach(card => {
         const link = card.closest(".sz-card-link");
         if (link) {
-          link.style.display = "";
-          link.style.opacity = "1";
-          link.style.transform = "";
+          link.classList.remove("sz-hidden");
+          link.classList.add("sz-flex");
+          link.classList.remove("sz-opacity-0", "sz-transform-none");
+          link.classList.add("sz-opacity-1");
         }
       });
 

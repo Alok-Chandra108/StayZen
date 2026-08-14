@@ -119,7 +119,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (taxToggle) {
     taxToggle.addEventListener('change', function () {
       document.querySelectorAll('.tax-info').forEach(info => {
-        info.style.display = this.checked ? 'inline' : 'none';
+        if (this.checked) {
+          info.classList.remove("sz-hidden");
+          info.classList.add("sz-inline");
+        } else {
+          info.classList.add("sz-hidden");
+          info.classList.remove("sz-inline");
+        }
       });
     });
   }

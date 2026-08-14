@@ -841,6 +841,15 @@
   opacity: 0.85;
 }
 
+/* Utility classes for JS-controlled display/state */
+.sz-hidden { display: none !important; }
+.sz-flex { display: flex !important; }
+.sz-block { display: block !important; }
+.sz-inline { display: inline !important; }
+.sz-opacity-0 { opacity: 0 !important; }
+.sz-opacity-1 { opacity: 1 !important; }
+.sz-transform-none { transform: none !important; }
+
 /* ============================================================ RESPONSIVE ====== */
 @media (max-width: 900px) {
   .sz-hero__right { display: none; }
