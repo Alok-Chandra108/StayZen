@@ -106,7 +106,7 @@
               <form action="/listings/<%= listing.id %>/reviews" method="post" novalidate class="needs-validation">
                   <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                   <div class="sz-view-review-rating">
-                    <label class="d-block mb-2" style="font-weight: 600; font-size: 0.85rem; color: var(--text);">Your Rating</label>
+                    <label class="d-block mb-2 sz-view-review-rating-label">Your Rating</label>
                     <fieldset class="starability-slot sz-view-stars">
                       <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0" checked aria-label="No rating." />
                       <input type="radio" id="first-rate1" name="review[rating]" value="1" />
@@ -126,12 +126,12 @@
                   <div class="invalid-feedback">Please write a review before submitting.</div>
 
 
-                  <button class="sz-btn sz-btn--action w-100 mt-3" type="submit" style="border-radius: 12px;"><i class="fa-solid fa-paper-plane me-2"></i>Submit Review</button>
+                  <button class="sz-btn--action-panam w-100 mt-3" type="submit"><i class="fa-solid fa-paper-plane me-2"></i>Submit Review</button>
               </form>
             </div>
           </div>
         <% } else { %>
-          <div class="sz-alert-box mb-4 p-3">
+          <div class="sz-view-login-alert mb-4">
             You must be logged in to leave a review. <a href="/login">Sign in here →</a>
           </div>
         <% } %>
@@ -194,33 +194,33 @@
           <% if (!currUser || !currUser._id.equals(listing.owner._id)) { %>
             <form action="/listings/<%= listing.id %>/bookings" method="POST" id="booking-form" class="mt-4">
               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-              <label style="font-size: 0.78rem; font-weight: 600; display:block; margin-bottom: 8px; color: var(--text-light);">SELECT DATES</label>
+              <label class="sz-view-date-label">SELECT DATES</label>
               
               <input type="hidden" id="hiddenCheckIn" name="checkIn" required>
               <input type="hidden" id="hiddenCheckOut" name="checkOut" required>
               
-              <div style="display: flex; gap: 10px;">
+              <div class="sz-view-dates-row">
                 <input type="text" id="checkIn" name="display-checkin" class="sz-date-input" placeholder="Check-in" readonly>
                 <input type="text" id="checkOut" name="display-checkout" class="sz-date-input" placeholder="Check-out" readonly>
               </div>
 
-              <div id="lock-status-container" style="display: none; margin-top: 1rem;">
+              <div id="lock-status-container" class="sz-view-lock-box">
                 <!-- Locked status will be injected here -->
               </div>
 
-              <div id="brutal-total-box" style="display: none; flex-direction: column; gap: 6px; padding: 1.2rem; border-top: 1px solid var(--border-color); margin-top: 1rem; border-radius: 12px; background: var(--ivory);">
-                <div style="display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 500; color: var(--text);">
+              <div id="brutal-total-box" class="sz-view-total-box">>
+                <div class="sz-view-total-row">
                   <span>Price for (<span id="brutal-nights">0</span> nights)</span>
                   <span id="brutal-subtotal">₹0</span>
                 </div>
-                <div style="display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 500; color: var(--text-light);">
+                <div class="sz-view-total-row sz-view-total-row--tax">
                   <span>Government Tax (18%)</span>
                   <span id="brutal-tax">₹0</span>
                 </div>
 
-                <div style="display: flex; justify-content: space-between; margin-top: 8px; border-top: 1px solid var(--border-color); padding-top: 10px;">
-                  <span style="font-weight: 700; font-size: 0.9rem; color: var(--navy);">Total</span>
-                  <strong id="brutal-grand-total" style="font-size: 1.15rem; font-weight: 700; color: var(--navy);">₹0</strong>
+                <div class="sz-view-total-row sz-view-total-row--grand">
+                  <span>Total</span>
+                  <strong id="brutal-grand-total">₹0</strong>
                 </div>
               </div>
             </form>
@@ -229,13 +229,13 @@
         
         <div class="sz-view-ticket__footer">
           <% if (currUser && currUser._id.equals(listing.owner._id)) { %>
-             <a href="/listings/<%= listing._id %>/edit" class="sz-btn sz-btn--warn w-100 mb-2" style="border-radius: 12px;"><i class="fa-solid fa-pen me-2"></i>Edit Listing</a>
+             <a href="/listings/<%= listing._id %>/edit" class="sz-btn--warn-panam w-100 mb-2"><i class="fa-solid fa-pen me-2"></i>Edit Listing</a>
              <form method="Post" action="/listings/<%= listing._id %>?_method=DELETE" class="w-100">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <button class="sz-btn sz-btn--danger w-100" style="border-radius: 12px;"><i class="fa-solid fa-trash-can me-2"></i>Delete Listing</button>
+                <button class="sz-btn--danger-panam w-100"><i class="fa-solid fa-trash-can me-2"></i>Delete Listing</button>
              </form>
           <% } else { %>
-             <button type="submit" form="booking-form" class="sz-btn sz-btn--action w-100" style="border-radius: 12px; padding: 0.9rem;"><i class="fa-solid fa-calendar-check me-2"></i>Reserve Now</button>
+             <button type="submit" form="booking-form" class="sz-btn--action-panam w-100"><i class="fa-solid fa-calendar-check me-2"></i>Reserve Now</button>
           <% } %>
         </div>
 
@@ -296,9 +296,10 @@
           checkLockStatus(hiddenCheckIn.value, hiddenCheckOut.value);
         } else {
           checkOutInput.value = "";
+          hiddenCheckIn.value = "";
           hiddenCheckOut.value = "";
-          totalBox.style.display = "none";
-          if(lockContainer) lockContainer.style.display = 'none';
+          totalBox.classList.remove("sz-visible");
+          if(lockContainer) lockContainer.classList.remove('sz-visible');
         }
       },
       onClose: function(selectedDates, dateStr, instance) {
@@ -349,9 +350,9 @@
            taxSpan.textContent = "₹" + tax.toLocaleString("en-IN");
            grandTotalSpan.textContent = "₹" + grandTotal.toLocaleString("en-IN");
            
-           totalBox.style.display = "flex";
+           totalBox.classList.add("sz-visible");
         } else {
-           totalBox.style.display = "none";
+           totalBox.classList.remove("sz-visible");
         }
     }
 
@@ -362,17 +363,14 @@
             const data = await response.json();
             if (data.locked) {
                 lockContainer.innerHTML = `
-                    <div style="background: #FFFBEB; border: 1px solid #FDE68A; padding: 1rem; border-radius: 12px; display: flex; align-items: center; gap: 10px;">
-                        <i class="fa-solid fa-triangle-exclamation" style="font-size: 1.2rem; color: #F59E0B;"></i>
-                        <div style="font-size: 0.82rem; font-weight: 500; color: #92400E;">
-                            These dates are currently being selected by another user.
-                        </div>
+                    <div class="sz-view-lock-alert">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <div>These dates are currently being selected by another user.</div>
                     </div>
-
                 `;
-                lockContainer.style.display = 'block';
+                lockContainer.classList.add('sz-visible');
             } else {
-                lockContainer.style.display = 'none';
+                lockContainer.classList.remove('sz-visible');
             }
         } catch (err) {
             console.error("Lock check failed:", err);
