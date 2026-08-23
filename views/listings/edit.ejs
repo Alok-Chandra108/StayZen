@@ -11,6 +11,11 @@
         <div class="nb-form-card__banner-eyebrow">StayZen · Edit Mode</div>
         <h1 class="nb-form-card__banner-title">Edit Your<br>Listing</h1>
         <div class="nb-form-card__banner-sub">Update details for — <%= listing.title %></div>
+        <!-- Luggage tag decoration -->
+        <div class="nb-form-banner__tag">
+          <div class="nb-form-banner__tag-hole"></div>
+          <div class="nb-form-banner__tag-string"></div>
+        </div>
       </div>
 
       <!-- Form -->
@@ -195,11 +200,11 @@
 
         <!-- Form Footer -->
         <div class="nb-form-footer">
-          <a href="/listings/<%= listing._id %>" class="sz-btn" style="border-radius: 12px;">
+          <a href="/listings/<%= listing._id %>" class="sz-btn--danger-panam">
             <i class="fa-solid fa-arrow-left me-2"></i>
             Cancel
           </a>
-          <button class="sz-btn sz-btn--action" type="submit" style="width:auto; padding: 0.8rem 2.5rem; border-radius: 12px;">
+          <button class="sz-btn--action-panam" type="submit">
             <i class="fa-solid fa-floppy-disk me-2"></i>
             Save Changes
           </button>
@@ -211,4 +216,4 @@
 
 </div><!-- /nb-form-page -->
 
-<script src="/js/script.js"></script>
+<script nonce="<%= cspNonce %>" src="/js/script.js"></script>
