@@ -14,12 +14,15 @@
 
       <% if(passes.length===0) { %>
         <div class="sz-dashboard__empty">
+          <!-- Luggage tag decoration -->
+          <div class="sz-dashboard__empty-tag">
+            <div class="sz-dashboard__empty-tag-hole"></div>
+            <div class="sz-dashboard__empty-tag-string"></div>
+          </div>
           <i class="fa-solid fa-suitcase"></i>
-          <h2 class="sz-dashboard__title" style="font-size: 1.5rem; margin-top: 1rem;">No Bookings Yet</h2>
-          <p style="margin: 1.5rem auto; color: var(--text-light); max-width: 400px;">You haven't booked any stays yet. Explore our properties to find your perfect getaway.</p>
-
-          <a href="/listings" class="sz-btn sz-btn--action" style="border-radius: 9999px;">Explore Properties</a>
-
+          <h2 class="sz-dashboard__empty-title">No Bookings Yet</h2>
+          <p class="sz-dashboard__empty-desc">You haven't booked any stays yet. Explore our properties to find your perfect getaway.</p>
+          <a href="/listings" class="sz-btn--action-panam">Explore Properties</a>
         </div>
         <% } else { %>
           <div class="sz-pass-grid">
@@ -62,21 +65,19 @@
                         </span>
                       </div>
                       <div class="sz-pass-ticket__row sz-pass-ticket__total">
-                        <span class="sz-pass-ticket__label" style="color: var(--navy); font-weight: 700;">Total</span>
+                        <span class="sz-pass-ticket__label sz-pass-ticket__label--total">Total</span>
 
-                        <span class="sz-pass-ticket__val" style="color: var(--navy); font-size: 1.1rem; font-weight: 700;">₹<%=
+                        <span class="sz-pass-ticket__val sz-pass-ticket__val--total">₹<%=
                             pass.totalPrice.toLocaleString("en-IN") %></span>
                       </div>
                     </div>
                   </div>
 
-                  <footer class="sz-pass-ticket__footer"
-                    style="display: flex; justify-content: space-between; align-items: center;">
+                  <footer class="sz-pass-ticket__footer">
                     <a href="/listings/<%= pass.listing._id %>" class="sz-pass-ticket__link">
                       View Details <i class="fa-solid fa-arrow-right ms-2"></i>
                     </a>
-                    <a href="/dashboard/bookings/<%= pass._id %>/pass" class="sz-btn sz-btn--action"
-                      style="font-size: 0.75rem; padding: 6px 14px; border-radius: 9999px;">
+                    <a href="/dashboard/bookings/<%= pass._id %>/pass" class="sz-btn--download-panam">
                       <i class="fa-solid fa-download me-1"></i> Download
                     </a>
                   </footer>

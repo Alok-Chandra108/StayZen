@@ -1,10 +1,11 @@
 /* ============================================================
-   STAYZEN — HOTEL DASHBOARD STYLES
+   STAYZEN — DASHBOARD / MY BOOKINGS
+   RETRO PAN AM LUGGAGE TAG THEME
    ============================================================ */
 
 .sz-dashboard {
   padding: 3rem 0 5rem;
-  background: var(--ivory, #FAF8F5);
+  background: var(--cream, #FAFAFA);
   min-height: 80vh;
 }
 
@@ -14,41 +15,92 @@
   justify-content: space-between;
   margin-bottom: 3rem;
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--border-color, #E5E7EB);
+  border-bottom: 3px solid var(--navy, #1A237E);
   flex-wrap: wrap;
   gap: 1rem;
 }
 
 .sz-dashboard__title {
-  font-family: var(--font-h, 'Playfair Display', serif);
+  font-family: 'Space Grotesk', sans-serif;
   font-size: clamp(1.5rem, 3vw, 2.2rem);
   font-weight: 700;
-  color: var(--navy, #0F1B2D);
+  color: var(--navy, #1A237E);
   margin: 0;
   display: flex;
   align-items: center;
-  letter-spacing: -0.3px;
-  text-transform: none;
 }
 
 .sz-dashboard__title i {
-  color: var(--gold, #C9A96E);
+  color: var(--gold, #FFB300);
   font-size: 1.2rem;
 }
 
 .sz-dashboard__empty {
   text-align: center;
   padding: 5rem 2rem;
-  background: var(--white, #fff);
-  border: 1px solid var(--border-color, #E5E7EB);
-  border-radius: var(--radius-xl, 24px);
+  background: var(--cream, #FAFAFA);
+  border: 3px solid var(--navy, #1A237E);
+  border-radius: 22px;
+  box-shadow: 6px 6px 0 var(--red, #D32F2F);
+  position: relative;
 }
 
 .sz-dashboard__empty i {
   font-size: 3.5rem;
-  color: var(--text-muted, #9CA3AF);
+  color: var(--gold, #FFB300);
   margin-bottom: 1rem;
   display: block;
+}
+
+.sz-dashboard__empty-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--navy, #1A237E);
+  margin-top: 1rem;
+}
+
+.sz-dashboard__empty-desc {
+  font-family: 'Space Grotesk', sans-serif;
+  margin: 1.5rem auto;
+  color: var(--teal, #00838F);
+  max-width: 400px;
+  font-weight: 500;
+}
+
+/* Luggage tag decoration on empty state */
+.sz-dashboard__empty-tag {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  width: 40px;
+  height: 55px;
+  background: var(--cream, #FAFAFA);
+  border: 3px solid var(--gold, #FFB300);
+  border-radius: 10px;
+  opacity: 0.3;
+}
+
+.sz-dashboard__empty-tag-hole {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--gold, #FFB300);
+  background: transparent;
+}
+
+.sz-dashboard__empty-tag-string {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 12px;
+  background: var(--gold, #FFB300);
 }
 
 /* ── Pass Grid ── */
@@ -58,25 +110,26 @@
   gap: 1.5rem;
 }
 
-/* ── Pass Ticket Card ── */
+/* ── Pass Ticket Card (Luggage Tag Style) ── */
 .sz-pass-ticket {
-  background: var(--white, #fff);
-  border: 1px solid var(--border-color, #E5E7EB);
-  border-radius: var(--radius-lg, 16px);
+  background: var(--cream, #FAFAFA);
+  border: 3px solid var(--navy, #1A237E);
+  border-radius: 22px;
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  transition: all 0.3s ease;
+  box-shadow: 6px 6px 0 var(--red, #D32F2F);
+  transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
 }
 
 .sz-pass-ticket:hover {
-  box-shadow: var(--shadow-lg);
-  transform: translateY(-4px);
+  transform: translate(-2px, -4px) rotate(-0.5deg);
+  box-shadow: 10px 10px 0 var(--red, #D32F2F);
 }
 
 .sz-pass-ticket__img-wrap {
   position: relative;
   height: 180px;
   overflow: hidden;
+  border-bottom: 3px solid var(--gold, #FFB300);
 }
 
 .sz-pass-ticket__img-wrap img {
@@ -90,29 +143,30 @@
   top: 12px;
   right: 12px;
   padding: 4px 14px;
-  font-size: 0.7rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
   font-weight: 600;
-  letter-spacing: 0.5px;
-  border-radius: var(--radius-full, 9999px);
+  letter-spacing: 1px;
+  border-radius: 9999px;
   text-transform: uppercase;
 }
 
 .sz-pass-ticket__status--confirmed {
-  background: #ECFDF5;
-  color: #047857;
-  border: 1px solid #A7F3D0;
+  background: var(--teal, #00838F);
+  color: #fff;
+  border: 2px solid var(--navy, #1A237E);
 }
 
 .sz-pass-ticket__status--pending {
-  background: #FFFBEB;
-  color: #92400E;
-  border: 1px solid #FDE68A;
+  background: var(--gold, #FFB300);
+  color: var(--navy, #1A237E);
+  border: 2px solid var(--navy, #1A237E);
 }
 
 .sz-pass-ticket__status--declined {
-  background: #FEF2F2;
-  color: #991B1B;
-  border: 1px solid #FECACA;
+  background: var(--red, #D32F2F);
+  color: #fff;
+  border: 2px solid var(--navy, #1A237E);
 }
 
 .sz-pass-ticket__content {
@@ -120,27 +174,28 @@
 }
 
 .sz-pass-ticket__title {
-  font-family: var(--font-h, 'Playfair Display', serif);
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 1.1rem;
   font-weight: 700;
-  color: var(--navy, #0F1B2D);
+  color: var(--navy, #1A237E);
   margin: 0 0 0.3rem;
-  text-transform: none;
 }
 
 .sz-pass-ticket__loc {
   display: flex;
   align-items: center;
   gap: 5px;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 0.82rem;
-  color: var(--text-light, #6B7280);
+  color: var(--teal, #00838F);
   margin-bottom: 1rem;
+  font-weight: 500;
 }
 
-.sz-pass-ticket__loc i { color: var(--gold, #C9A96E); font-size: 0.85rem; }
+.sz-pass-ticket__loc i { color: var(--gold, #FFB300); font-size: 0.85rem; }
 
 .sz-pass-ticket__data {
-  border-top: 1px solid var(--border-color, #E5E7EB);
+  border-top: 2px dashed rgba(26, 35, 126, 0.15);
   padding-top: 1rem;
 }
 
@@ -152,46 +207,88 @@
 }
 
 .sz-pass-ticket__label {
-  font-size: 0.72rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--text-muted, #9CA3AF);
+  letter-spacing: 1px;
+  color: var(--teal, #00838F);
 }
 
 .sz-pass-ticket__val {
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 0.88rem;
   font-weight: 600;
-  color: var(--text, #333);
+  color: var(--ink, #14142b);
 }
 
 .sz-pass-ticket__total {
   margin-top: 0.5rem;
   padding-top: 0.8rem;
-  border-top: 1px dashed var(--border-color, #E5E7EB);
+  border-top: 2px solid var(--navy, #1A237E);
+}
+
+.sz-pass-ticket__label--total {
+  font-family: 'Space Grotesk', sans-serif;
+  color: var(--navy, #1A237E);
+  font-weight: 700;
+  font-size: 0.78rem;
+}
+
+.sz-pass-ticket__val--total {
+  font-family: 'Space Grotesk', sans-serif;
+  color: var(--red, #D32F2F);
+  font-size: 1.1rem;
+  font-weight: 700;
 }
 
 .sz-pass-ticket__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 1rem 1.5rem;
-  border-top: 1px solid var(--border-color, #E5E7EB);
-  background: var(--ivory, #FAF8F5);
+  border-top: 3px solid var(--navy, #1A237E);
+  background: #fff;
 }
 
 .sz-pass-ticket__link {
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--navy, #0F1B2D);
+  font-weight: 700;
+  color: var(--navy, #1A237E);
   text-decoration: none;
   transition: color 0.2s;
-  text-transform: none;
-  letter-spacing: 0;
 }
 
 .sz-pass-ticket__link:hover {
-  color: var(--gold, #C9A96E);
+  color: var(--teal, #00838F);
 }
 
-/* ─── Analytics Grid ─── */
+/* Download button (luggage tag pill) */
+.sz-btn--download-panam {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background: var(--gold, #FFB300);
+  color: var(--navy, #1A237E);
+  border: 2px solid var(--navy, #1A237E);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.15s;
+  box-shadow: 2px 2px 0 var(--navy, #1A237E);
+}
+
+.sz-btn--download-panam:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--navy, #1A237E);
+  background: var(--gold, #FFB300);
+  color: var(--navy, #1A237E);
+}
+
+/* ─── Analytics Grid (host dashboard shared) ─── */
 .sz-analytics-grid {
   display: grid;
   grid-template-columns: 1.5fr 1fr;
@@ -200,32 +297,33 @@
 }
 
 .sz-analytics-card {
-  background: var(--white, #fff);
-  border: 1px solid var(--border-color, #E5E7EB);
-  border-radius: var(--radius-lg, 16px);
+  background: var(--cream, #FAFAFA);
+  border: 3px solid var(--navy, #1A237E);
+  border-radius: 22px;
   padding: 1.5rem;
-  box-shadow: var(--shadow-sm) !important;
+  box-shadow: 6px 6px 0 var(--red, #D32F2F) !important;
 }
 
 .sz-analytics-card__title {
-  font-size: 0.78rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--text-muted, #9CA3AF);
+  letter-spacing: 1.5px;
+  color: var(--teal, #00838F);
   margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.sz-analytics-card__title i { color: var(--gold, #C9A96E); }
+.sz-analytics-card__title i { color: var(--gold, #FFB300); }
 
 /* Occupancy circle */
 .sz-occupancy-circle {
   width: 140px;
   height: 140px;
-  border: 6px solid var(--border-color, #E5E7EB);
+  border: 6px solid var(--navy, #1A237E);
   border-radius: 50%;
   display: flex;
   flex-direction: column;
@@ -233,23 +331,24 @@
   justify-content: center;
   margin: 1rem auto;
   position: relative;
-  background: var(--ivory, #FAF8F5);
+  background: #fff;
 }
 
 .sz-occupancy-circle__val {
-  font-family: var(--font-h, 'Playfair Display', serif);
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 2rem;
   font-weight: 700;
-  color: var(--navy, #0F1B2D);
+  color: var(--navy, #1A237E);
   line-height: 1;
 }
 
 .sz-occupancy-circle__label {
-  font-size: 0.7rem;
-  font-weight: 500;
-  color: var(--text-muted, #9CA3AF);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: var(--teal, #00838F);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
   margin-top: 0.3rem;
 }
 
@@ -257,27 +356,43 @@
 .sz-status-label {
   display: inline-block;
   padding: 4px 14px;
-  font-size: 0.7rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
   font-weight: 600;
-  letter-spacing: 0.5px;
-  border-radius: var(--radius-full, 9999px);
+  letter-spacing: 1px;
+  border-radius: 9999px;
   text-transform: uppercase;
 }
 
 .sz-status-label--confirmed {
-  background: #ECFDF5;
-  color: #047857;
-  border: 1px solid #A7F3D0;
+  background: var(--teal, #00838F);
+  color: #fff;
+  border: 2px solid var(--navy, #1A237E);
 }
 
 .sz-status-label--pending {
-  background: #FFFBEB;
-  color: #92400E;
+  background: var(--gold, #FFB300);
+  color: var(--navy, #1A237E);
+  border: 2px solid var(--navy, #1A237E);
 }
 
 .sz-status-label--declined {
-  background: #FEF2F2;
-  color: #991B1B;
+  background: var(--red, #D32F2F);
+  color: #fff;
+  border: 2px solid var(--navy, #1A237E);
+}
+
+/* Badge */
+.sz-badge--action {
+  background: var(--teal, #00838F);
+  color: #fff;
+  border: 2px solid var(--navy, #1A237E);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  padding: 6px 16px;
+  border-radius: 9999px;
 }
 
 /* ============================================================ RESPONSIVE ====== */
