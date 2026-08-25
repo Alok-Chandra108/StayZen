@@ -15,6 +15,12 @@
                         <div class="sz-verify-status-badge">
                             VERIFIED
                         </div>
+
+                        <!-- Luggage tag decoration -->
+                        <div class="sz-verify-tag">
+                            <div class="sz-verify-tag-hole"></div>
+                            <div class="sz-verify-tag-string"></div>
+                        </div>
                     </div>
 
                     <!-- Body -->
@@ -80,7 +86,7 @@
                                 <% } %>
 
                                 <div class="mt-5">
-                                    <a href="/" class="sz-btn sz-btn--action" style="border-radius: 12px;">Return Home</a>
+                                    <a href="/" class="sz-btn--action-panam">Return Home</a>
                                 </div>
                             </div>
 
@@ -99,155 +105,3 @@
         </div>
     </div>
 </div>
-
-<style>
-.sz-verify-page {
-    background-color: var(--ivory);
-    min-height: 80vh;
-    display: flex;
-    align-items: center;
-    padding: 2rem 0;
-}
-
-.sz-verify-card {
-    background: var(--white);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-xl);
-    position: relative;
-    overflow: hidden;
-}
-
-.sz-verify-card--success { }
-.sz-verify-card--danger { border-color: #FECACA; }
-
-.sz-verify-header {
-    background: var(--navy);
-    color: var(--white);
-    padding: 3rem 2.5rem;
-    position: relative;
-}
-
-.sz-verify-card--danger .sz-verify-header { background: var(--danger); }
-
-.sz-verify-eyebrow {
-    font-size: 0.72rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--gold);
-    margin-bottom: 0.5rem;
-}
-
-.sz-verify-title {
-    font-family: var(--font-h);
-    font-size: clamp(1.8rem, 4vw, 2.5rem);
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    margin: 0;
-    text-transform: none;
-}
-
-.sz-verify-status-badge {
-    position: absolute;
-    top: 50%;
-    right: 2.5rem;
-    transform: translateY(-50%);
-    padding: 0.6rem 1.2rem;
-    background: #ECFDF5;
-    color: #047857;
-    border: 1px solid #A7F3D0;
-    font-weight: 700;
-    font-size: 0.85rem;
-    border-radius: var(--radius-full);
-    letter-spacing: 0.5px;
-}
-
-.sz-verify-card--danger .sz-verify-status-badge {
-    background: #FEF2F2;
-    color: #991B1B;
-    border-color: #FECACA;
-}
-
-.sz-verify-body {
-    padding: 3rem 2.5rem;
-}
-
-.sz-intel-item label {
-    display: block;
-    font-size: 0.72rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--text-muted);
-    margin-bottom: 0.4rem;
-}
-
-.sz-intel-item .value {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--navy);
-    line-height: 1.3;
-}
-
-.sz-intel-secondary {
-    border-top: 1px solid var(--border-color);
-    padding-top: 1.5rem;
-}
-
-.sz-intel-sub {
-    font-size: 0.72rem;
-    font-family: monospace;
-    color: var(--text-muted);
-    margin-bottom: 0.2rem;
-}
-
-.sz-access-alert {
-    background: #ECFDF5;
-    color: #047857;
-    padding: 1rem 1.5rem;
-    font-weight: 600;
-    text-align: center;
-    border: 1px solid #A7F3D0;
-    border-radius: var(--radius-md);
-    letter-spacing: 0.3px;
-}
-
-.sz-verify-error h3 {
-    font-family: var(--font-h);
-    font-weight: 700;
-    font-size: 2rem;
-    letter-spacing: -0.5px;
-    color: var(--danger);
-}
-
-.sz-error-icon {
-    font-size: 4rem;
-    color: var(--danger);
-}
-
-.sz-verify-decoration {
-    position: relative;
-    height: 36px;
-    background: var(--navy);
-    overflow: hidden;
-}
-
-.sz-verify-tape {
-    color: var(--gold);
-    font-size: 0.68rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    white-space: nowrap;
-    padding-top: 10px;
-    letter-spacing: 3px;
-    animation: tapeScroll 20s linear infinite;
-}
-
-@keyframes tapeScroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-}
-
-.sz-verify-barcode { display: none; }
-</style>
