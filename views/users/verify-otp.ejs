@@ -2,43 +2,82 @@
 
 <!-- ================================================================
      STAYZEN — OTP VERIFICATION PAGE
+     RETRO PAN AM LUGGAGE TAG THEME
      ================================================================ -->
-<div class="sz-auth-page">
+<div class="lug-page">
 
   <!-- Left Panel -->
-  <div class="sz-auth-left" aria-hidden="true">
-    <div class="sz-auth-left__text">
-      <div class="sz-auth-left__eyebrow">Verification</div>
-      <div class="sz-auth-left__big">Verify<br>Email.</div>
-      <div class="sz-auth-left__small">We've sent a 6-digit code to your inbox. Enter it below to complete your registration.</div>
+  <div class="lug-left" aria-hidden="true">
+    <div class="lug-left__text">
+      <div class="lug-left__eyebrow">Verification</div>
+      <div class="lug-left__big">Verify<br>Email.</div>
+      <div class="lug-left__small">We've sent a 6-digit code to your inbox. Enter it below to complete your registration.</div>
+    </div>
+
+    <!-- Luggage tag decoration -->
+    <div class="lug-left__tag">
+      <div class="lug-left__tag-hole"></div>
+      <div class="lug-left__tag-string"></div>
+    </div>
+
+    <!-- Barcode -->
+    <div class="lug-left__barcode">
+      <div class="lug-left__bar lug-bar--2"></div>
+      <div class="lug-left__bar lug-bar--1"></div>
+      <div class="lug-left__bar lug-bar--3"></div>
+      <div class="lug-left__bar lug-bar--1"></div>
+      <div class="lug-left__bar lug-bar--2"></div>
+      <div class="lug-left__bar lug-bar--1"></div>
+      <div class="lug-left__bar lug-bar--4"></div>
+      <div class="lug-left__bar lug-bar--1"></div>
+      <div class="lug-left__bar lug-bar--2"></div>
+      <div class="lug-left__bar lug-bar--1"></div>
+      <div class="lug-left__bar lug-bar--3"></div>
+      <div class="lug-left__bar lug-bar--1"></div>
+      <div class="lug-left__bar lug-bar--2"></div>
+      <div class="lug-left__bar lug-bar--1"></div>
+      <div class="lug-left__bar lug-bar--4"></div>
+      <div class="lug-left__bar lug-bar--1"></div>
+      <div class="lug-left__bar lug-bar--2"></div>
+      <div class="lug-left__bar lug-bar--1"></div>
+      <div class="lug-left__bar lug-bar--3"></div>
+      <div class="lug-left__bar lug-bar--1"></div>
+      <div class="lug-left__bar lug-bar--2"></div>
+      <div class="lug-left__bar lug-bar--1"></div>
+      <div class="lug-left__bar lug-bar--4"></div>
     </div>
   </div>
 
   <!-- Right Panel — Form -->
-  <div class="sz-auth-right">
-    <div class="sz-auth-form-card">
+  <div class="lug-right">
+    <div class="lug-card">
 
-      <div class="sz-auth-form-card__header" style="background: var(--navy);">
-        <div class="sz-auth-form-card__eyebrow">Final Step</div>
-        <h1 class="sz-auth-form-card__title">Verify<br>Email</h1>
+      <div class="lug-card__banner lug-card__banner--otp">
+        <div class="lug-card__banner-eyebrow">Final Step</div>
+        <h1 class="lug-card__banner-title">Verify<br>Email</h1>
+        <!-- Luggage tag decoration -->
+        <div class="lug-card__tag">
+          <div class="lug-card__tag-hole"></div>
+          <div class="lug-card__tag-string"></div>
+        </div>
       </div>
 
-      <div class="sz-auth-form-card__body">
-        <p class="mb-4" style="color: var(--text-light); font-size: 0.9rem;">A verification code was sent to <strong style="color: var(--navy);"><%= email %></strong></p>
+      <div class="lug-card__body">
+        <p class="lug-otp-email-note">A verification code was sent to <strong><%= email %></strong></p>
 
         <form action="/verify-otp" method="post" class="needs-validation" novalidate>
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <input type="hidden" name="email" value="<%= email %>">
 
-          <div class="sz-auth-field">
-            <label for="otp" class="sz-auth-label">
+          <div class="lug-field">
+            <label for="otp" class="lug-label">
               6-Digit Verification Code
             </label>
             <input
               name="otp"
               id="otp"
               type="text"
-              class="sz-auth-input sz-auth-input--otp"
+              class="lug-input lug-input--otp"
               placeholder="000000"
               required
               maxlength="6"
@@ -49,22 +88,22 @@
             <div class="invalid-feedback">Please enter the 6-digit code.</div>
           </div>
 
-          <button class="sz-auth-submit" type="submit">
+          <button class="lug-submit" type="submit">
             <span class="btn-text">Verify & Create Account</span>
             <i class="fa-solid fa-circle-check ms-2"></i>
           </button>
         </form>
 
-        <div class="sz-auth-switch mt-4">
+        <div class="lug-switch mt-4">
           Didn't receive a code? 
           <form action="/resend-otp" method="post" class="d-inline">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <input type="hidden" name="email" value="<%= email %>">
-            <button type="submit" class="btn btn-link p-0 text-decoration-none" style="font-weight: 600; color: var(--navy);">Resend Code</button>
+            <button type="submit" class="lug-switch__btn">Resend Code</button>
           </form>
         </div>
         
-        <div class="sz-auth-switch mt-2">
+        <div class="lug-switch mt-2">
             Wrong email? <a href="/signup">Start Over →</a>
         </div>
       </div>
