@@ -2,12 +2,19 @@
 
 <!-- ================================================================
      STAYZEN — ERROR PAGE
+     RETRO PAN AM LUGGAGE TAG THEME
      ================================================================ -->
 <div class="sz-error-wrapper">
 
   <!-- Central Box -->
   <div class="sz-error-box">
     
+    <!-- Luggage tag decoration -->
+    <div class="sz-error-tag">
+      <div class="sz-error-tag-hole"></div>
+      <div class="sz-error-tag-string"></div>
+    </div>
+
     <!-- Icon -->
     <div class="sz-error-icon-wrap">
       <i class="fa-solid fa-map-pin"></i>
@@ -30,90 +37,30 @@
 
     <!-- Action -->
     <div class="sz-error-actions">
-      <a href="/listings" class="sz-btn sz-btn--action" style="border-radius: 9999px; padding: 0.8rem 2.5rem;">
+      <a href="/listings" class="sz-btn--action-panam">
         <i class="fa-solid fa-arrow-left me-2"></i> Back to Properties
       </a>
+    </div>
+
+    <!-- Barcode decoration -->
+    <div class="sz-error-barcode">
+      <div class="lug-bar--2"></div>
+      <div class="lug-bar--1"></div>
+      <div class="lug-bar--3"></div>
+      <div class="lug-bar--1"></div>
+      <div class="lug-bar--2"></div>
+      <div class="lug-bar--1"></div>
+      <div class="lug-bar--4"></div>
+      <div class="lug-bar--1"></div>
+      <div class="lug-bar--2"></div>
+      <div class="lug-bar--1"></div>
+      <div class="lug-bar--3"></div>
+      <div class="lug-bar--1"></div>
+      <div class="lug-bar--2"></div>
+      <div class="lug-bar--1"></div>
+      <div class="lug-bar--4"></div>
     </div>
 
   </div>
 
 </div>
-
-<style>
-.sz-error-wrapper {
-  position: relative;
-  min-height: 80vh;
-  width: 100%;
-  background: var(--ivory);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4rem 2rem;
-}
-
-.sz-error-box {
-  position: relative;
-  z-index: 10;
-  background: var(--white);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-xl);
-  width: 100%;
-  max-width: 560px;
-  text-align: center;
-  padding: 4rem 3rem;
-}
-
-.sz-error-icon-wrap {
-  width: 80px;
-  height: 80px;
-  margin: 0 auto 2rem;
-  background: #FEF2F2;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  color: #DC3545;
-}
-
-.sz-error-title {
-  font-family: var(--font-h);
-  font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.5px;
-  color: var(--navy);
-  margin-bottom: 1rem;
-}
-
-.sz-error-message {
-  font-size: 1rem;
-  line-height: 1.7;
-  color: var(--text-light);
-  margin-bottom: 2rem;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.sz-error-stack {
-  background: var(--navy);
-  color: var(--gold);
-  padding: 1.5rem;
-  border-radius: var(--radius-md);
-  text-align: left;
-  overflow-x: auto;
-  font-family: monospace;
-  font-size: 0.8rem;
-  margin-bottom: 2rem;
-}
-
-.sz-error-actions {
-  margin-top: 1rem;
-}
-
-@media (max-width: 768px) {
-  .sz-error-box { padding: 3rem 1.5rem; }
-}
-</style>

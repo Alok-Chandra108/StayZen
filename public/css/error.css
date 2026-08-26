@@ -1,0 +1,136 @@
+/* ============================================================
+   STAYZEN — ERROR PAGE
+   RETRO PAN AM LUGGAGE TAG THEME
+   ============================================================ */
+
+.sz-error-wrapper {
+  position: relative;
+  min-height: 80vh;
+  width: 100%;
+  background: var(--cream, #FAFAFA);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+}
+
+.sz-error-box {
+  position: relative;
+  z-index: 10;
+  background: var(--cream, #FAFAFA);
+  border: 3px solid var(--navy, #1A237E);
+  border-radius: 22px;
+  box-shadow: 8px 8px 0 var(--red, #D32F2F);
+  width: 100%;
+  max-width: 560px;
+  text-align: center;
+  padding: 4rem 3rem;
+  overflow: hidden;
+}
+
+/* Luggage tag decoration */
+.sz-error-tag {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 30px;
+  height: 42px;
+  background: var(--cream, #FAFAFA);
+  border: 2px solid var(--gold, #FFB300);
+  border-radius: 8px;
+  opacity: 0.25;
+}
+
+.sz-error-tag-hole {
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 2px solid var(--gold, #FFB300);
+  background: transparent;
+}
+
+.sz-error-tag-string {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 10px;
+  background: var(--gold, #FFB300);
+}
+
+.sz-error-icon-wrap {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 2rem;
+  background: rgba(211, 47, 47, 0.1);
+  border: 3px solid var(--red, #D32F2F);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: var(--red, #D32F2F);
+}
+
+.sz-error-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  color: var(--navy, #1A237E);
+  margin-bottom: 1rem;
+}
+
+.sz-error-message {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--teal, #00838F);
+  font-weight: 500;
+  margin-bottom: 2rem;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sz-error-stack {
+  background: var(--navy, #1A237E);
+  color: var(--gold, #FFB300);
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-align: left;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  margin-bottom: 2rem;
+  border: 2px solid var(--teal, #00838F);
+}
+
+.sz-error-actions {
+  margin-top: 1rem;
+}
+
+/* Barcode decoration */
+.sz-error-barcode {
+  display: flex;
+  justify-content: center;
+  gap: 1px;
+  margin-top: 2rem;
+  height: 20px;
+  opacity: 0.15;
+}
+
+.sz-error-barcode div {
+  background: var(--navy, #1A237E);
+}
+
+/* ============================================================ RESPONSIVE ====== */
+@media (max-width: 768px) {
+  .sz-error-box { padding: 3rem 1.5rem; }
+}
