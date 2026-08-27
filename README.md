@@ -6,6 +6,23 @@ StayZen is a full-stack accommodation booking platform built with the **Retro Pa
 
 ---
 
+## 📑 Table of Contents
+
+- [Design Language](#-design-language--retro-pan-am)
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Quick Start](#-quick-start)
+- [Environment Variables](#-environment-variables)
+- [Project Structure](#-project-structure)
+- [CSS Architecture](#-css-architecture)
+- [API Endpoints](#-api-endpoints)
+- [How It Works](#-how-it-works)
+- [Security](#-security)
+- [Deployment](#-deployment)
+- [ Contributing](#-contributing)
+
+---
+
 ## 🎨 Design Language — Retro Pan Am
 
 Every page in StayZen is wrapped in a cohesive, vintage aviation aesthetic:
@@ -103,7 +120,34 @@ npm install
 ```
 
 ### 3. Configure Environment
-Create a `.env` file in the project root:
+Create a `.env` file in the project root (see [Environment Variables](#environment-variables) below).
+
+### 4. Seed the Database (Optional)
+```bash
+node init/index.js
+```
+
+### 5. Start the Server
+```bash
+npm start
+```
+
+Server runs at **http://localhost:8080**
+
+---
+
+## 🔧 Environment Variables
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `MONGO_URI` | ✅ | MongoDB connection string |
+| `SECRET_VAL` | ✅ | Session secret key |
+| `CLOUD_NAME` | ✅ | Cloudinary cloud name |
+| `CLOUD_API_KEY` | ✅ | Cloudinary API key |
+| `CLOUD_API_SECRET` | ✅ | Cloudinary API secret |
+| `GOOGLE_CLIENT_ID` | ⬜ | Google OAuth client ID |
+| `GOOGLE_CLIENT_SECRET` | ⬜ | Google OAuth client secret |
+| `NODE_ENV` | ⬜ | `development` or `production` (defaults to `development`) |
 
 ```env
 # Database
@@ -124,18 +168,6 @@ GOOGLE_CLIENT_SECRET=your_google_client_secret
 # App
 NODE_ENV=development
 ```
-
-### 4. Seed the Database (Optional)
-```bash
-node init/index.js
-```
-
-### 5. Start the Server
-```bash
-npm start
-```
-
-Server runs at **http://localhost:8080**
 
 ---
 
@@ -240,6 +272,68 @@ All styles are loaded via the `boilerplate.ejs` layout with **nonce-based CSP co
 
 ---
 
+## 🌐 API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/listings` | List all properties |
+| `GET` | `/listings/:id` | View single listing |
+| `POST` | `/listings` | Create new listing (auth required) |
+| `PUT` | `/listings/:id` | Update listing (owner only) |
+| `DELETE` | `/listings/:id` | Delete listing (owner only) |
+| `POST` | `/listings/:id/reviews` | Add review (auth required) |
+| `DELETE` | `/listings/:id/reviews/:reviewId` | Delete review (author only) |
+| `POST` | `/listings/:id/book` | Book a listing (auth required) |
+| `GET` | `/bookings` | My Bookings dashboard |
+| `GET` | `/verify/:bookingId` | Verify booking (OTP) |
+| `POST` | `/verify/:bookingId` | Submit OTP verification |
+| `GET` | `/host` | Host Dashboard |
+| `GET` | `/api/availability/:listingId` | Check date availability (JSON) |
+| `GET` | `/auth/google` | Google OAuth redirect |
+| `GET` | `/auth/google/callback` | Google OAuth callback |
+| `POST` | `/signup` | Register new account |
+| `POST` | `/login` | Email/password login |
+| `GET` | `/logout` | Destroy session |
+
+---
+
+## 🔄 How It Works
+
+### User Flow
+```
+┌─────────────┐     ┌──────────────┐     ┌─────────────┐
+│   SIGNUP    │────▶│  VERIFY OTP  │────▶│    LOGIN    │
+│  (Email +   │     │  (Email      │     │  (Email +   │
+│   Password) │     │   Template)  │     │   Password) │
+└─────────────┘     └──────────────┘     └─────────────┘
+                                              │
+                                              ▼
+┌─────────────┐     ┌──────────────┐     ┌─────────────┐
+│   BOOKING   │◀────│   LISTING    │◀────│  BROWSE     │
+│  (Flatpickr │     │  (Map +      │     │  (Search +  │
+│   + OTP)    │     │   Reviews)   │     │   Filters)  │
+└─────────────┘     └──────────────┘     └─────────────┘
+       │
+       ▼
+┌─────────────┐     ┌──────────────┐
+│  VERIFY     │────▶│   BOARDING   │
+│  (OTP)      │     │   PASS       │
+└─────────────┘     │  (Download)  │
+                    └──────────────┘
+```
+
+### Host Flow
+```
+┌─────────────┐     ┌──────────────┐     ┌─────────────┐
+│   CREATE    │────▶│   MANAGE     │────▶│  TRACK      │
+│   LISTING   │     │  (Edit/Delete│     │  EARNINGS   │
+│  (Images +  │     │   Listings)  │     │  (Chart.js) │
+│   Details)  │     └──────────────┘     └─────────────┘
+└─────────────┘
+```
+
+---
+
 ## 🔐 Security
 
 - **Helmet** — HTTP headers hardened
@@ -264,6 +358,23 @@ StayZen is optimized for **Vercel**:
 - `trust proxy: 1` enabled for Vercel's reverse proxy
 - All static assets served from `/public`
 - Environment variables configured via Vercel dashboard
+
+---
+
+## 🤝 Contributing
+
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Commit** changes (`git commit -m 'Add amazing feature'`)
+4. **Push** to branch (`git push origin feature/amazing-feature`)
+5. **Open** a Pull Request
+
+### Code Style
+- Follow existing conventions
+- Use `lug-` prefix for new Pan Am themed CSS classes
+- No inline styles — use external CSS files
+- All `<script>` and `<style>` tags must include `nonce` attribute
+- Run linting before commits
 
 ---
 
